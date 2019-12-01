@@ -1,0 +1,111 @@
+/* reset */
+@charset "utf-8";
+
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
+
+@font-face {
+  font-family: 'Moebius_Bold_eng';
+  font-style:   normal;
+  font-weight:  bold;
+  src: url('../fonts/Moebius_Bold_eng.eot');
+  src: url('../fonts/Moebius_Bold_eng.woff') format('woff'),
+       url('../fonts/Moebius_Bold_eng.ttf') format('truetype'),
+	   url('../fonts/Moebius_Bold_eng.svg') format('svg');
+}
+
+html, body{ font-family: 'NanumSquare', sans-serif;}
+html, body, div, ul, li, p{ padding:0; margin:0;}
+ul, li{list-style:none}
+a{text-decoration:none}
+input::-webkit-input-placeholder{ color:#666;} 
+textarea::-webkit-input-placeholder{ color:#666;}
+input::-ms-input-placeholder{ color:#666;}
+textarea::-ms-input-placeholder{ color:#666;}
+input::-moz-placeholder{ color:#666;}
+textarea::-moz-placeholder{ color:#666;}
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset;}
+input{ -webkit-border-radius:0; -webkit-appearance:none; }
+.Moebius_Regular_kor{ font-family: 'Moebius_Regular_kor', sans-serif;}
+.Moebius_Regular_eng{ font-family: 'Moebius_Regular_eng', sans-serif;}
+
+/* 메인 */
+#wraper{ position:relative; padding-bottom:10px;}
+#wraper .mainArea{}
+#wraper .mainArea .titleBox{ position:relative; width:100%; padding:50px 10px 20px; box-sizing:border-box; background-color:#28ce99; text-align:center}
+#wraper .mainArea .titleBox .menuBtn{ position:absolute; top:20px; left:20px;}
+#wraper .mainArea .titleBox .menuBtn img{ width:20px;}
+#wraper .mainArea .titleBox .title{ font-size:24px; font-weight:bold; color:#fff;}
+#wraper .mainArea .titleBox .subTitle{ font-size:16px; font-weight:bold; color:#fff; line-height:1.2; margin-top:20px;}
+#wraper .mainArea .titleBox .subTitle span{ color:#ffee7d}
+#wraper .mainArea .item_list{ width:100%; padding:15px 10px; box-sizing:border-box; }
+#wraper .mainArea .item_list .item{ position:relative; display:block; width:100%; padding:10px; box-sizing:border-box; border:1px solid #ddd; box-shadow:0 0 8px rgba(0,0,0,0.2); background-color:#fff; margin-bottom:10px; border-radius:5px;}
+#wraper .mainArea .item_list .item .logo{ position:absolute; top:13px; left:20px; width:40px;}
+#wraper .mainArea .item_list .item .item_title{ margin-bottom:10px}
+#wraper .mainArea .item_list .item .item_title img{ display:inline-block; vertical-align:middle; height:18px;}
+#wraper .mainArea .item_list .item .item_title .title{ display:inline-block; vertical-align:middle; font-size:14px; font-weight:bold; color:#666;}
+#wraper .mainArea .item_list .item .item_title .new{ display:inline-block; vertical-align:super; font-size:10px; font-weight:bold; color:#f2000d;}
+#wraper .mainArea .item_list .item .guageBox{ position:relative; width:100%; height:120px; background-image:url(../img/main_guage.png); background-position:center top; background-repeat:no-repeat; background-size:200px;}
+#wraper .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:15px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(45deg)}
+#wraper .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:50%; top:45px; margin-left:95px; font-size:14px; font-weight:bold; color:#666; text-align:center;}
+#wraper .mainArea .item_list .item .guageBox .my_score{ position:absolute; left:0; bottom:-10px; width:100%; font-size:30px; font-weight:800; color:#333; text-align:center;}
+#wraper .mainArea .item_list .item .guageBox .my_score p{ display:block; font-size:14px; color:#666;}
+#wraper .mainArea .item_list .item .text01{ font-size:16px; font-weight:800; color:#333; text-align:center; margin-top:20px}
+#wraper .mainArea .item_list .item .text02{ font-size:13px; color:#666; text-align:center; margin-top:5px;}
+#wraper .mainArea .item_list .item .text03{ width:100%; padding:7px 0 5px; font-size:18px; font-weight:800; color:#333; text-align:center; background-color:#ceece3; margin-top:25px; margin-bottom:10px; border-radius:3px;}
+#wraper .mainArea .item_list .item .text03 span{ color:#f2000d;}
+#wraper .mainArea .item_list .item .alarm_list{ margin-top:10px}
+#wraper .mainArea .item_list .item .alarm_list li{ display:table; width:100%; margin-bottom:5px;}
+#wraper .mainArea .item_list .item .alarm_list li p{ display:table-cell; font-size:15px; font-weight:bold; color:#333; vertical-align:middle;}
+#wraper .mainArea .item_list .item .alarm_list li p.date{ font-size:12px; font-weight:normal; width:110px; padding-left:10px; box-sizing:border-box}
+#wraper .mainArea .item_list .item .more{ font-size:11px; font-weight:bold; color:#333; text-align:right; margin-top:5px;}
+#wraper .mainArea .item_list .item .item_text{ font-size:16px; font-weight:800; color:#333; padding:5px 0; text-align:center;}
+#wraper .mainArea .item_list .item .text_list{ padding-left:50px; padding-bottom:10px}
+#wraper .mainArea .item_list .item .text_list li{ font-size:14px; font-weight:bold; color:#333; margin-top:5px;}
+#wraper .mainArea .item_list .item .history_list{ margin-top:10px}
+#wraper .mainArea .item_list .item .history_list li{ display:table; width:100%; margin-bottom:5px;}
+#wraper .mainArea .item_list .item .history_list li p{ display:table-cell; vertical-align:middle;}
+#wraper .mainArea .item_list .item .history_list li p.date{ width:110px; font-size:12px; color:#333; font-weight:normal; padding-left:10px; box-sizing:border-box}
+#wraper .mainArea .item_list .item .history_list li p.address span{ font-size:12px; font-weight:bold; color:#333; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+#wraper .mainArea .item_list .comingsoon_list{ position:relative; display:block; width:100%; padding:10px; box-sizing:border-box; border:4px solid #28ce99; box-shadow:0 0 8px rgba(0,0,0,0.2); background-color:#fff; border-radius:5px;}
+#wraper .mainArea .item_list .comingsoon_list:before{ content:""; position:absolute; top:-10px; right:-10px; width:45px; height:45px; background-image:url(../img/icon_comingsoon.svg); background-position:center; background-repeat:no-repeat; background-size:contain; }
+#wraper .mainArea .item_list .comingsoon_list .item_title{ font-size:14px; color:#666;}
+#wraper .mainArea .item_list .comingsoon_list li{ margin-top:10px; padding-left:10px;}
+#wraper .mainArea .item_list .comingsoon_list li img{ display:inline-block; vertical-align:middle; width:22px; margin-right:5px;}
+#wraper .mainArea .item_list .comingsoon_list li span{ display:inline-block; vertical-align:middle; font-size:15px; font-weight:800; color:#333;}
+
+/* 서브 */
+#wraper .subArea{ }
+#wraper .subArea .titleBox{ position:relative; width:100%; background-color:#28ce99; text-align:center}
+#wraper .subArea .titleBox .backBtn{ position:absolute; top:15px; left:20px;}
+#wraper .subArea .titleBox .backBtn img{ width:15px;}
+#wraper .subArea .titleBox .title{ font-size:20px; font-weight:800; color:#fff; height:50px; line-height:50px;}
+#wraper .subArea .notice_list{ width:100%; padding:10px 20px; box-sizing:border-box}
+#wraper .subArea .notice_list a{ display:block; width:100%; padding:10px 0; border-bottom:1px solid #ddd; font-size:14px; font-weight:bold; color:#333;}
+
+/* 로그인 */
+#login{ position:relative; width:100%; padding:100px 50px 50px; box-sizing:border-box; text-align:center;}
+#login .logo{ position:absolute; top:30px; right:10px; width:70px;}
+#login .title{ font-size:40px; font-weight:bold; color:#28ce99; font-family: 'Moebius_Bold_eng', sans-serif;}
+#login .subTitle{ font-size:20px; font-weight:800; color:#e60000;}
+#login .login_img{ width:120px; margin-top:40px; margin-bottom:30px;}
+#login .text{ font-size:20px; font-weight:800; color:#333; line-height:1.4; letter-spacing:-0.05em;}
+#login .text span{ color:#e60000;}
+#login .formBox{ margin-top:30px;}
+#login .formBox .inputBox{ position:relative; width:100%; height:45px; background-color:#efefef; border-radius:4px; padding-left:45px; box-sizing:border-box; margin-bottom:5px;}
+#login .formBox .inputBox .iconBox{ position:absolute; left:0; top:0; width:45px; height:100%; border-radius:4px 0 0 4px; background-color:#e1e1e1; background-position:center; background-repeat:no-repeat; }
+#login .formBox .inputBox .icon01{ background-image:url(../img/login_icon01.svg); background-size:20px;}
+#login .formBox .inputBox .icon02{ background-image:url(../img/login_icon02.svg); background-size:20px;}
+#login .formBox .inputBox input{ display:block; width:100%; height:100%; font-size:14px; padding-left:10px; color:#333; text-align:left; border:none; background-color:transparent; outline:none; box-sizing:border-box;}
+#login .formBox .btn{ display:block; width:100%; height:45px; line-height:45px; font-size:14px; font-weight:bold; color:#fff; text-align:center; background-color:#28ce99; border-radius:4px; margin-top:10px;}
+#login .bottom_text{ font-size:12px; color:#9fa0a0; margin-top:80px; line-height:1.2;}
+
+/* 팝업(커밍순) */
+.popup_layer{ display:none; position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:10}
+.popup_layer .popup_main{ position:absolute; left:5%; top:50%; transform:translateY(-50%); width:90%; background-color:#fff; border:1px solid #28ce99; box-sizing:border-box; padding:80px 10px 20px; text-align:center}
+.popup_layer .popup_main .comingsoon{ position:absolute; top:10px; left:10px; width:50px;}
+.popup_layer .popup_main .xBtn{ position:absolute; top:12px; right:10px;}
+.popup_layer .popup_main .xBtn img{ width:22px;}
+.popup_layer .popup_main .title{ font-size:22px; font-weight:800; color:#c8161d; letter-spacing:-0.05em;}
+.popup_layer .popup_main .textBox{ width:100%; padding:15px 0; font-size:18px; font-weight:800; color:#333; line-height:1.4; background-image:url(../img/popup_bg.png); background-position:center; background-repeat:no-repeat; background-size:cover; border-radius:5px; margin-top:15px;}
+.popup_layer .popup_main .textBox span{ font-size:20px; font-weight:bold; color:#28ce99; font-family: 'Moebius_Bold_eng', sans-serif !important;}
+.popup_layer .popup_main .subText{ font-size:14px; font-weight:bold; color:#595757; line-height:1.4; margin-top:20px; letter-spacing:-0.03em}

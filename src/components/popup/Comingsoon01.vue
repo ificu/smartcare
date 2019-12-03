@@ -1,14 +1,14 @@
 <template>
-  <div id="popup_01" class="popup_layer">
-    <div class="popup_main">
-      <img src="@/img/icon_comingsoon.svg" class="comingsoon">
-      <a @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
-      <div class="title">119 자동출동 서비스</div>
-      <div class="textBox">
+  <div id="2538988706" class="popup_layer">
+    <div id="6129500366" class="popup_main">
+      <img id="7440669318" src="@/img/icon_comingsoon.svg" class="comingsoon">
+      <a id="7422023528" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <div id="4507885082" class="title">119 자동출동 서비스</div>
+      <div id="2747284928" class="textBox">
           <span>Smart Care</span> 를 통한 긴급<br>
           자동 119 자동출동 호출 서비스
       </div>
-      <div class="subText">
+      <div id="4586417187" class="subText">
           긴급 혹은 대형사고로 판단될 경우,<br>
           사고발생 위치로 119 출동 요청 드리는 서비스입니다.<br>
           (고객님께 선연락 후 통화가 되지 않을 시 진행)<br><br>
@@ -24,7 +24,7 @@
 <script>
 
 export default {
-  name: 'popup_01',
+  name: 'Commingsoon01',
   components: {
 
   }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="42px" height="42px" viewBox="0 0 42 42" enable-background="new 0 0 42 42" xml:space="preserve">
+<g>
+	<defs>
+		<rect id="SVGID_1_" width="42" height="42"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	</clipPath>
+	<path clip-path="url(#SVGID_2_)" fill="#FFFFFF" d="M21,41C9.972,41,1,32.028,1,21C1,9.972,9.972,1,21,1c11.028,0,20,8.972,20,20
+		C41,32.028,32.028,41,21,41"/>
+	<path clip-path="url(#SVGID_2_)" fill="#3AB483" d="M21,2c10.493,0,19,8.506,19,19c0,10.493-8.507,19-19,19
+		C10.506,40,2,31.493,2,21C2,10.506,10.506,2,21,2 M21,0C9.42,0,0,9.42,0,21c0,11.579,9.42,21,21,21c11.579,0,21-9.421,21-21
+		C42,9.42,32.579,0,21,0"/>
+</g>
+<text transform="matrix(1 0 0 1 9.0791 25.5586)"><tspan x="0" y="0" fill="#3AB483" font-family="'NanumBarunGothicBold'" font-size="13">모</tspan><tspan x="12.246" y="0" fill="#3AB483" font-family="'NanumBarunGothicBold'" font-size="13">범</tspan></text>
+</svg>

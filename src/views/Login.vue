@@ -1,10 +1,10 @@
 <template>
   <div id="login">
-		<img src="@/img/logo_login.svg" class="logo">
-        <div class="title">Smart Care</div>
-        <div class="subTitle">(BETA)</div>
-        <img src="@/img/login_img.svg" class="login_img">
-        <div class="text">
+		<img id="8731035285" src="@/img/logo_login.svg" class="logo">
+        <div id="4719756158" class="title">Smart Care</div>
+        <div id="8654704319" class="subTitle">(BETA)</div>
+        <img id="7366728050" src="@/img/login_img.svg" class="login_img">
+        <div id="8683353265" class="text">
           고객님의 <span>안전</span>을 최우선으로<br>	고객님의 안전이 곧 <span>가족의 행복</span>
         </div>
         <v-alert
@@ -12,20 +12,22 @@
           v-model="loginAlert"
           dismissible
           icon="mdi-account-alert"
+          id="8401667302"
         >
           {{loginAlertMessage}}
         </v-alert>
-        <div class="formBox">
-          <div class="inputBox"><p class="iconBox icon01"></p><input type="text" placeholder="USERNAME" v-model="id"></div>
-          <div class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd"></div>
-          <a @click="login" class="btn">LOGIN</a>
+        <div id="2274436683" class="formBox">
+          <div id="5585182297" class="inputBox"><p class="iconBox icon01"></p><input type="text" placeholder="USERNAME" v-model="id"></div>
+          <div id="4302035340" class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd"></div>
+          <a id="8672175743" @click="login" class="btn">LOGIN</a>
         </div>
-        <div class="bottom_text">궁금하신 내용용이나 로그인 문제시,<br>스마트링크 고객센터 (1800-2023)<br>혹은 canadajw@sk.com으로 연락주시기 바랍니다.</div>
+        <div id="9283563635" class="bottom_text">궁금하신 내용용이나 로그인 문제시,<br>스마트링크 고객센터 (1800-2023)<br>혹은 canadajw@sk.com으로 연락주시기 바랍니다.</div>
     </div>
 </template>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+import Constant from '@/Constant'
 
 export default {
   name: 'login',
@@ -43,7 +45,7 @@ export default {
 
       var param = {};
       param.operation = "list";
-      param.tableName = "BAY4U_USER";
+      param.tableName = "SMART_USER";
       param.payload = {};
       param.payload.FilterExpression = "ID = :id";
       param.payload.ExpressionAttributeValues = {};
@@ -58,11 +60,8 @@ export default {
 
       axios({
         method: 'POST',
-        url: 'https://2fb6f8ww5b.execute-api.ap-northeast-2.amazonaws.com/bay4u/backendService',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
+        url: Constant.LAMBDA_URL,
+        headers: Constant.LAMBDA_HEADER,
         data: param
       })
       .then((result) => {
@@ -73,32 +72,33 @@ export default {
         else {
           console.log("로그인 성공 : ", JSON.stringify(result));
 
-          var id = result.data.Items[0].ID;
           var name = result.data.Items[0].NAME;
           var pwd = result.data.Items[0].PWD;
-          var type = result.data.Items[0].TYPE;
-          var siteCode = result.data.Items[0].CODE;
+          var car = result.data.Items[0].CAR;
 
-          console.log('ID 체크 : ', id);
 
           if(!(pwd === this.pwd)) {
             this.loginAlertMessage = "비밀번호 불일치";
             this.loginAlert = true;
           }
           else {
+            this.UserInfo.UserName = name;
+            this.UserInfo.CarNo = car;
+
             this.$router.push('/Main');
 
-            //this.$cookies.set('BsnID', siteCode, '60000s');
             //this.$cookies.set('UserNM', name, '60000s');
-            //this.$cookies.set('UserType', type, '6000s');
-            //this.$router.push('/MainPage');
-            //this.UserInfo.UserID = id;
-            //this.UserInfo.BsnID = siteCode;
-            //this.UserInfo.Name = name;
+
           }
         }
       });
 
+    }
+  },
+  computed:{
+    UserInfo: {
+        get() { return this.$store.getters.UserInfo },
+        set(value) { this.$store.dispatch('UpdateUserInfo',value) }
     }
   },
   components: {

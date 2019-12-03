@@ -11,6 +11,18 @@
 
 </head>
 
+<script>
+function layer_open(el){
+	var temp = $('#' + el);
+	temp.fadeIn();
+
+	temp.find('.xBtn').click(function(e){
+		temp.fadeOut();
+		e.preventDefault();
+	});
+}
+</script>
+
 <body>
 
 <div id="wraper">

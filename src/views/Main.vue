@@ -1,83 +1,100 @@
 <template>
-  <div class="mainArea">
-    <div class="titleBox">
-      <a href="javascript:;" class="menuBtn"><img src="@/img/icon_menu.svg"></a>
-      <div class="title">안녕하세요, 문성준 님</div>
-      <div class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
+  <div id="2290644288" class="mainArea">
+    <div id="9603812673" class="titleBox">
+      <a id="1278953801" href="javascript:;" class="menuBtn"><img src="@/img/icon_menu.svg"></a>
+      <div id="7596576479" class="title">안녕하세요, {{userName}} 님</div>
+      <div id="1054309100" class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
     </div>
-    <div class="item_list">
-      <a href="javascript:;" class="item">
-        <img src="@/img/logo_skRental.svg" class="logo">
-        <div class="item_text">내 차 계약 정보 확인</div>
+    <div id="4644211896" class="item_list">
+      <a id="7564086534" href="./ContractInfo" class="item">
+        <img id="1840625569" src="@/img/logo_skRental.svg" class="logo">
+        <div id="6544656424" class="item_text">내 차 계약 정보 확인</div>
       </a>
-      <a href="javascript:;" class="item">
-        <div class="item_title"><img src="@/img/icon_target.svg"> <span class="title">안전점수</span></div>
-        <div class="guageBox">
-          <img src="@/img/guage_bar.svg" class="guage_bar">
-          <div class="goal_score">목표 점수<br>85점</div>
-          <div class="my_score">74점<p>(상위 32%, 96위)</p></div>
+      <a id="3398034514" href="./SafeReport" class="item">
+        <div id="7829133626" class="item_title"><img id="7426634982" src="@/img/icon_target.svg"> <span id="" class="title">안전점수</span></div>
+        <div id="2930701675" class="guageBox">
+          <img id="1771345032" src="@/img/guage_bar.svg" class="guage_bar">
+          <div id="2659560575" class="goal_score">목표 점수<br>85점</div>
+          <div id="8870633421" class="my_score">74점<p>(상위 32%, 96위)</p></div>
         </div>
-        <div class="text01">좋은 안전운전 습관으로 도약하고 있습니다.</div>
-        <div class="text02">가속패달을 조금 더 차분히 밟아주세요.</div>
-        <div class="text03">지금 <span>안전운전 미션</span>을 확인해 보세요!</div>
+        <div id="6594630138" class="text01">좋은 안전운전 습관으로 도약하고 있습니다.</div>
+        <div id="1597772086" class="text02">가속패달을 조금 더 차분히 밟아주세요.</div>
+        <div id="1246721320" class="text03">지금 <span>안전운전 미션</span>을 확인해 보세요!</div>
       </a>
-      <a href="javascript:;" class="item">
-        <div class="item_title"><img src="@/img/icon_alarm01.svg"> <span class="title">정차 중 충격알림</span><span class="new">NEW</span></div>
-        <ul class="alarm_list">
-          <li><p class="date">11월 7일 13:00</p><p>차량 충격이 감지되었습니다.</p></li>
-          <li><p class="date">11월 6일 19:21</p><p>차량 충격이 감지되었습니다.</p></li>
+      <a id="4079354739" href="javascript:;" class="item">
+        <div id="2613335142" class="item_title"><img id="2259556330" src="@/img/icon_accident.svg"> <span class="title">사고접수</span></div>
+        <div id="9978640929" class="text04">사고 발생시 바로 연결</div>
+      </a>
+      <a id="8195083055" href="./ShockAlarm" class="item">
+        <div id="6012095227" class="item_title"><img id="4450206969" src="@/img/icon_alarm01.svg"> <span class="title">정차 중 충격알림</span><span class="new">NEW</span></div>
+        <ul id="5649529464" class="alarm_list">
+          <li id="8585590273"><p class="date">11월 7일 13:00</p><p>차량 충격이 감지되었습니다.</p></li>
+          <li id="6661413226"><p class="date">11월 6일 19:21</p><p>차량 충격이 감지되었습니다.</p></li>
         </ul>
-        <div class="more">... more</div>
+        <div id="2515714085" class="more">... more</div>
       </a>
-      <a href="javascript:;" class="item">
-        <div class="item_title"><img src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new">NEW</span></div>
-        <div class="item_text">현재 누적 주행거리 8,321Km 주행</div>
-        <ul class="text_list">
-          <li>- 이달의 점검 항목이 없습니다.</li>
-          <li>- 다가오는 점검 항목을 확인하세요.</li>
+      <a id="4507565108" href="./CarRepair" class="item">
+        <div id="7558405712" class="item_title"><img id="3486064755" src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new">NEW</span></div>
+        <div id="5094331840" class="item_text">현재 누적 주행거리 8,321Km 주행</div>
+        <ul id="6794243679" class="text_list">
+          <li id="9524843842">- 이달의 점검 항목이 없습니다.</li>
+          <li id="2016902426">- 다가오는 점검 항목을 확인하세요.</li>
         </ul>
       </a>
-      <a href="javascript:;" class="item">
-        <div class="item_title"><img src="@/img/icon_history.svg"> <span class="title">주행이력관리</span><span class="new">NEW</span></div>
-        <ul class="history_list">
-          <li><p class="date">11월 7일 13:00</p><p class="address"><span>서울특별시 강남구 논현동 278-12 성재빌딩</span></p></li>
-          <li><p class="date">11월 6일 19:21</p><p class="address"><span>서울특별시 강남구 테헤란로 340 성재빌딩</span></p></li>
-          <li><p class="date">11월 5일 10:00</p><p class="address"><span>서울특별시 강남구 논현동 278-12 성재빌딩</span></p></li>
+      <a id="6185674754" href="./DriveHistory" class="item">
+        <div id="1150123414" class="item_title"><img id="5638758827" src="@/img/icon_history.svg"> <span class="title">주행이력관리</span><span class="new">NEW</span></div>
+        <ul id="1229086322" class="history_list">
+          <li id="9198852782"><p class="date">11월 7일 13:00</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
+          <li id="7587326910"><p class="date">11월 6일 19:21</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
+          <li id="7349622438"><p class="date">11월 5일 10:00</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
         </ul>
-        <div class="more">... more</div>
+        <div id="3714380580" class="more">... more</div>
       </a>
-      <a href="javascript:;" class="item">
-        <div class="item_title"><img src="@/img/icon_locate.svg"> <span class="title">내차 위치 찾기</span></div>
-        <div class="item_text" style="padding-bottom:10px">공항, 식당에서 발렛 파킹 하셨나요?</div>
+      <a id="7552253682" href="javascript:;" class="item">
+        <div id="5425614371" class="item_title"><img id="8464994905" src="@/img/icon_locate.svg"> <span class="title">내차 위치 찾기</span></div>
+        <div id="6545125044" class="item_text" style="padding-bottom:10px">공항, 식당에서 발렛 파킹 하셨나요?</div>
       </a>
-      <ul class="comingsoon_list">
-        <div class="item_title">신규 예정 서비스</div>
-        <li @click="showComingsoon = !showComingsoon"><img src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
-        <li><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
-        <li><img src="@/img/icon_ai.svg"> <span>우전비스(AI) 서비스</span></li>
-        <li><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
-        <li><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
+      <ul id="6067869823" class="comingsoon_list">
+        <div id="1294494412" class="item_title">신규 예정 서비스</div>
+        <li id="7244752797" @click="showComingsoon = !showComingsoon"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
+        <li id="2102151511"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
+        <li id="9737112597"><img src="@/img/icon_ai.svg"> <span>우전비스(AI) 서비스</span></li>
+        <li id="2707965502"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
+        <li id="7117272266"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
       </ul>
     </div>
     <transition name="slide-fade">
-      <Comingsoon v-if="showComingsoon" @close="showComingsoon=false"></Comingsoon>
+      <Comingsoon01 v-if="showComingsoon01" @close="showComingsoon01=false"></Comingsoon01>
     </transition>
   </div>
 </template>
 
 <script>
-import Comingsoon from '@/components/popup/Comingsoon.vue'
+import Comingsoon01 from '@/components/popup/Comingsoon01.vue'
 
 export default {
   name: 'main',
   data () {
     return {
-      showComingsoon: false,
+      showComingsoon01: false,
+      userName: ""
     }
   },
+  created : function() {
+    this.userName = this.UserInfo.UserName;
+  },
+  methods: {
+  },
   components: {
-    Comingsoon: Comingsoon
-  }
+    Comingsoon01: Comingsoon01
+  },
+  computed:{
+    UserInfo: {
+        get() { return this.$store.getters.UserInfo },
+        set(value) { this.$store.dispatch('UpdateUserInfo',value) }
+    }
+  },
+
 }
 </script>
 
@@ -107,6 +124,7 @@ export default {
 #app .mainArea .item_list .item .text01{ font-size:16px; font-weight:800; color:#333; text-align:center; margin-top:20px}
 #app .mainArea .item_list .item .text02{ font-size:13px; color:#666; text-align:center; margin-top:5px;}
 #app .mainArea .item_list .item .text03{ width:100%; padding:7px 0 5px; font-size:18px; font-weight:800; color:#333; text-align:center; background-color:#ceece3; margin-top:25px; margin-bottom:10px; border-radius:3px;}
+#app .mainArea .item_list .item .text04{ font-size:20px; font-weight: 800; color:red; text-align:center; margin-top:5px; padding-bottom:10px;}
 #app .mainArea .item_list .item .text03 span{ color:#f2000d;}
 #app .mainArea .item_list .item .alarm_list{ margin-top:10px}
 #app .mainArea .item_list .item .alarm_list li{ display:table; width:100%; margin-bottom:5px;}

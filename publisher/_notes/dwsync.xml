@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="index.php" server="qwqwqwe.cafe24.com" local="132193909748135439" remote="132193909800000000" Dst="0" />
-<file name="tail.php" server="qwqwqwe.cafe24.com" local="132187926769952982" remote="132192896400000000" Dst="0" />
-<file name="login.php" server="qwqwqwe.cafe24.com" local="132193894703652922" remote="132193894800000000" Dst="0" />
-<file name="head.php" server="qwqwqwe.cafe24.com" local="132193185615009717" remote="132193185600000000" Dst="0" />
-<file name="notice.php" server="qwqwqwe.cafe24.com" local="132193800023191306" remote="132193800000000000" Dst="0" />
-<file name="popup_01.php" server="qwqwqwe.cafe24.com" local="132193912046594182" remote="132193912200000000" Dst="0" />
+<file name="my_info.php" server="qwqwqwe.cafe24.com" local="132198474665177788" remote="132197706600000000" Dst="0" />
+<file name="index.php" server="qwqwqwe.cafe24.com" local="132198474663382576" remote="132198472200000000" Dst="0" />
+<file name="alarm_parking.php" server="qwqwqwe.cafe24.com" local="132198474648094714" remote="132197716800000000" Dst="0" />
+<file name="fix.php" server="qwqwqwe.cafe24.com" local="132198474650841461" remote="132198201600000000" Dst="0" />
+<file name="head.php" server="qwqwqwe.cafe24.com" local="132198474652645791" remote="132197733000000000" Dst="0" />
+<file name="popup_period_setting.php" server="qwqwqwe.cafe24.com" local="132198474666234959" remote="132198204000000000" Dst="0" />
+<file name="report.php" server="qwqwqwe.cafe24.com" local="132198474666834027" remote="132198471600000000" Dst="0" />
+<file name="login.php" server="qwqwqwe.cafe24.com" local="132198474664520237" remote="132193894800000000" Dst="0" />
+<file name="mileage.php" server="qwqwqwe.cafe24.com" local="132198474665008506" remote="132198358800000000" Dst="0" />
+<file name="notice.php" server="qwqwqwe.cafe24.com" local="132198474665786165" remote="132193800000000000" Dst="0" />
+<file name="popup_01.php" server="qwqwqwe.cafe24.com" local="132198474666125922" remote="132193912200000000" Dst="0" />
+<file name="tail.php" server="qwqwqwe.cafe24.com" local="132198474666933087" remote="132192896400000000" Dst="0" />
 </dwsync>

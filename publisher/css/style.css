@@ -81,6 +81,100 @@ input{ -webkit-border-radius:0; -webkit-appearance:none; }
 #wraper .subArea .titleBox .title{ font-size:20px; font-weight:800; color:#fff; height:50px; line-height:50px;}
 #wraper .subArea .notice_list{ width:100%; padding:10px 20px; box-sizing:border-box}
 #wraper .subArea .notice_list a{ display:block; width:100%; padding:10px 0; border-bottom:1px solid #ddd; font-size:14px; font-weight:bold; color:#333;}
+#wraper .subArea .infoBox{ width:100%; padding:20px 10px; box-sizing:border-box;}
+#wraper .subArea .infoBox li{ position:relative; width:100%; padding:15px 10px; box-sizing:border-box; border:1px solid #ddd; box-shadow:0 0 8px rgba(0,0,0,0.2); margin-bottom:15px; border-radius:5px;}
+#wraper .subArea .infoBox li:last-child{ margin-bottom:0}
+#wraper .subArea .infoBox li .info_title{ font-size:18px; font-weight:800; color:#333; margin-bottom:10px;}
+#wraper .subArea .infoBox li table{ width:100%;}
+#wraper .subArea .infoBox li table th{ width:80px; font-size:14px; font-weight:bold; color:#777; text-align:left; background-color:transparent; vertical-align:middle; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li table td{ padding:5px 0; vertical-align:middle;}
+#wraper .subArea .infoBox li table td p{ height:25px; font-size:14px; font-weight:14px; font-weight:bold; color:#777; padding:5px 8px; box-sizing:border-box; background-color:#efefef; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li table .sub th{ font-weight:normal; vertical-align:top}
+#wraper .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}
+#wraper .subArea .infoBox li table .sub td p{ height:auto; background-color:transparent; padding:0 8px;}
+#wraper .subArea .infoBox li table.tb02 th{ width:125px;}
+#wraper .subArea .infoBox .info_text{ font-size:18px; font-weight:800; color:#333; margin-bottom:10px; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox .info_text span{ padding:5px 20px; background-color:#efefef}
+#wraper .subArea .infoBox .info_text_orange{ font-size:15px; font-weight:bold; color:#ed6c00; line-height:1.3; text-align:center;}
+#wraper .subArea .infoBox .info_text_black{ font-size:13px; font-weight:bold; color:#333; text-align:center; letter-spacing:-0.03em}
+#wraper .subArea .infoBox .change_info{ position:absolute; top:15px; right:14px; font-size:11px; font-weight:bold; color:#777;}
+#wraper .subArea .infoBox .change_info img{ width:11px; vertical-align:middle;}
+#wraper .subArea .infoBox .tbBox{ width:100%; padding:0 10px; box-sizing:border-box;}
+#wraper .subArea .infoBox .tbBox table th{ width:110px}
+#wraper .subArea .infoBox .tbBox table td p{ display:inline-block; vertical-align:middle; width:135px; text-align:center; font-weight:800; color:#333;}
+#wraper .subArea .infoBox .tbBox table td p.orange{ color:#ed6c00;}
+#wraper .subArea .infoBox .tbBox table td .btn{ display:inline-block; vertical-align:middle; padding:0 5px;}
+#wraper .subArea .infoBox .tbBox table td .btn img{ width:16px;}
+#wraper .subArea .infoBox li.comingsoon{}
+#wraper .subArea .infoBox li.comingsoon:before{ content:""; position:absolute; top:-8px; right:-5px; width:45px; height:45px; background-image:url(../img/icon_comingsoon.svg); background-position:center; background-repeat:no-repeat; background-size:contain; }
+#wraper .subArea .infoBox li.comingsoon .service{ margin-top:10px;}
+#wraper .subArea .infoBox li.comingsoon .service img{ display:inline-block; vertical-align:middle; width:22px; margin-right:5px; margin-left:10px;}
+#wraper .subArea .infoBox li.comingsoon .service span{ display:inline-block; vertical-align:middle; font-size:15px; font-weight:800; color:#333;}
+#wraper .subArea .infoBox li.comingsoon .service p{ display:block; width:100%; font-size:12px; font-weight:bold; color:#333; text-align:center; line-height:1.2; margin-top:7px;}
+#wraper .subArea .infoBox li .mileage{ width:100%; padding:0 10px; box-sizing:border-box; overflow:hidden; margin-top:15px}
+#wraper .subArea .infoBox li .mileage:after{ content:""; display:block; clear:both}
+#wraper .subArea .infoBox li .mileage .textBox{ float:left; display:inline-block; text-align:left;}
+#wraper .subArea .infoBox li .mileage .textBox .text01{ font-size:12px; font-weight:bold; color:#999; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li .mileage .textBox .text02{ font-size:16px; font-weight:800; color:#333; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li .mileage .guageBox{ float:right; display:inline-block; width:68%;}
+#wraper .subArea .infoBox li .mileage .guageBox .top_text{ overflow:hidden}
+#wraper .subArea .infoBox li .mileage .guageBox .top_text:after{ content:""; display:block; clear:both}
+#wraper .subArea .infoBox li .mileage .guageBox .top_text .left{ float:left; font-size:10px; font-weight:bold; color:#ef8300; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li .mileage .guageBox .top_text .right{ float:right; font-size:10px; font-weight:bold; color:#e60012; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li .mileage .guageBox .guage{ position:relative; width:100%; height:20px; background-color:#e60012}
+#wraper .subArea .infoBox li .mileage .guageBox .guage span{ position:absolute; display:block; top:0; left:0; height:100%; background-color:#ef8300; z-index:1}
+#wraper .subArea .infoBox li .mileage .guageBox .bottom_text{ overflow:hidden}
+#wraper .subArea .infoBox li .mileage .guageBox .bottom_text:after{ content:""; display:block; clear:both}
+#wraper .subArea .infoBox li .mileage .guageBox .bottom_text .left{ float:left; font-size:10px; font-weight:bold; color:#999; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li .mileage .guageBox .bottom_text .right{ float:right; font-size:10px; font-weight:bold; color:#999; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li .mileage_item{ width:100%; padding:0 10px; box-sizing:border-box;}
+#wraper .subArea .infoBox li .mileage_item .mileage_info{ position:relative; overflow:hidden; margin-top:15px}
+#wraper .subArea .infoBox li .mileage_item .mileage_info:after{ content:""; display:block; clear:both}
+#wraper .subArea .infoBox li .mileage_item .mileage_info .textBox{ float:left; width:58%; text-align:left;}
+#wraper .subArea .infoBox li .mileage_item .mileage_info .textBox .text01{ font-size:14px; font-weight:800; color:#666; letter-spacing:-0.03em;}
+#wraper .subArea .infoBox li .mileage_item .mileage_info .textBox .text02{ font-size:10px; font-weight:bold; color:#666; line-height:1.2; margin-top:5px; letter-spacing:-0.05em;}
+#wraper .subArea .infoBox li .mileage_item .mileage_info .gradeBox{ position:absolute; right:0; bottom:0; width:42%; text-align:right;}
+#wraper .subArea .infoBox li .mileage_item .mileage_info .gradeBox .item{ display:inline-block; vertical-align:middle; text-align:center; font-size:11px; font-weight:bold; color:#999; margin:0 2px;}
+#wraper .subArea .infoBox li .mileage_item .mileage_info .gradeBox .item img{ display:block; width:32px; margin:0 auto 5px;}
+#wraper .subArea .infoBox li .mileage_item .graphBox{ width:100%; min-height:80px; background-color:#555; margin-top:10px; border-radius:5px;}
+#wraper .subArea .alarm li table th{ font-size:11px; color:#898989; vertical-align:top}
+#wraper .subArea .alarm li table td{ font-size:14px; font-weight:800; color:#333; line-height:1.2; vertical-align:top; padding-top:0; padding-bottom:10px;}
+#wraper .subArea .report li .report_text01{ font-size:19px; font-weight:800; color:#333; text-align:left; margin-top:20px; letter-spacing:-0.05em;}
+#wraper .subArea .report li .report_text02{ font-size:13px; color:#333; margin-top:5px; text-align:left;}
+#wraper .subArea .report li .myReport{ width:100%; padding:0 20px; box-sizing:border-box; margin-top:20px}
+#wraper .subArea .report li .myReport .box{ overflow:hidden; text-align:center;}
+#wraper .subArea .report li .myReport .box .textBox{ display:inline-block; vertical-align:bottom; width:100px; text-align:center; letter-spacing:-0.05em;}
+#wraper .subArea .report li .myReport .box .textBox .text01{ font-size:11px; font-weight:bold; color:#777;}
+#wraper .subArea .report li .myReport .box .textBox .text01 img{ width:11px; vertical-align:middle}
+#wraper .subArea .report li .myReport .box .textBox .text02{ font-size:44px; font-weight:800; color:#333; line-height:1;}
+#wraper .subArea .report li .myReport .box .textBox .text02 span{ font-size:20px; font-weight:bold;}
+#wraper .subArea .report li .myReport .box .textBox .text03{ font-size:12px; font-weight:bold; color:#999;}
+#wraper .subArea .report li .myReport .box .gradeBox{ display:inline-block; vertical-align:bottom;}
+#wraper .subArea .report li .myReport .box .gradeBox .item{ display:inline-block; vertical-align:middle; text-align:center; font-size:12px; font-weight:bold; color:#999; margin:0 4px;}
+#wraper .subArea .report li .myReport .box .gradeBox .item img{ display:block; width:45px; margin:0 auto 5px;}
+#wraper .subArea .report li .myReport .mileageBox{ width:100%; padding:10px; box-sizing:border-box; border:2px solid #c9caca; background-color:#efefef; border-radius:7px; text-align:center; margin-top:20px}
+#wraper .subArea .report li .myReport .mileageBox .mileage_text{ position:relative; display:inline-block; vertical-align:middle; padding:0 10px; box-sizing:border-box; text-align:center}
+#wraper .subArea .report li .myReport .mileageBox .mileage_text:after{ content:""; display:block; position:absolute; width:1px; height:30px; top:0; right:-3px; background-color:#c9caca;}
+#wraper .subArea .report li .myReport .mileageBox .mileage_text:last-child:after{ display:none}
+#wraper .subArea .report li .myReport .mileageBox .mileage_text .text01{ font-size:12px; font-weight:bold; color:#999;}
+#wraper .subArea .report li .myReport .mileageBox .mileage_text .text02{ font-size:13px; font-weight:800; color:#333; margin-top:5px;}
+#wraper .subArea .report li .myReport .mileageBox .mileage_text .text02 span{ font-size:11px; font-weight:bold; color:#aaa;}
+#wraper .subArea .report li .missionBox{ position:relative; text-align:center; margin-top:15px;}
+#wraper .subArea .report li .missionBox .text01{ font-size:19px; font-weight:800; color:#333; letter-spacing:-0.05em;}
+#wraper .subArea .report li .missionBox .text02{ font-size:12px; font-weight:bold; color:#333; margin-top:5px;}
+#wraper .subArea .report li .missionBox .coffee{ position:absolute; right:5px; bottom:10px; width:40px;}
+#wraper .subArea .report li .chartBox{ width:100%; padding:0 10px; box-sizing:border-box; margin-top:20px;}
+#wraper .subArea .report li .chartBox table{ width:100%; border-collapse:collapse;}
+#wraper .subArea .report li .chartBox table th{ width:25%; background-color:transparent; text-align:center; padding:0;}
+#wraper .subArea .report li .chartBox table th .number{ font-size:13px; font-weight:800; color:#999;}
+#wraper .subArea .report li .chartBox table th .bar{ width:20px; height:80px; margin:0 auto;}
+#wraper .subArea .report li .chartBox table th .color01{ background-color:#f9bd00}
+#wraper .subArea .report li .chartBox table th .color02{ background-color:#abcd03}
+#wraper .subArea .report li .chartBox table th .color03{ background-color:#39b483}
+#wraper .subArea .report li .chartBox table th .color04{ background-color:#ed6c00}
+#wraper .subArea .report li .chartBox table td{ padding:5px 0; font-size:14px; font-weight:800; color:#333; text-align:center; border-top:1px solid #ddd;}
+#wraper .subArea .report li .tip{ text-align:center; padding:5px 0; font-size:19px; font-weight:800; color:#333; letter-spacing:-0.05em;}
+#wraper .subArea .report li .tip span{ font-size:14px; font-weight:bold; color:#888; margin-left:15px;}
 
 /* 로그인 */
 #login{ position:relative; width:100%; padding:100px 50px 50px; box-sizing:border-box; text-align:center;}
@@ -109,3 +203,17 @@ input{ -webkit-border-radius:0; -webkit-appearance:none; }
 .popup_layer .popup_main .textBox{ width:100%; padding:15px 0; font-size:18px; font-weight:800; color:#333; line-height:1.4; background-image:url(../img/popup_bg.png); background-position:center; background-repeat:no-repeat; background-size:cover; border-radius:5px; margin-top:15px;}
 .popup_layer .popup_main .textBox span{ font-size:20px; font-weight:bold; color:#28ce99; font-family: 'Moebius_Bold_eng', sans-serif !important;}
 .popup_layer .popup_main .subText{ font-size:14px; font-weight:bold; color:#595757; line-height:1.4; margin-top:20px; letter-spacing:-0.03em}
+
+/* 팝업(정비주기설정) */
+#popup_period_setting .popup_main{ padding:50px 20px 30px}
+.popup_layer .popup_main .title2{ font-size:22px; font-weight:800; color:#333; letter-spacing:-0.05em;}
+.popup_layer .popup_main .popup_table{ margin-top:30px;}
+.popup_layer .popup_main .popup_table table{ width:100%;}
+.popup_layer .popup_main .popup_table table th{ width:120px; font-size:14px; font-weight:bold; color:#333; text-align:left; background-color:transparent; vertical-align:middle;}
+.popup_layer .popup_main .popup_table table td{ font-size:14px; font-weight:800; color:#333; vertical-align:middle; padding:5px 0}
+.popup_layer .popup_main .popup_table table td input[type=radio]{ display:none;}
+.popup_layer .popup_main .popup_table table td input[type=radio] + label{ position:relative; display:block; width:100%; font-size:14px; font-weight:800; color:#333; text-align:left;}
+.popup_layer .popup_main .popup_table table td input[type=radio] + label:before{ content:""; position:absolute; top:50%; right:0; transform:translateY(-50%); width:14px; height:14px; border-radius:50%; border:1px solid #aaa;}
+.popup_layer .popup_main .popup_table table td input[type=radio]:checked + label:before{ background-color:#ff0000;}
+.popup_layer .popup_main .popup_table table td .inputBox{ display:inline-block; vertical-align:middle; width:120px; height:25px; vertical-align:middle; background-color:#efefef;}
+.popup_layer .popup_main .popup_table table td .inputBox input[type=text]{ display:block; width:100%; height:100%; font-size:14px; font-weight:bold; color:#333; text-align:right; padding-right:10px; box-sizing:border-box; background-color:transparent; border:none; outline:none;}

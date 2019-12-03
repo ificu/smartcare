@@ -2,18 +2,48 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/views/Login.vue'
 import Main from '@/views/Main.vue'
+import ContractInfo from '@/views/ContractInfo.vue'
+import SafeReport from '@/views/SafeReport.vue'
+import ShockAlarm from '@/views/ShockAlarm.vue'
+import CarRepair from '@/views/CarRepair.vue'
+import DriveHistory from '@/views/DriveHistory.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/main',
-    name: 'main',
+    path: '/Main',
+    name: 'Main',
     component: Main
   },
   {
+    path: '/ContractInfo',
+    name: 'ContractInfo',
+    component: ContractInfo
+  },
+  {
+    path: '/SafeReport',
+    name: 'SafeReport',
+    component: SafeReport
+  },
+  {
+    path: '/ShockAlarm',
+    name: 'ShockAlarm',
+    component: ShockAlarm
+  },
+  {
+    path: '/CarRepair',
+    name: 'CarRepair',
+    component: CarRepair
+  },
+  {
+    path: '/DriveHistory',
+    name: 'DriveHistory',
+    component: DriveHistory
+  },
+  {
     path: '/',
-    name: 'login',
+    name: 'Login',
     component: Login
   },
   {

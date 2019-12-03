@@ -1,7 +1,8 @@
 <template>
   <div id="2226720608" class="subArea">
 		<div id="" class="titleBox">
-      <a href="./Main" id="7450363646" class="backBtn"><img src="../img/icon_back.svg"></a>
+      <router-link to="/Main">
+      <a href="" id="7450363646" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
             <div id="8923171213" class="title">정비 관리</div>
         </div>
         <ul id="4764318411" class="infoBox">

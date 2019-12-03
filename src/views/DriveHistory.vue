@@ -1,7 +1,8 @@
 <template>
   <div id="4158449995" class="subArea">
 		<div id="5433017376" class="titleBox">
-      <a href="./Main" id="4916679281" class="backBtn"><img src="../img/icon_back.svg"></a>
+      <router-link to="/Main">
+      <a href="" id="4916679281" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
             <div id="3273278861" class="title">주행 이력 관리</div>
         </div>
         <ul id="3403304624" class="infoBox mileage">

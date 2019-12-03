@@ -1,7 +1,8 @@
 <template>
   <div id="1763476558" class="subArea">
 		<div id="3883037607" class="titleBox">
-      <a href="./Main" id="8212500350" class="backBtn"><img src="../img/icon_back.svg"></a>
+      <router-link to="/Main">
+      <a href="" id="8212500350" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
       <div id="4755611960" class="title">안전 점수</div>
     </div>
     <ul id="3610927099" class="infoBox report">

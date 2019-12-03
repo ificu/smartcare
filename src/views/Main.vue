@@ -6,11 +6,14 @@
       <div id="1054309100" class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
     </div>
     <div id="4644211896" class="item_list">
-      <a id="7564086534" href="./ContractInfo" class="item">
+      <router-link to="/ContractInfo">
+      <a id="7564086534" href="" class="item">
         <img id="1840625569" src="@/img/logo_skRental.svg" class="logo">
         <div id="6544656424" class="item_text">내 차 계약 정보 확인</div>
       </a>
-      <a id="3398034514" href="./SafeReport" class="item">
+    </router-link>
+    <router-link to="/SafeReport">
+      <a id="3398034514" href="" class="item">
         <div id="7829133626" class="item_title"><img id="7426634982" src="@/img/icon_target.svg"> <span id="" class="title">안전점수</span></div>
         <div id="2930701675" class="guageBox">
           <img id="1771345032" src="@/img/guage_bar.svg" class="guage_bar">
@@ -25,7 +28,9 @@
         <div id="2613335142" class="item_title"><img id="2259556330" src="@/img/icon_accident.svg"> <span class="title">사고접수</span></div>
         <div id="9978640929" class="text04">사고 발생시 바로 연결</div>
       </a>
-      <a id="8195083055" href="./ShockAlarm" class="item">
+      </router-link>
+      <router-link to="/ShockAlarm">
+      <a id="8195083055" href="" class="item">
         <div id="6012095227" class="item_title"><img id="4450206969" src="@/img/icon_alarm01.svg"> <span class="title">정차 중 충격알림</span><span class="new">NEW</span></div>
         <ul id="5649529464" class="alarm_list">
           <li id="8585590273"><p class="date">11월 7일 13:00</p><p>차량 충격이 감지되었습니다.</p></li>
@@ -33,7 +38,9 @@
         </ul>
         <div id="2515714085" class="more">... more</div>
       </a>
-      <a id="4507565108" href="./CarRepair" class="item">
+      </router-link>
+      <router-link to="/CarRepair">
+      <a id="4507565108" href="" class="item">
         <div id="7558405712" class="item_title"><img id="3486064755" src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new">NEW</span></div>
         <div id="5094331840" class="item_text">현재 누적 주행거리 8,321Km 주행</div>
         <ul id="6794243679" class="text_list">
@@ -41,7 +48,9 @@
           <li id="2016902426">- 다가오는 점검 항목을 확인하세요.</li>
         </ul>
       </a>
-      <a id="6185674754" href="./DriveHistory" class="item">
+      </router-link>
+      <router-link to="/DriveHistory">
+      <a id="6185674754" href="" class="item">
         <div id="1150123414" class="item_title"><img id="5638758827" src="@/img/icon_history.svg"> <span class="title">주행이력관리</span><span class="new">NEW</span></div>
         <ul id="1229086322" class="history_list">
           <li id="9198852782"><p class="date">11월 7일 13:00</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
@@ -50,6 +59,7 @@
         </ul>
         <div id="3714380580" class="more">... more</div>
       </a>
+      </router-link>
       <a id="7552253682" href="javascript:;" class="item">
         <div id="5425614371" class="item_title"><img id="8464994905" src="@/img/icon_locate.svg"> <span class="title">내차 위치 찾기</span></div>
         <div id="6545125044" class="item_text" style="padding-bottom:10px">공항, 식당에서 발렛 파킹 하셨나요?</div>

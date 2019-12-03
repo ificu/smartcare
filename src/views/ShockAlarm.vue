@@ -1,7 +1,8 @@
 <template>
   <div id="3931999843" class="subArea">
 		<div id="1179823999" class="titleBox">
-      <a href="./Main" id="3258595457" class="backBtn"><img src="../img/icon_back.svg"></a>
+      <router-link to="/Main">
+      <a href="" id="3258595457" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
             <div id="6059913767" class="title">정차 중 충격 알림</div>
         </div>
         <ul id="4087025838" class="infoBox alarm">

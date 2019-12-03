@@ -1,7 +1,8 @@
 <template>
   <div id="8719977076" class="subArea">
 		<div id="6363819468" class="titleBox">
-      <a href="./Main" id="" class="backBtn"><img src="../img/icon_back.svg"></a>
+      <router-link to="/Main">
+      <a href="" id="9060598850" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
             <div id="9740958422" class="title">차량/계약 정보 안내</div>
         </div>
         <ul id="6326463570" class="infoBox">

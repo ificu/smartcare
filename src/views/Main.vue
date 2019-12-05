@@ -17,8 +17,8 @@
         <div id="7829133626" class="item_title"><img id="7426634982" src="@/img/icon_target.svg"> <span id="" class="title">안전점수</span></div>
         <div id="2930701675" class="guageBox">
           <img id="1771345032" src="@/img/guage_bar.svg" class="guage_bar">
-          <div id="2659560575" class="goal_score">목표 점수<br>85점</div>
-          <div id="8870633421" class="my_score">74점<p>(상위 32%, 96위)</p></div>
+          <div id="2659560575" class="goal_score">목표 점수<br>95점</div>
+          <div id="8870633421" class="my_score">{{safDrvIdx}} 점<p>(상위 32%, 96위)</p></div>
         </div>
         <div id="6594630138" class="text01">좋은 안전운전 습관으로 도약하고 있습니다.</div>
         <div id="1597772086" class="text02">가속패달을 조금 더 차분히 밟아주세요.</div>
@@ -42,7 +42,7 @@
       <router-link to="/CarRepair">
       <a id="4507565108" href="" class="item">
         <div id="7558405712" class="item_title"><img id="3486064755" src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new">NEW</span></div>
-        <div id="5094331840" class="item_text">현재 누적 주행거리 8,321Km 주행</div>
+        <div id="5094331840" class="item_text">현재 누적 주행거리 {{accDist}}Km 주행</div>
         <ul id="6794243679" class="text_list">
           <li id="9524843842">- 이달의 점검 항목이 없습니다.</li>
           <li id="2016902426">- 다가오는 점검 항목을 확인하세요.</li>
@@ -79,21 +79,94 @@
   </div>
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import Comingsoon01 from '@/components/popup/Comingsoon01.vue'
+import Constant from '@/Constant'
 
 export default {
   name: 'main',
   data () {
     return {
       showComingsoon01: false,
-      userName: ""
+      userName: "",
+      safDrvIdx: ""
     }
   },
   created : function() {
     this.userName = this.UserInfo.UserName;
+    this.carNo = this.UserInfo.CarNo;
+    this.safDrvIdx = this.DrvInfo.safDrvIdx;
+    this.accDist = this.CarInfo.accDist;
   },
   methods: {
+    getDrvInfo() {
+
+      console.log("ccarName : "+this.UserInfo.UserName);
+      console.log("ccarNum : "+this.UserInfo.CarNo);
+      console.log("safDrvIdx : " + this.DrvInfo.safDrvIdx);
+      console.log("Date : " + Date.now());
+
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.reqTyp = "n";
+      param.stDt = "2019-11-01";
+      param.edDt = "2019-11-29";
+      param.carNum = this.carNo;
+
+      axios({
+       method: 'POST',
+       url: Constant.SMARTLINK_URL+"/reqDrvHst",
+       headers: Constant.SMARTLINK_HEADER,
+       data: param
+      })
+      .then((result) => {
+
+        console.log("회신 결과 : ", JSON.stringify(result));
+        this.DrvInfo.movTm = result.data.drvHsts[0].movTm; // 운행시간
+        this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
+        this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
+
+        this.safDrvIdx = this.DrvInfo.safDrvIdx; // 안전지수
+        if(this.safDrvIdx != null && this.safDrvIdx != ""){
+          var gageBar = document.getElementById('1771345032'); // 게이지 Bar
+          var degree = this.safDrvIdx * 1.8 - 90;
+          
+          gageBar.style.transform = 'rotate('+degree+'deg)';
+        }
+ 
+        console.log("this.DrvInfo.movTm : " + this.DrvInfo.movTm);
+        console.log("this.DrvInfo.SafeIndex : " + this.DrvInfo.safDrvIdx);
+
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    getCarInfo() {
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.reqTyp = "n";
+      param.carNum = this.carNo;
+
+      axios({
+       method: 'POST',
+       url: Constant.SMARTLINK_URL+"/reqCarInfo",
+       headers: Constant.SMARTLINK_HEADER,
+       data: param
+      })
+      .then((result) => {
+        console.log("회신 결과 : ", JSON.stringify(result));
+        console.log("CarInfo 회신 결과 : ", result);
+        this.CarInfo.accDist = result.data.cars[0].accDist; // 총 누적거리
+        console.log("this.CarInfo.accDist : " + this.CarInfo.accDist);
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+  },
+  beforeMount(){
+    this.getDrvInfo();
+    this.getCarInfo();
   },
   components: {
     Comingsoon01: Comingsoon01
@@ -102,9 +175,16 @@ export default {
     UserInfo: {
         get() { return this.$store.getters.UserInfo },
         set(value) { this.$store.dispatch('UpdateUserInfo',value) }
-    }
+    },
+    DrvInfo: {
+        get() { return this.$store.getters.DrvInfo },
+        set(value) { this.$store.dispatch('UpdateDrvInfo',value) }
+    },
+    CarInfo: {
+        get() { return this.$store.getters.CarInfo },
+        set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
   },
-
 }
 </script>
 
@@ -127,8 +207,8 @@ export default {
 #app .mainArea .item_list .item .item_title .title{ display:inline-block; vertical-align:middle; font-size:14px; font-weight:bold; color:#666;}
 #app .mainArea .item_list .item .item_title .new{ display:inline-block; vertical-align:super; font-size:10px; font-weight:bold; color:#f2000d;}
 #app .mainArea .item_list .item .guageBox{ position:relative; width:100%; height:120px; background-image:url(../img/main_guage.png); background-position:center top; background-repeat:no-repeat; background-size:200px;}
-#app .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:15px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(45deg)}
-#app .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:50%; top:45px; margin-left:95px; font-size:14px; font-weight:bold; color:#666; text-align:center;}
+#app .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:35px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(45deg)}
+#app .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:52%; top:65px; margin-left:95px; font-size:14px; font-weight:bold; color:#666; text-align:center;}
 #app .mainArea .item_list .item .guageBox .my_score{ position:absolute; left:0; bottom:-10px; width:100%; font-size:30px; font-weight:800; color:#333; text-align:center;}
 #app .mainArea .item_list .item .guageBox .my_score p{ display:block; font-size:14px; color:#666;}
 #app .mainArea .item_list .item .text01{ font-size:16px; font-weight:800; color:#333; text-align:center; margin-top:20px}

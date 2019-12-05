@@ -1,6 +1,9 @@
 export default {
     LAMBDA_URL: 'https://rmv9oaohn6.execute-api.ap-northeast-2.amazonaws.com/prod/smartcare',
-    LAMBDA_HEADER: {'Accept': 'application/json','Content-Type': 'application/json','x-api-key': 'kJNQhxA0Z94P903AjNTd93CB91TlZjLL8NvSF3Ra'}
+    LAMBDA_HEADER: {'Accept': 'application/json','Content-Type': 'application/json','x-api-key': 'kJNQhxA0Z94P903AjNTd93CB91TlZjLL8NvSF3Ra'},
+    SMARTLINK_AUTH_KEY: '0x0100000040591DF54CD2FECC841E5629FA40C16A0EBFE2E5755CDB865947FE4C1AF56C0F',
+    SMARTLINK_URL: 'http://bay4u.co.kr:8086/api/smartlink',
+    SMARTLINK_HEADER: {'Accept': 'application/json','Content-Type': 'application/json'}
   };
 
 /*

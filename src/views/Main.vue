@@ -116,19 +116,70 @@ export default {
     }
   },
   created : function() {
+    this.userLoginId = this.UserInfo.userLoginId;
     this.userName = this.UserInfo.UserName;
     this.carNo = this.UserInfo.CarNo;
     this.safDrvIdx = this.DrvInfo.safDrvIdx;
     this.accDist = this.CarInfo.accDist;
   },
   methods: {
+    ContractInfo(){
+      this.$router.push('/ContractInfo');
+    },
+
+    //현재 날짜 및 1개월 전 날짜
+    getTodayDate(){
+      var today_DATE = new Date();
+      var year = today_DATE.getFullYear();
+      var month = today_DATE.getMonth()+1;
+      var day = today_DATE.getDate();
+      var beforeYear = year;
+      var beforeMonth = month - 1;
+      var beforeDay = day;
+      
+      
+      //1개월 전 Month 변환
+      if(beforeMonth == 0){
+        beforeMonth = 12;
+        if(beforeMonth == 12){
+          beforeYear = year - 1;
+        }
+      }
+      //1개월 전 Day 변환
+      if(beforeDay == 31){
+        beforeDay = 30;
+      }else if(beforeDay == 30){
+        beforeDay = 31;
+      }
+
+      var stDtToday = beforeYear+"-"+beforeMonth+"-"+beforeDay;
+      var edDtToday = year+"-"+month+"-"+day;
+
+      return {"stDtToday":stDtToday,"edDtToday":edDtToday};
+    },
+    //운행 이력 조회
     getDrvInfo() {
+      console.log("CarName : "+ this.UserInfo.UserName);
+      console.log("CarNum : "+ this.UserInfo.CarNo);
+      console.log("SafDrvIdx : " + this.DrvInfo.SafDrvIdx);
+      console.log("UserLoginId : " + this.UserInfo.UserLoginId);
+/*      
+      var today_DATE = {};
+      today_DATE = this.getTodayDate();
+      var stDtToday = today_DATE.stDtToday;
+      var edDtToday = today_DATE.edDtToday;
 
-      console.log("ccarName : "+this.UserInfo.UserName);
-      console.log("ccarNum : "+this.UserInfo.CarNo);
-      console.log("safDrvIdx : " + this.DrvInfo.safDrvIdx);
-      console.log("Date : " + Date.now());
-
+      console.log("stDt : " + today_DATE.stDtToday);
+      console.log("edDt : " + today_DATE.edDtToday);
+      
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.reqTyp = "n";
+      param.stDt = stDtToday;
+      param.edDt = edDtToday;
+      param.carNum = this.carNo;
+*/
+      
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
       now.setDate(now.getDate() -7);    // 일주일 전
@@ -268,6 +319,8 @@ export default {
         console.log(error);
       });
     },
+
+    // 자동차 정보
     getCarInfo() {
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -375,6 +428,7 @@ export default {
     this.getCarInfo();
     this.getSafetyInfo();
     this.getImpactNotice();
+    this.getTodayDate();
   },
   components: {
     Comingsoon01: Comingsoon01,

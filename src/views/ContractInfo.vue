@@ -11,21 +11,20 @@
                 <table id="2643144808">
                   <tr id="2549053519">
                     <th id="3483481127">⊙ 모델</th>
-                        <td id="4686868335"><p>SF소나타 (하이브리드)</p></td>
+                        <td id="4686868335"><p>{{carModel}}</p></td>
                     </tr>
                     <tr id="3432912197">
                       <th id="3154006697">⊙ 생산</th>
-                        <td id="3296516715"><p>2019년 5월</p></td>
+                        <td id="3296516715"><p>{{pYear}}</p></td>
                     </tr>
                     <tr id="9115186043">
                       <th id="9202866437">⊙ 차량가액</th>
-                        <td id="2128569587"><p>3,238 만원</p></td>
+                        <td id="2128569587"><p>{{carPrice}}</p></td>
                     </tr>
                     <tr id="9792864102">
                       <th id="7309450569">⊙ 옵션</th>
                         <td id="7809431477">
-                          <p style="height:70px">- 스마트 네비게이션<br>
-                            - 블랙박스 (내장)</p>
+                          <p style="height:70px">{{option}}</p>
                         </td>
                     </tr>
                 </table>
@@ -35,23 +34,23 @@
                 <table id="9172846720" class="tb02">
                   <tr id="7170186396">
                     <th id="7865099039">⊙ 계약자</th>
-                        <td id="8271447043"><p>문성준</p></td>
+                        <td id="8271447043"><p>{{drvName}}</p></td>
                     </tr>
                     <tr id="3004295119">
                       <th id="3575682126">⊙ 계약기간</th>
-                        <td id="8677225059"><p>19.01.01~22.12.31 (48개월)</p></td>
+                        <td id="8677225059"><p>{{cStart}} ~ {{cEnd}} ({{cPeriod}}개월)</p></td>
                     </tr>
                     <tr id="3666856390">
                       <th id="9369307643">⊙ 연간 계약마일리지</th>
-                        <td id="2230891365"><p>10,000 km</p></td>
+                        <td id="2230891365"><p>10,000 km ???</p></td>
                     </tr>
                     <tr id="2073806950">
                       <th id="3354100226">⊙ 월렌탈료</th>
-                        <td id="4520749211"><p>63.8 만원</p></td>
+                        <td id="4520749211"><p>{{rentPrice}}</p></td>
                     </tr>
                     <tr id="4199842230" class="sub">
                       <th id="7830008680" class="indent"> - 선수금</th>
-                        <td id="4762140537"><p>800 만원 (30%)</p></td>
+                        <td id="4762140537"><p>800 만원 (30%)???</p></td>
                     </tr>
                     <tr id="9648754559">
                       <th id="9531536027">⊙ 인수가액</th>
@@ -71,13 +70,116 @@
       </div>
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+import Constant from '@/Constant'
 
 export default {
   name: 'ContractInfo',
+  created : function(){
+    this.carModel =  this.ContractInfo.carModel;
+    this.pYear = this.ContractInfo.ProductYear;
+    this.carPrice = this.ContractInfo.CarAMT;
+    this.option = this.ContractInfo.Option;
+    this.drvName = this.ContractInfo.Name;
+    this.cStart = this.ContractInfo.ContStart.substring(2).replace('-',".");
+    this.cEnd = this.ContractInfo.ContEnd.substring(2).replace('-','.');
+    this.cPeriod = this.ContractInfo.ContPeriod;
+    this.rentPrice = this.ContractInfo.RentAMT;
+  },
+  methods:{
+    test(){
+      console.log("ddddddddddddddddddd :"+this.UserInfo.CarNo);
+    },
+    carContract() {
+
+      console.log("Check Login : ", this.UserInfo.CarNo);
+      
+      var param = {};
+      param.operation = "list";
+      param.tableName = "SMART_CONTRACT";
+      param.payload = {};
+      param.payload.FilterExpression = "CAR = :id";
+      param.payload.ExpressionAttributeValues = {};
+      var key = ":id";
+      param.payload.ExpressionAttributeValues[key] = this.UserInfo.CarNo;      
+
+
+      axios({
+        method: 'POST',
+        url: Constant.LAMBDA_URL,
+        headers: Constant.LAMBDA_HEADER,
+        data: param
+      })
+      .then((result) => {
+        console.log("Contract 회신 결과 : " + JSON.stringify(result));
+      
+
+        // var carModel = result.data.Items[0].CAR_MODEL;
+        // var pYear = result.data.Items[0].PRODUCT_YEAR;
+        // var carPrice = result.data.Items[0].CAR_AMT;
+        // var option = result.data.Items[0].OPTION;
+        // var drvName = result.data.Items[0].NAME;
+        // var cStart = result.data.Items[0].CONTRACT_START;
+        // var cEnd = result.data.Items[0].CONTRACT_END;
+        // var cPeriod = result.data.Items[0].CONTRACT_PERIOD;
+        // var rentPrice = result.data.Items[0].RENTAL_AMT;
+        /*
+        for(var i =0 ;i<result.data.Items.length;i++){
+          if(result.data.Items[i].CAR == this.UserInfo.CarNo){
+            this.ContractInfo.carModel = result.data.Items[i].CAR_MODEL;
+            this.ContractInfo.ProductYear = result.data.Items[i].PRODUCT_YEAR;
+            this.ContractInfo.CarAMT =  result.data.Items[i].CAR_AMT;
+            this.ContractInfo.Option = result.data.Items[i].OPTION;
+            this.ContractInfo.Name =  result.data.Items[i].NAME;
+            this.ContractInfo.ContStart = result.data.Items[i].CONTRACT_START;
+            this.ContractInfo.ContEnd = result.data.Items[i].CONTRACT_END;
+            this.ContractInfo.ContPeriod = result.data.Items[i].CONTRACT_PERIOD;
+            this.ContractInfo.RentAMT = result.data.Items[i].RENTAL_AMT;
+            break;
+          }
+        }*/
+        // this.ContractInfo.carModel = result.data.Items[8].CAR_MODEL;
+        // this.ContractInfo.ProductYear = result.data.Items[8].PRODUCT_YEAR;
+        // this.ContractInfo.CarAMT =  result.data.Items[8].CAR_AMT;
+        // this.ContractInfo.Option = result.data.Items[8].OPTION;
+        // this.ContractInfo.Name =  result.data.Items[8].NAME;
+        // this.ContractInfo.ContStart = result.data.Items[8].CONTRACT_START;
+        // this.ContractInfo.ContEnd = result.data.Items[8].CONTRACT_END;
+        // this.ContractInfo.ContPeriod = result.data.Items[8].CONTRACT_PERIOD;
+        // this.ContractInfo.RentAMT = result.data.Items[8].RENTAL_AMT;
+            this.ContractInfo.carModel = result.data.Items[0].CAR_MODEL;
+            this.ContractInfo.ProductYear = result.data.Items[0].PRODUCT_YEAR;
+            this.ContractInfo.CarAMT =  result.data.Items[0].CAR_AMT;
+            this.ContractInfo.Option = result.data.Items[0].OPTION;
+            this.ContractInfo.Name =  result.data.Items[0].NAME;
+            this.ContractInfo.ContStart = result.data.Items[0].CONTRACT_START;
+            this.ContractInfo.ContEnd = result.data.Items[0].CONTRACT_END;
+            this.ContractInfo.ContPeriod = result.data.Items[0].CONTRACT_PERIOD;
+            this.ContractInfo.RentAMT = result.data.Items[0].RENTAL_AMT;
+        
+
+      });
+
+    }
+  },
+  beforeMount(){
+    this.carContract();
+    // this.test();
+  },
   components: {
 
-  }
+  },
+  computed:{
+    UserInfo: {
+        get() { return this.$store.getters.UserInfo },
+        set(value) { this.$store.dispatch('UpdateUserInfo',value) }
+    },
+  ContractInfo: {
+        get() { return this.$store.getters.ContractInfo },
+        set(value) { this.$store.dispatch('UpdateConractInfo',value) }
+    },
+  },
 }
 </script>
 

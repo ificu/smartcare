@@ -1,7 +1,7 @@
 <template>
   <div id="2290644288" class="mainArea">
     <div id="9603812673" class="titleBox">
-      <a id="1278953801" href="javascript:;" class="menuBtn"><img src="@/img/icon_menu.svg"></a>
+      <a id="1278953801" href="javascript:;" class="menuBtn" @click="showMenu=true"><img src="@/img/icon_menu.svg"></a>
       <div id="7596576479" class="title">안녕하세요, {{userName}} 님</div>
       <div id="1054309100" class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
     </div>
@@ -17,6 +17,7 @@
         <div id="7829133626" class="item_title"><img id="7426634982" src="@/img/icon_target.svg"> <span id="" class="title">안전점수</span></div>
         <div id="2930701675" class="guageBox">
           <img id="1771345032" src="@/img/guage_bar.svg" class="guage_bar">
+          <img id="1771345032" src="@/img/line_guage.png" class="guage_line">
           <div id="2659560575" class="goal_score">목표 점수<br>95점</div>
           <div id="8870633421" class="my_score">{{safDrvIdx}} 점<p>(상위 32%, 96위)</p></div>
         </div>
@@ -24,17 +25,20 @@
         <div id="1597772086" class="text02">가속패달을 조금 더 차분히 밟아주세요.</div>
         <div id="1246721320" class="text03">지금 <span>안전운전 미션</span>을 확인해 보세요!</div>
       </a>
-      <a id="4079354739" href="javascript:;" class="item">
+      </router-link>      
+      <a id="4079354739" @click="showERSCall=true" class="item">
         <div id="2613335142" class="item_title"><img id="2259556330" src="@/img/icon_accident.svg"> <span class="title">사고접수</span></div>
         <div id="9978640929" class="text04">사고 발생시 바로 연결</div>
       </a>
-      </router-link>
       <router-link to="/ShockAlarm">
       <a id="8195083055" href="" class="item">
-        <div id="6012095227" class="item_title"><img id="4450206969" src="@/img/icon_alarm01.svg"> <span class="title">정차 중 충격알림</span><span class="new">NEW</span></div>
-        <ul id="5649529464" class="alarm_list">
+        <div id="6012095227" class="item_title"><img id="4450206969" src="@/img/icon_alarm01.svg"> <span class="title">정차 중 충격알림</span><span class="new" v-if="newShockAlarm">NEW</span></div>
+        <!--<ul id="5649529464" class="alarm_list">
           <li id="8585590273"><p class="date">11월 7일 13:00</p><p>차량 충격이 감지되었습니다.</p></li>
           <li id="6661413226"><p class="date">11월 6일 19:21</p><p>차량 충격이 감지되었습니다.</p></li>
+        </ul>-->
+        <ul id="5649529464" class="alarm_list" v-for="(shock, index) in shockAlarmList" v-bind:key="index">
+          <li v-bind:id="'9548127208'+index"><p class="date">{{shock.shockDate}}</p><p>{{shock.shockMsg}}</p></li>
         </ul>
         <div id="2515714085" class="more">... more</div>
       </a>
@@ -52,45 +56,63 @@
       <router-link to="/DriveHistory">
       <a id="6185674754" href="" class="item">
         <div id="1150123414" class="item_title"><img id="5638758827" src="@/img/icon_history.svg"> <span class="title">주행이력관리</span><span class="new">NEW</span></div>
-        <ul id="1229086322" class="history_list">
+        <!--<ul id="1229086322" class="history_list">
           <li id="9198852782"><p class="date">11월 7일 13:00</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
           <li id="7587326910"><p class="date">11월 6일 19:21</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
           <li id="7349622438"><p class="date">11월 5일 10:00</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
+        </ul>-->
+        <ul id="1229086322" class="history_list" v-for="(drive, index) in driveHistoryList" v-bind:key="index">
+          <li v-bind:id="'9198852782'+index"><p class="date">{{drive.drvDate}}</p><p class="address"><span>{{drive.addr}}</span></p></li>
         </ul>
         <div id="3714380580" class="more">... more</div>
       </a>
       </router-link>
+      <router-link to="/MyCarLocation">
       <a id="7552253682" href="javascript:;" class="item">
         <div id="5425614371" class="item_title"><img id="8464994905" src="@/img/icon_locate.svg"> <span class="title">내차 위치 찾기</span></div>
         <div id="6545125044" class="item_text" style="padding-bottom:10px">공항, 식당에서 발렛 파킹 하셨나요?</div>
       </a>
+      </router-link>
       <ul id="6067869823" class="comingsoon_list">
         <div id="1294494412" class="item_title">신규 예정 서비스</div>
         <li id="7244752797" @click="showComingsoon01 = !showComingsoon01"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
         <li id="2102151511"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
-        <li id="9737112597"><img src="@/img/icon_ai.svg"> <span>우전비스(AI) 서비스</span></li>
+        <li id="9737112597"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
         <li id="2707965502"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
         <li id="7117272266"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
       </ul>
     </div>
     <transition name="slide-fade">
       <Comingsoon01 v-if="showComingsoon01" @close="showComingsoon01=false"></Comingsoon01>
+      <ERSCall v-if="showERSCall" @close="showERSCall=false"></ERSCall>
     </transition>
+    <transition name="slide-side">
+      <Menu v-if="showMenu" @close="showMenu=false"></Menu>
+    </transition>
+    
   </div>
 </template>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import Comingsoon01 from '@/components/popup/Comingsoon01.vue'
+import Menu from '@/components/popup/Menu.vue'
+import ERSCall from '@/components/popup/ERSCall.vue'
 import Constant from '@/Constant'
+import {datePadding} from '@/utils/common.js'
 
 export default {
   name: 'main',
   data () {
     return {
+      showMenu: false,
+      showERSCall: false,
       showComingsoon01: false,
       userName: "",
-      safDrvIdx: ""
+      safDrvIdx: "",
+      shockAlarmList: [],
+      newShockAlarm: false,
+      driveHistoryList: []
     }
   },
   created : function() {
@@ -107,12 +129,20 @@ export default {
       console.log("safDrvIdx : " + this.DrvInfo.safDrvIdx);
       console.log("Date : " + Date.now());
 
+      var now = new Date();
+      var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+      now.setDate(now.getDate() -7);    // 일주일 전
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);      
+
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
       param.reqTyp = "n";
-      param.stDt = "2019-11-01";
-      param.edDt = "2019-11-29";
+      param.stDt = stDt;
+      param.edDt = edDt;
       param.carNum = this.carNo;
+
+      console.log("====== getDrvInfo ======");
+      console.log(param);
 
       axios({
        method: 'POST',
@@ -122,21 +152,117 @@ export default {
       })
       .then((result) => {
 
-        console.log("회신 결과 : ", JSON.stringify(result));
+        console.log("getDrvInfo 회신 결과 : ", result);
         this.DrvInfo.movTm = result.data.drvHsts[0].movTm; // 운행시간
         this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
         this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
 
-        this.safDrvIdx = this.DrvInfo.safDrvIdx; // 안전지수
+        //////////////////////////////////////////////////////////////////////
+        // 1. 안전지수 평균을 가져옴
+        var drvCount = result.data.drvHsts.length;
+        var safTotal = 0;
+
+        result.data.drvHsts.sort(function(a,b) {
+          return a.drvId > b.drvId ? -1 : a.drvId < b.drvId ? 1 : 0;
+        });
+
+        var i = 0;
+        var tmpDrvHst = [];
+        var tmpDispDrv = [];
+        for(var hist of result.data.drvHsts) {
+          safTotal += hist.safDrvIdx;
+          if(i++ < 3) {
+            var drvDate = (hist.offDt.substr(5,1) === '0' ? hist.offDt.substr(6,1) : hist.offDt.substr(5,2)) + "월 " +
+                          (hist.offDt.substr(8,1) === '0' ? hist.offDt.substr(9,1) : hist.offDt.substr(8,2)) + "일 " +
+                          hist.offDt.substr(11,5);
+            var drvId = hist.drvId;
+            var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId };        
+            tmpDrvHst.push(drv);    
+          }
+        }
+        console.log("!!!!!!!!!!!!!! ", tmpDrvHst);
+
+        //////////////////////////////////////////////////////////////////////
+        // 2. 안전지수 게이지 표시
+        //this.safDrvIdx = this.DrvInfo.safDrvIdx; // 안전지수
+        this.safDrvIdx = parseInt(safTotal / drvCount);
         if(this.safDrvIdx != null && this.safDrvIdx != ""){
           var gageBar = document.getElementById('1771345032'); // 게이지 Bar
           var degree = this.safDrvIdx * 1.8 - 90;
           
-          gageBar.style.transform = 'rotate('+degree+'deg)';
+          gageBar.style.transform = 'rotate(' + degree + 'deg)';
         }
  
         console.log("this.DrvInfo.movTm : " + this.DrvInfo.movTm);
         console.log("this.DrvInfo.SafeIndex : " + this.DrvInfo.safDrvIdx);
+
+        //////////////////////////////////////////////////////////////////////
+        // 3. 주행 기록 중 3개만 추출하여 GPS 좌표 조회
+        for(var path of tmpDrvHst) {
+          param = {};
+          param.authKey = Constant.SMARTLINK_AUTH_KEY;
+          param.drvId = path.drvId;
+
+          console.log("====== getGPSInfo ======");
+          console.log(param);
+
+          axios({
+            method: 'POST',
+            url: Constant.SMARTLINK_URL + "/reqDrvGps",
+            headers: Constant.SMARTLINK_HEADER,
+            data: param
+          })
+          .then((result) => {
+            console.log("getGPSInfo 회신 결과 :(", JSON.parse(result.config.data).drvId, ") ", result);
+
+            //////////////////////////////////////////////////////////////////////
+            // 4. GPS 좌표를 기준으로 주소값을 읽어 옴
+            // 145167c3-796e-4989-b8ed-74241254b771
+            
+            var gpsDate = result.data.gps[result.data.gps.length-1].gpsDt;
+            var dispDate = (gpsDate.substr(5,1) === '0' ? gpsDate.substr(6,1) : gpsDate.substr(5,2)) + "월 " +
+                            (gpsDate.substr(8,1) === '0' ? gpsDate.substr(9,1) : gpsDate.substr(8,2)) + "일 " +
+                            gpsDate.substr(11,5);
+
+            var url = Constant.TMAP_URL + "/reversegeocoding?version=1&format=json&callback=result&"
+                      + "coordType=WGS84GEO&lon=" + result.data.gps[result.data.gps.length-1].lon
+                      + "&lat=" + result.data.gps[result.data.gps.length-1].lat + "&appKey=" + Constant.TMAP_KEY
+                      + "&date=" + dispDate + "&drvId=" + JSON.parse(result.config.data).drvId;
+
+            axios.get(url)
+            .then((result) => {
+              console.log("TMAP 회신 결과 : ", result);
+
+              var dateIdx = result.config.url.indexOf('&date=');
+              var drvIdIdx = result.config.url.indexOf('&drvId=');
+
+              var dateStr = result.config.url.substr(dateIdx + 6, drvIdIdx - dateIdx - 6);
+              var drvIdStr = result.config.url.substr(drvIdIdx + 7);
+
+              var addrArr = result.data.addressInfo.fullAddress.split(' ');
+
+              var drvDate = hist.drvId;
+              var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };        
+              tmpDispDrv.push(drv);   
+              console.log('마지막 체크 : ', drv);
+              
+              // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display 
+              // 데이터가 모두 Async로 조회 되므로 이렇게 처리하는게 가장 정확할 거 같음....
+              if(tmpDispDrv.length === 3) {
+                tmpDispDrv.sort(function(a, b) {
+                  return a.drvId > b.drvId ? -1 : a.drvId < b.drvId ? 1 : 0;
+                });
+                this.driveHistoryList = tmpDispDrv;
+              }
+
+            }).catch((error) => {
+              console.log(error);
+            });
+
+          }).catch((error) => {
+            console.log(error);
+          });          
+        }
 
       }).catch((error) => {
         console.log(error);
@@ -148,6 +274,9 @@ export default {
       param.reqTyp = "n";
       param.carNum = this.carNo;
 
+      console.log("====== getCarInfo ======");
+      console.log(param);
+
       axios({
        method: 'POST',
        url: Constant.SMARTLINK_URL+"/reqCarInfo",
@@ -155,10 +284,87 @@ export default {
        data: param
       })
       .then((result) => {
-        console.log("회신 결과 : ", JSON.stringify(result));
-        console.log("CarInfo 회신 결과 : ", result);
+        console.log("getCarInfo 회신 결과 : ", result);
         this.CarInfo.accDist = result.data.cars[0].accDist; // 총 누적거리
         console.log("this.CarInfo.accDist : " + this.CarInfo.accDist);
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    getSafetyInfo() {
+      var now = new Date();
+      var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+      now.setMonth(now.getMonth() -1);    // 한달 전
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.userId = this.UserInfo.ID;
+      param.stDt = stDt;
+      param.edDt = edDt;
+
+      console.log("====== getSafetyInfo ======");
+      console.log(param);
+
+      axios({
+       method: 'POST',
+       url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+       headers: Constant.SMARTLINK_HEADER,
+       data: param
+      })
+      .then((result) => {
+        console.log("getSafetyInfo 회신 결과 : ", result);
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    getImpactNotice() {
+      var now = new Date();
+      var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+      now.setDate(now.getDate() -7);    // 일주일 전
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.carNum = this.UserInfo.CarNo;
+      param.stDt = stDt;
+      param.edDt = edDt;
+
+      console.log("====== getImpactNotice ======");
+      console.log(param);
+
+      axios({
+       method: 'POST',
+       url: Constant.SMARTLINK_URL+"/reqImpact",
+       headers: Constant.SMARTLINK_HEADER,
+       data: param
+      })
+      .then((result) => {
+        console.log("getImpactNotice 회신 결과 : ", result);
+
+        if(result.data.header.message === "success" && result.data.impacts.length > 0) {
+
+          var tmpShockList = [];
+          var i = 0;
+          for(var impact of result.data.impacts) {
+            var shockDate = (impact.impactDt.substr(5,1) === '0' ? impact.impactDt.substr(6,1) : impact.impactDt.substr(5,2)) + "월 " +
+                            (impact.impactDt.substr(8,1) === '0' ? impact.impactDt.substr(9,1) : impact.impactDt.substr(8,2)) + "일 " +
+                            impact.impactDt.substr(11,5);
+            var shockMsg = "차량 충격이 감지되었습니다.";
+            var shock = { "index" : i, "shockDate" : shockDate, "shockMsg" : shockMsg };
+
+            tmpShockList.push(shock);
+            i++;
+          }
+
+          tmpShockList.sort(function(a, b) {
+            return a.index > b.index ? -1 : a.index < b.index ? 1 : 0;
+          });
+
+          this.shockAlarmList = tmpShockList.slice(0, 3);
+          this.newShockAlarm = true;
+        }
+
       }).catch((error) => {
         console.log(error);
       });
@@ -167,9 +373,13 @@ export default {
   beforeMount(){
     this.getDrvInfo();
     this.getCarInfo();
+    this.getSafetyInfo();
+    this.getImpactNotice();
   },
   components: {
-    Comingsoon01: Comingsoon01
+    Comingsoon01: Comingsoon01,
+    Menu: Menu,
+    ERSCall: ERSCall
   },
   computed:{
     UserInfo: {
@@ -208,8 +418,9 @@ export default {
 #app .mainArea .item_list .item .item_title .new{ display:inline-block; vertical-align:super; font-size:10px; font-weight:bold; color:#f2000d;}
 #app .mainArea .item_list .item .guageBox{ position:relative; width:100%; height:120px; background-image:url(../img/main_guage.png); background-position:center top; background-repeat:no-repeat; background-size:200px;}
 #app .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:35px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(45deg)}
-#app .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:52%; top:65px; margin-left:95px; font-size:14px; font-weight:bold; color:#666; text-align:center;}
-#app .mainArea .item_list .item .guageBox .my_score{ position:absolute; left:0; bottom:-10px; width:100%; font-size:30px; font-weight:800; color:#333; text-align:center;}
+#app .mainArea .item_list .item .guageBox .guage_line{ position:absolute; left:50%; top:78px; margin-left:50px; width:65px; transform-origin:bottom center; transform:rotate(-12deg)}
+#app .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:50%; top:55px; margin-left:100px; font-size:14px; font-weight:bold; color:#666; text-align:center;}
+#app .mainArea .item_list .item .guageBox .my_score{ position:absolute; left:0; bottom:-15px; width:100%; font-size:30px; font-weight:800; color:#333; text-align:center;}
 #app .mainArea .item_list .item .guageBox .my_score p{ display:block; font-size:14px; color:#666;}
 #app .mainArea .item_list .item .text01{ font-size:16px; font-weight:800; color:#333; text-align:center; margin-top:20px}
 #app .mainArea .item_list .item .text02{ font-size:13px; color:#666; text-align:center; margin-top:5px;}
@@ -249,5 +460,11 @@ export default {
 .slide-fade-enter-active { transition: all .3s ease;}
 .slide-fade-leave-active { transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);}
 .slide-fade-enter, .slide-fade-leave-to { opacity: 0;}
+
+/* 메뉴 슬라이드 */
+.slide-side-enter-active { transition: all .3s ease;}
+.slide-side-leave-active { transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);}
+.slide-side-enter { opacity: 0; transform: translateX(-100%)}
+.slide-side-leave-to { opacity: 0;}
 
 </style>

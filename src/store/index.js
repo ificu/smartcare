@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    UserInfo: {UserName: "", CarNo: ""},
+    UserInfo: {UserName: "", CarNo: "", ID: ""},
     DrvInfo: {SafDrvIdx:"", MovTm:""},
     CarInfo: {AccDist:""}
   },

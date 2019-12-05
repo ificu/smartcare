@@ -3,27 +3,13 @@ export default {
     LAMBDA_HEADER: {'Accept': 'application/json','Content-Type': 'application/json','x-api-key': 'kJNQhxA0Z94P903AjNTd93CB91TlZjLL8NvSF3Ra'},
     SMARTLINK_AUTH_KEY: '0x0100000040591DF54CD2FECC841E5629FA40C16A0EBFE2E5755CDB865947FE4C1AF56C0F',
     SMARTLINK_URL: 'http://bay4u.co.kr:8086/api/smartlink',
-    SMARTLINK_HEADER: {'Accept': 'application/json','Content-Type': 'application/json'}
+    SMARTLINK_HEADER: {'Accept': 'application/json','Content-Type': 'application/json'},
+    TMAP_URL: 'https://apis.openapi.sk.com/tmap/geo',
+    TMAP_KEY: '145167c3-796e-4989-b8ed-74241254b771'
   };
 
 /*
 ID 체번
-9548127208
-1198754371
-4307942033
-6893267579
-3144077403
-2250439541
-5726124298
-4561323194
-9788353122
-8226028451
-9307216051
-2316227097
-9898896361
-1723367321
-1012500541
-9866648110
 1199316882
 3371569938
 3039116252

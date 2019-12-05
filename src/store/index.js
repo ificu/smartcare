@@ -5,14 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    UserInfo: {UserName: "", CarNo: ""},
+    UserInfo: {UserName: "", CarNo: "", UserLoginId: ""},
     DrvInfo: {SafDrvIdx:"", MovTm:""},
-    CarInfo: {AccDist:""}
+    CarInfo: {AccDist:""},
+    ContractInfo: {CarModel:"",ProductYear:"",CarAMT:"",Option:"",Name:"",ContStart:"",ContEnd:"",ContPeriod:"",RentAMT:""}
   },
   getters: {
     UserInfo(state) { return state.UserInfo },
     DrvInfo(state) { return state.DrvInfo },
     CarInfo(state) { return state.CarInfo },
+    ContractInfo(state) { return state.ContractInfo },
   },
   mutations: {
     SetUserInfo(state, userInfo) {
@@ -23,7 +25,10 @@ export default new Vuex.Store({
     },
     SetCarInfo(state, carInfo) {
       state.CarInfo = carInfo
-  },
+    },
+    SetContractInfo(state, contractInfo) {
+      state.ContractInfo = contractInfo
+    },
   },
   actions: {
     UpdateUserInfo({ commit }, userInfo) {
@@ -34,6 +39,9 @@ export default new Vuex.Store({
     },
     UpdateCarInfo({ commit }, carInfo) {
       commit('SetCarInfo', { carInfo })
-  },
+    },
+    UpdateContractInfo({ commit }, contractInfo) {
+      commit('SetContractInfo', { contractInfo })
+    },
   }
 })

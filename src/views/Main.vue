@@ -2,7 +2,7 @@
   <div id="2290644288" class="mainArea">
     <div id="9603812673" class="titleBox">
       <a id="1278953801" href="javascript:;" class="menuBtn"><img src="@/img/icon_menu.svg"></a>
-      <div id="7596576479" class="title">안녕하세요, {{userName}} 님</div>
+      <div id="7596576479" class="title">안녕하세요, {{userName}} 님{{userLoginId}}</div>
       <div id="1054309100" class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
     </div>
     <div id="4644211896" class="item_list">
@@ -94,24 +94,68 @@ export default {
     }
   },
   created : function() {
+    this.userLoginId = this.UserInfo.userLoginId;
     this.userName = this.UserInfo.UserName;
     this.carNo = this.UserInfo.CarNo;
     this.safDrvIdx = this.DrvInfo.safDrvIdx;
     this.accDist = this.CarInfo.accDist;
   },
   methods: {
+    ContractInfo(){
+      this.$router.push('/ContractInfo');
+    },
+
+    //현재 날짜 및 1개월 전 날짜
+    getTodayDate(){
+      var today_DATE = new Date();
+      var year = today_DATE.getFullYear();
+      var month = today_DATE.getMonth()+1;
+      var day = today_DATE.getDate();
+      var beforeYear = year;
+      var beforeMonth = month - 1;
+      var beforeDay = day;
+      
+      
+      //1개월 전 Month 변환
+      if(beforeMonth == 0){
+        beforeMonth = 12;
+        if(beforeMonth == 12){
+          beforeYear = year - 1;
+        }
+      }
+      //1개월 전 Day 변환
+      if(beforeDay == 31){
+        beforeDay = 30;
+      }else if(beforeDay == 30){
+        beforeDay = 31;
+      }
+
+      var stDtToday = beforeYear+"-"+beforeMonth+"-"+beforeDay;
+      var edDtToday = year+"-"+month+"-"+day;
+
+      return {"stDtToday":stDtToday,"edDtToday":edDtToday};
+    },
+
+    //운행 이력 조회
     getDrvInfo() {
+      console.log("CarName : "+ this.UserInfo.UserName);
+      console.log("CarNum : "+ this.UserInfo.CarNo);
+      console.log("SafDrvIdx : " + this.DrvInfo.SafDrvIdx);
+      console.log("UserLoginId : " + this.UserInfo.UserLoginId);
+      
+      var today_DATE = {};
+      today_DATE = this.getTodayDate();
+      var stDtToday = today_DATE.stDtToday;
+      var edDtToday = today_DATE.edDtToday;
 
-      console.log("ccarName : "+this.UserInfo.UserName);
-      console.log("ccarNum : "+this.UserInfo.CarNo);
-      console.log("safDrvIdx : " + this.DrvInfo.safDrvIdx);
-      console.log("Date : " + Date.now());
-
+      console.log("stDt : " + today_DATE.stDtToday);
+      console.log("edDt : " + today_DATE.edDtToday);
+      
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
       param.reqTyp = "n";
-      param.stDt = "2019-11-01";
-      param.edDt = "2019-11-29";
+      param.stDt = stDtToday;
+      param.edDt = edDtToday;
       param.carNum = this.carNo;
 
       axios({
@@ -121,27 +165,25 @@ export default {
        data: param
       })
       .then((result) => {
-
         console.log("회신 결과 : ", JSON.stringify(result));
+
         this.DrvInfo.movTm = result.data.drvHsts[0].movTm; // 운행시간
         this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
-        this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
-
+        
         this.safDrvIdx = this.DrvInfo.safDrvIdx; // 안전지수
+        console.log("this.DrvInfo.SafeIndex : " + this.DrvInfo.safDrvIdx);
+
         if(this.safDrvIdx != null && this.safDrvIdx != ""){
           var gageBar = document.getElementById('1771345032'); // 게이지 Bar
           var degree = this.safDrvIdx * 1.8 - 90;
-          
           gageBar.style.transform = 'rotate('+degree+'deg)';
         }
- 
-        console.log("this.DrvInfo.movTm : " + this.DrvInfo.movTm);
-        console.log("this.DrvInfo.SafeIndex : " + this.DrvInfo.safDrvIdx);
-
       }).catch((error) => {
         console.log(error);
       });
     },
+
+    // 자동차 정보
     getCarInfo() {
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -167,6 +209,7 @@ export default {
   beforeMount(){
     this.getDrvInfo();
     this.getCarInfo();
+    this.getTodayDate();
   },
   components: {
     Comingsoon01: Comingsoon01

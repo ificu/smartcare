@@ -66,9 +66,9 @@
       </a>
       <ul id="6067869823" class="comingsoon_list">
         <div id="1294494412" class="item_title">신규 예정 서비스</div>
-        <li id="7244752797" @click="showComingsoon = !showComingsoon"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
+        <li id="7244752797" @click="showComingsoon01 = !showComingsoon01"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
         <li id="2102151511"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
-        <li id="9737112597"><img src="@/img/icon_ai.svg"> <span>우전비스(AI) 서비스</span></li>
+        <li id="9737112597"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
         <li id="2707965502"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
         <li id="7117272266"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
       </ul>

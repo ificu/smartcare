@@ -25,7 +25,7 @@
         <div id="1597772086" class="text02">가속패달을 조금 더 차분히 밟아주세요.</div>
         <div id="1246721320" class="text03">지금 <span>안전운전 미션</span>을 확인해 보세요!</div>
       </a>
-      </router-link>      
+      </router-link>
       <a id="4079354739" @click="showERSCall=true" class="item">
         <div id="2613335142" class="item_title"><img id="2259556330" src="@/img/icon_accident.svg"> <span class="title">사고접수</span></div>
         <div id="9978640929" class="text04">사고 발생시 바로 연결</div>
@@ -89,7 +89,7 @@
     <transition name="slide-side">
       <Menu v-if="showMenu" @close="showMenu=false"></Menu>
     </transition>
-    
+
   </div>
 </template>
 
@@ -136,8 +136,8 @@ export default {
       var beforeYear = year;
       var beforeMonth = month - 1;
       var beforeDay = day;
-      
-      
+
+
       //1개월 전 Month 변환
       if(beforeMonth == 0){
         beforeMonth = 12;
@@ -163,7 +163,7 @@ export default {
       console.log("CarNum : "+ this.UserInfo.CarNo);
       console.log("SafDrvIdx : " + this.DrvInfo.SafDrvIdx);
       console.log("UserLoginId : " + this.UserInfo.UserLoginId);
-/*      
+/*
       var today_DATE = {};
       today_DATE = this.getTodayDate();
       var stDtToday = today_DATE.stDtToday;
@@ -171,7 +171,7 @@ export default {
 
       console.log("stDt : " + today_DATE.stDtToday);
       console.log("edDt : " + today_DATE.edDtToday);
-      
+
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
       param.reqTyp = "n";
@@ -179,11 +179,11 @@ export default {
       param.edDt = edDtToday;
       param.carNum = this.carNo;
 */
-      
+
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
       now.setDate(now.getDate() -7);    // 일주일 전
-      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);      
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
 
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -227,8 +227,8 @@ export default {
                           (hist.offDt.substr(8,1) === '0' ? hist.offDt.substr(9,1) : hist.offDt.substr(8,2)) + "일 " +
                           hist.offDt.substr(11,5);
             var drvId = hist.drvId;
-            var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId };        
-            tmpDrvHst.push(drv);    
+            var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId };
+            tmpDrvHst.push(drv);
           }
         }
         console.log("!!!!!!!!!!!!!! ", tmpDrvHst);
@@ -240,10 +240,10 @@ export default {
         if(this.safDrvIdx != null && this.safDrvIdx != ""){
           var gageBar = document.getElementById('1771345032'); // 게이지 Bar
           var degree = this.safDrvIdx * 1.8 - 90;
-          
+
           gageBar.style.transform = 'rotate(' + degree + 'deg)';
         }
- 
+
         console.log("this.DrvInfo.movTm : " + this.DrvInfo.movTm);
         console.log("this.DrvInfo.SafeIndex : " + this.DrvInfo.safDrvIdx);
 
@@ -269,7 +269,7 @@ export default {
             //////////////////////////////////////////////////////////////////////
             // 4. GPS 좌표를 기준으로 주소값을 읽어 옴
             // 145167c3-796e-4989-b8ed-74241254b771
-            
+
             var gpsDate = result.data.gps[result.data.gps.length-1].gpsDt;
             var dispDate = (gpsDate.substr(5,1) === '0' ? gpsDate.substr(6,1) : gpsDate.substr(5,2)) + "월 " +
                             (gpsDate.substr(8,1) === '0' ? gpsDate.substr(9,1) : gpsDate.substr(8,2)) + "일 " +
@@ -293,11 +293,11 @@ export default {
               var addrArr = result.data.addressInfo.fullAddress.split(' ');
 
               var drvDate = hist.drvId;
-              var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };        
-              tmpDispDrv.push(drv);   
+              var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };
+              tmpDispDrv.push(drv);
               console.log('마지막 체크 : ', drv);
-              
-              // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display 
+
+              // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display
               // 데이터가 모두 Async로 조회 되므로 이렇게 처리하는게 가장 정확할 거 같음....
               if(tmpDispDrv.length === 3) {
                 tmpDispDrv.sort(function(a, b) {
@@ -312,7 +312,7 @@ export default {
 
           }).catch((error) => {
             console.log(error);
-          });          
+          });
         }
 
       }).catch((error) => {
@@ -352,7 +352,7 @@ export default {
 
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
-      param.userId = this.UserInfo.ID;
+      param.userId = this.UserInfo.UserLoginId;
       param.stDt = stDt;
       param.edDt = edDt;
 

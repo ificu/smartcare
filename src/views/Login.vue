@@ -72,6 +72,7 @@ export default {
         else {
           console.log("로그인 성공 : ", JSON.stringify(result));
 
+          var id = result.data.Items[0].ID;
           var name = result.data.Items[0].NAME;
           var pwd = result.data.Items[0].PWD;
           var car = result.data.Items[0].CAR;
@@ -84,6 +85,7 @@ export default {
           else {
             this.UserInfo.UserName = name;
             this.UserInfo.CarNo = car;
+            this.UserInfo.UserLoginId = id;
 
             this.$router.push('/Main');
 

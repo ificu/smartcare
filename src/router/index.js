@@ -7,6 +7,8 @@ import SafeReport from '@/views/SafeReport.vue'
 import ShockAlarm from '@/views/ShockAlarm.vue'
 import CarRepair from '@/views/CarRepair.vue'
 import DriveHistory from '@/views/DriveHistory.vue'
+import Notice from '@/views/Notice.vue'
+import MyCarLocation from '@/views/MyCarLocation.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +42,16 @@ const routes = [
     path: '/DriveHistory',
     name: 'DriveHistory',
     component: DriveHistory
+  },
+  {
+    path: '/Notice',
+    name: 'Notice',
+    component: Notice
+  },
+  {
+    path: '/MyCarLocation',
+    name: 'MyCarLocation',
+    component: MyCarLocation
   },
   {
     path: '/',

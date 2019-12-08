@@ -7,45 +7,45 @@
         </div>
         <ul id="4764318411" class="infoBox">
           <li id="3392725263">
-            <div id="3419537846" class="info_text">현재 누적 주행거리 <span>58,705 Km</span> 주행</div>
+            <div id="3419537846" class="info_text">현재 누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span> 주행</div>
                 <div id="1951702467" class="info_text_orange">주행거리 1,000km/1달 이내의<br>점검항목은 없습니다.</div>
             </li>
             <li id="7296812947">
               <div id="6304186534" class="info_title">엔진 오일 및 필터</div>
-                <a href="" id="8556562402" class="change_info">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
+                <a href="javascript:;" id="8556562402" class="change_info" @click="showRepairCycle03 = !showRepairCycle03">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
                 <div class="tbBox">
                     <table id="5043474514">
                         <tr id="3092841551">
                             <th id="9243231880">⊙ 교환 필요 시기</th>
-                            <td id="5650384430"><p class="orange">61,021 km</p></td>
+                            <td id="5650384430"><p class="orange">{{(parseInt(CarRepairInfo.EngineOilBefore) + parseInt(CarRepairInfo.EngineOilCycle)) | currencyNum}} km</p></td>
                         </tr>
                         <tr id="7485670708">
                             <th id="6999051553">⊙ 이전 교환 시기</th>
-                            <td id="1509834952"><p>46,021 km</p> <a href="javascript:layer_open('popup_period_setting');" id="" class="btn"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <td id="1509834952"><p>{{CarRepairInfo.EngineOilBefore | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle01Popup('엔진오일')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                         <tr id="">
-                            <th id="4843185622">⊙ 교환 주기(일반)</th>
-                            <td id="6580229234"><p>15,000 km</p> <a href="javascript:layer_open('popup_period_setting');" id="" class="btn"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <th id="4843185622">⊙ 교환 주기({{CarRepairInfo.EngineOilType}})</th>
+                            <td id="6580229234"><p>{{CarRepairInfo.EngineOilCycle | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle02Popup('엔진오일')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                     </table>
                 </div>
             </li>
             <li id="3724146898">
               <div id="8290452472" class="info_title">에어컨 필터</div>
-                <a href="" id="3699652317" class="change_info">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
+                <a href="javascript:;" id="3699652317" class="change_info" @click="showRepairCycle03 = !showRepairCycle03">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
                 <div class="tbBox">
                     <table id="8621326213">
                         <tr id="2701029199">
                             <th id="1268464829">⊙ 교환 필요 시기</th>
-                            <td id="1236704141"><p class="orange">61,021 km</p></td>
+                            <td id="1236704141"><p class="orange">{{(parseInt(CarRepairInfo.AirFilterBefore) + parseInt(CarRepairInfo.EngineOilCycle)) | currencyNum}} km</p></td>
                         </tr>
                         <tr id="8933153618">
                             <th id="6670662465">⊙ 이전 교환 시기</th>
-                            <td id="2587137395"><p>46,021 km</p> <a href="javascript:layer_open('popup_period_setting');" id="" class="btn"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <td id="2587137395"><p>{{CarRepairInfo.AirFilterBefore | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle01Popup('에어컨필터')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                         <tr id="4839548584">
-                            <th id="6580755721">⊙ 교환 주기(일반)</th>
-                            <td id="7428966092"><p>15,000 km</p> <a href="javascript:layer_open('popup_period_setting');" id="" class="btn"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <th id="6580755721">⊙ 교환 주기({{CarRepairInfo.AirFilterType}})</th>
+                            <td id="7428966092"><p>{{CarRepairInfo.AirFilterCycle | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle02Popup('에어컨필터')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                     </table>
                 </div>
@@ -56,16 +56,62 @@
                 <div id="4263336708" class="service"><img src="../img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></div>
             </li>
         </ul>
+        <transition name="slide-fade">
+          <RepairCycle01 v-if="showRepairCycle01" @close="showRepairCycle01=false" :repairItem="repairItem"></RepairCycle01>
+          <RepairCycle02 v-if="showRepairCycle02" @close="showRepairCycle02=false" :repairItem="repairItem"></RepairCycle02>
+          <RepairCycle03 v-if="showRepairCycle03" @close="showRepairCycle03=false"></RepairCycle03>
+        </transition>
     </div>
 </template>
 
 <script>
+import RepairCycle01 from '@/components/popup/RepairCycle01.vue'
+import RepairCycle02 from '@/components/popup/RepairCycle02.vue'
+import RepairCycle03 from '@/components/popup/RepairCycle03.vue'
 
 export default {
   name: 'ContractInfo',
+  data () {
+    return {
+      showRepairCycle01: false,
+      showRepairCycle02: false,
+      showRepairCycle03: false,
+      repairItem: "",
+    }
+  },
+  methods: {
+    showRepairCycle01Popup(type) {
+      this.showRepairCycle01 = !this.showRepairCycle01;
+      this.repairItem = type;
+		},
+    showRepairCycle02Popup(type) {
+      this.showRepairCycle02 = !this.showRepairCycle02;
+      this.repairItem = type;
+		}
+	},
   components: {
-
-  }
+    RepairCycle01: RepairCycle01,
+    RepairCycle02: RepairCycle02,
+    RepairCycle03: RepairCycle03,
+  },
+  computed:{
+    UserInfo: {
+        get() { return this.$store.getters.UserInfo },
+        set(value) { this.$store.dispatch('UpdateUserInfo',value) }
+    },
+    DrvInfo: {
+        get() { return this.$store.getters.DrvInfo },
+        set(value) { this.$store.dispatch('UpdateDrvInfo',value) }
+    },
+    CarInfo: {
+        get() { return this.$store.getters.CarInfo },
+        set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
+    CarRepairInfo: {
+        get() { return this.$store.getters.CarRepairInfo },
+        set(value) { this.$store.dispatch('UpdateCarRepairInfo',value) }
+    },
+  },
 }
 </script>
 
@@ -109,4 +155,9 @@ export default {
 .subArea .infoBox li.comingsoon .service span{ display:inline-block; vertical-align:middle; font-size:15px; font-weight:800; color:#333;}
 .subArea .infoBox li.comingsoon .service p{ display:block; width:100%; font-size:12px; font-weight:bold; color:#333; text-align:center; line-height:1.2; margin-top:7px;}
 
+
+/* 팝업 슬라이드 */
+.slide-fade-enter-active { transition: all .3s ease;}
+.slide-fade-leave-active { transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);}
+.slide-fade-enter, .slide-fade-leave-to { opacity: 0;}
 </style>

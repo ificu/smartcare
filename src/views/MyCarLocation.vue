@@ -52,7 +52,7 @@ export default {
     var lonlat = new Tmap.LonLat( this.CarInfo.curLon , this.CarInfo.curLat).transform("EPSG:4326", "EPSG:3857");
     var size = new Tmap.Size(24, 38);
     var offset = new Tmap.Pixel(-(size.w / 2), -(size.h));
-    var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_a.png',size, offset);
+    var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_p.png',size, offset);
 
     var marker = new Tmap.Marker(lonlat, icon);
     markerLayer.addMarker(marker);

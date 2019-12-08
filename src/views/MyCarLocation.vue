@@ -20,6 +20,7 @@
 </template>
 
 <script src="https://apis.openapi.sk.com/tmap/js?version=1&format=javascript&appKey=145167c3-796e-4989-b8ed-74241254b771"></script>
+<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=145167c3-796e-4989-b8ed-74241254b771"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import Constant from '@/Constant'
@@ -37,6 +38,20 @@ export default {
 
     this.carDate = this.CarInfo.gpsDt.substr(0, this.CarInfo.gpsDt.length-5);
 
+    var map = new Tmapv2.Map("map_div",
+                  {
+                    center: new Tmapv2.LatLng(this.CarInfo.curLat,this.CarInfo.curLon), // 지도 초기 좌표
+                    width : "100%",
+                    height : "400px",
+                    zoom: 15
+                  });
+
+    var marker = new Tmapv2.Marker({
+                    position: new Tmapv2.LatLng(this.CarInfo.curLat,this.CarInfo.curLon),
+                    icon: 'http://tmapapis.sktelecom.com/upload/tmap/marker/pin_r_m_p.png',
+                    map: map
+                  });
+/*
     var map = new Tmap.Map({
       div:'map_div',
       width : "100%",
@@ -55,7 +70,7 @@ export default {
     var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_p.png',size, offset);
 
     var marker = new Tmap.Marker(lonlat, icon);
-    markerLayer.addMarker(marker);
+    markerLayer.addMarker(marker);*/
 
     var url = Constant.TMAP_URL + "/reversegeocoding?version=1&format=json&callback=result&"
               + "coordType=WGS84GEO&lon=" + this.CarInfo.curLon

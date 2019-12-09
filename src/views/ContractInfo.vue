@@ -76,7 +76,22 @@ import Constant from '@/Constant'
 
 export default {
   name: 'ContractInfo',
+  data () {
+    return {
+      carModel: '',
+      pYear: '',
+      carPrice: '',
+      option: '',
+      drvName: '',
+      cStart: '',
+      cEnd: '',
+      cPeriod: '',
+      rentPrice: ''
+    }
+  },
   created : function(){
+    this.carContract();
+
     this.carModel =  this.ContractInfo.carModel;
     this.pYear = this.ContractInfo.ProductYear;
     this.carPrice = this.ContractInfo.CarAMT;
@@ -94,7 +109,7 @@ export default {
     carContract() {
 
       console.log("Check Login : ", this.UserInfo.CarNo);
-      
+
       var param = {};
       param.operation = "list";
       param.tableName = "SMART_CONTRACT";
@@ -102,7 +117,7 @@ export default {
       param.payload.FilterExpression = "CAR = :id";
       param.payload.ExpressionAttributeValues = {};
       var key = ":id";
-      param.payload.ExpressionAttributeValues[key] = this.UserInfo.CarNo;      
+      param.payload.ExpressionAttributeValues[key] = this.UserInfo.CarNo;
 
 
       axios({
@@ -113,7 +128,7 @@ export default {
       })
       .then((result) => {
         console.log("Contract 회신 결과 : " + JSON.stringify(result));
-      
+
 
         // var carModel = result.data.Items[0].CAR_MODEL;
         // var pYear = result.data.Items[0].PRODUCT_YEAR;
@@ -157,14 +172,13 @@ export default {
             this.ContractInfo.ContEnd = result.data.Items[0].CONTRACT_END;
             this.ContractInfo.ContPeriod = result.data.Items[0].CONTRACT_PERIOD;
             this.ContractInfo.RentAMT = result.data.Items[0].RENTAL_AMT;
-        
 
       });
 
     }
   },
-  beforeMount(){
-    this.carContract();
+  mounted(){
+    //this.carContract();
     // this.test();
   },
   mounted () {

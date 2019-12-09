@@ -8,39 +8,48 @@
     <ul id="3610927099" class="infoBox report">
       <li id="3491418214">
         <div id="4290904421" class="info_title">나의 안전점수 (이번 달)</div>
-            <div id="7416675010" class="report_text01">좋은 안전운전 습관으로 도약하고 있습니다.</div>
-            <div id="4479799753" class="report_text02">가속패달을 조금 더 차분히 밟아주세요.</div>
+            <div id="7416675010" class="report_text01">{{DrvInfo.drvHstIFData.safDrvMessage}}</div>
+            <div id="4479799753" class="report_text02">{{DrvInfo.drvHstIFData.safDrvRecommend}}</div>
             <div id="6880835588" class="myReport">
               <div id="7199598694" class="box">
                     <div id="8222585707" class="textBox">
                         <div id="8447182066" class="text01">나의 운전 점수 <img src="../img/icon_i.svg"></div>
-                        <div id="9799274711" class="text02">74<span>점</span></div>
+                        <div id="9799274711" class="text02">{{DrvInfo.drvHstIFData.safDrvIdx}}<span>점</span></div>
                         <div id="6613488413" class="text03">(상위 32%, 96위)</div>
                     </div>
                     <div id="1040758924" class="gradeBox">
                         <div id="3031104676" class="item">
-                            <img src="../img/icon_grade03.svg" id="">과속
+                            <img v-if="DrvInfo.drvHstIFData.fstAccelMean < 30" src="../img/icon_grade03.svg" id="">
+                            <img v-else-if="DrvInfo.drvHstIFData.fstAccelMean >= 30 && DrvInfo.drvHstIFData.fstAccelMean < 70" src="../img/icon_grade02.svg" id="">
+                            <img v-else src="../img/icon_grade01.svg" id="">
+                            과속
                         </div>
                         <div id="4160634505" class="item">
-                            <img src="../img/icon_grade02.svg" id="">급가속
+                          <img v-if="DrvInfo.drvHstIFData.fstDecelMean < 30" src="../img/icon_grade03.svg" id="">
+                          <img v-else-if="DrvInfo.drvHstIFData.fstDecelMean >= 30 && DrvInfo.drvHstIFData.fstDecelMean < 70" src="../img/icon_grade02.svg" id="">
+                          <img v-else src="../img/icon_grade01.svg" id="">
+                            급가속
                         </div>
                         <div id="2650417521" class="item">
-                            <img src="../img/icon_grade01.svg" id="">급감속
+                          <img v-if="DrvInfo.drvHstIFData.overSpdMean < 30" src="../img/icon_grade03.svg" id="">
+                          <img v-else-if="DrvInfo.drvHstIFData.overSpdMean >= 30 && DrvInfo.drvHstIFData.overSpdMean < 70" src="../img/icon_grade02.svg" id="">
+                          <img v-else src="../img/icon_grade01.svg" id="">
+                            급감속
                         </div>
                     </div>
                 </div>
                 <div id="8358222060" class="mileageBox">
                   <div id="9305493453" class="mileage_text">
                     <div id="5140458082" class="text01">주행거리</div>
-                    <div id="1412679878" class="text02">137.9 km</div>
+                    <div id="1412679878" class="text02">{{DrvInfo.drvHstIFData.totDrvDist}} km</div>
                     </div>
                     <div id="5573506553" class="mileage_text">
                       <div id="7997781230" class="text01">주행시간</div>
-                      <div id="4714375196" class="text02">3시간 18분</div>
+                      <div id="4714375196" class="text02">{{DrvInfo.drvHstIFData.totDrvTm}}</div>
                     </div>
                     <div id="3332851990" class="mileage_text">
                       <div id="4099284371" class="text01">주행횟수</div>
-                      <div id="8164271337" class="text02">6회 <span>(야간 0회)</span></div>
+                      <div id="8164271337" class="text02">{{DrvInfo.drvHstIFData.drvCount}}회 <span>(야간 {{DrvInfo.drvHstIFData.drvNightCount}}회)</span></div>
                     </div>
                 </div>
             </div>
@@ -49,7 +58,7 @@
         <li id="1001295270">
           <div id="1885665149" class="info_title">나의 미션</div>
             <div id="9868666097" class="missionBox">
-                <div id="2767257233" class="text01">안전점수 <font color="#d7000f">85점</font>을 달성하시면<br><font color="#d7000f">스타벅스 커피 쿠폰</font>을 드립니다.</div>
+                <div id="2767257233" class="text01">안전점수 <font color="#d7000f">95점</font>을 달성하시면<br><font color="#d7000f">스타벅스 커피 쿠폰</font>을 드립니다.</div>
                 <div id="9073072639" class="text02">(Beta Test 기간 내, 50km 이상 주행시)</div>
                 <img src="../img/coffee.png" class="coffee" id="6096018118">
 		</div>
@@ -61,46 +70,83 @@
                 <table>
                   <tr>
                     <th id="8511321822">
-                      <p id="6301537765" class="number">45</p>
-                      <div id="6904238917" class="bar color01"></div>
-                        </th>
-                        <th id="1555248621">
-                          <p id="5156778777" class="number">74</p>
-                          <div id="9561783838" class="bar color02"></div>
-                        </th>
-                        <th id="2298697235">
-                          <p id="4951439354" class="number">80</p>
-                          <div id="6448350963" class="bar color03"></div>
-                        </th>
-                        <th id="3095348624">
-                          <p id="2701190548" class="number">68</p>
-                          <div id="6243763942" class="bar color04"></div>
-                        </th>
-                    </tr>
-                    <tr>
-                      <td id="9366924947">1주</td>
-                        <td id="4980277591">2주</td>
-                        <td id="8438324623">3주</td>
-                        <td id="3952004152">4주</td>
-                    </tr>
+                      <p id="6301537765" class="number">{{DrvInfo.drvHstIFData.w1stSafeIdx}}</p>
+                      <div id="6904238917" class="bar color01" v-bind:style="w1stSafeStyle"></div>
+                    </th>
+                    <th id="1555248621">
+                      <p id="5156778777" class="number">{{DrvInfo.drvHstIFData.w2ndSafeIdx}}</p>
+                      <div id="9561783838" class="bar color02" v-bind:style="w2ndSafeStyle"></div>
+                    </th>
+                    <th id="2298697235">
+                      <p id="4951439354" class="number">{{DrvInfo.drvHstIFData.w3rdSafeIdx}}</p>
+                      <div id="6448350963" class="bar color03" v-bind:style="w3rdSafeStyle"></div>
+                    </th>
+                    <th id="3095348624">
+                      <p id="2701190548" class="number">{{DrvInfo.drvHstIFData.w4thSafeIdx}}</p>
+                      <div id="6243763942" class="bar color04" v-bind:style="w4thSafeStyle"></div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <td id="9366924947">1주</td>
+                      <td id="4980277591">2주</td>
+                      <td id="8438324623">3주</td>
+                      <td id="3952004152">4주</td>
+                  </tr>
                 </table>
-		</div>
+              </div>
         </li>
         <li id="7577102497">
-          <div id="3077471024" class="tip">안전운전 Tip <span>도로위의 블랙홀 '포트홀' 대처법</span></div>
+          <div id="3077471024" class="tip" @click="showSafeDriveTip = !showSafeDriveTip">안전운전 Tip <span>도로위의 블랙홀 '포트홀' 대처법</span></div>
         </li>
     </ul>
+    <transition name="slide-fade">
+      <SafeDriveTip v-if="showSafeDriveTip" @close="showSafeDriveTip=false"></SafeDriveTip>
+    </transition>
     </div>
 
 </template>
 
 <script>
+import SafeDriveTip from '@/components/popup/SafeDriveTip.vue'
 
 export default {
   name: 'SafeReport',
-  components: {
+  data () {
+    return {
+      w1stSafeStyle: "",
+      w2ndSafeStyle: "",
+      w3rdSafeStyle: "",
+      w4thSafeStyle: "",
+      showSafeDriveTip: false,
+    }
+  },
+  created: function() {
+    console.log('DrvInfo : ', this.DrvInfo);
+    this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
+    this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";
+    this.w3rdSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w3rdSafeIdx + "px";
+    this.w4thSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w4thSafeIdx + "px";
+  },
+  beforeMount(){
 
-  }
+  },
+  components: {
+    SafeDriveTip: SafeDriveTip,
+  },
+  computed:{
+    UserInfo: {
+        get() { return this.$store.getters.UserInfo },
+        set(value) { this.$store.dispatch('UpdateUserInfo',value) }
+    },
+    DrvInfo: {
+        get() { return this.$store.getters.DrvInfo },
+        set(value) { this.$store.dispatch('UpdateDrvInfo',value) }
+    },
+    CarInfo: {
+        get() { return this.$store.getters.CarInfo },
+        set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
+  },
 }
 </script>
 
@@ -171,7 +217,7 @@ export default {
 .subArea .alarm li table td{ font-size:14px; font-weight:800; color:#333; line-height:1.2; vertical-align:top; padding-top:0; padding-bottom:10px;}
 .subArea .report li .report_text01{ font-size:19px; font-weight:800; color:#333; text-align:left; margin-top:20px; letter-spacing:-0.05em;}
 .subArea .report li .report_text02{ font-size:13px; color:#333; margin-top:5px; text-align:left;}
-.subArea .report li .myReport{ width:100%; padding:0 20px; box-sizing:border-box; margin-top:20px}
+.subArea .report li .myReport{ width:100%; padding:0 10px; box-sizing:border-box; margin-top:20px}
 .subArea .report li .myReport .box{ overflow:hidden; text-align:center;}
 .subArea .report li .myReport .box .textBox{ display:inline-block; vertical-align:bottom; width:100px; text-align:center; letter-spacing:-0.05em;}
 .subArea .report li .myReport .box .textBox .text01{ font-size:11px; font-weight:bold; color:#777;}
@@ -183,7 +229,7 @@ export default {
 .subArea .report li .myReport .box .gradeBox .item{ display:inline-block; vertical-align:middle; text-align:center; font-size:12px; font-weight:bold; color:#999; margin:0 4px;}
 .subArea .report li .myReport .box .gradeBox .item img{ display:block; width:45px; margin:0 auto 5px;}
 .subArea .report li .myReport .mileageBox{ width:100%; padding:10px; box-sizing:border-box; border:2px solid #c9caca; background-color:#efefef; border-radius:7px; text-align:center; margin-top:20px}
-.subArea .report li .myReport .mileageBox .mileage_text{ position:relative; display:inline-block; vertical-align:middle; padding:0 10px; box-sizing:border-box; text-align:center}
+.subArea .report li .myReport .mileageBox .mileage_text{ position:relative; display:inline-block; vertical-align:middle; padding:0 7px; box-sizing:border-box; text-align:center}
 .subArea .report li .myReport .mileageBox .mileage_text:after{ content:""; display:block; position:absolute; width:1px; height:30px; top:0; right:-3px; background-color:#c9caca;}
 .subArea .report li .myReport .mileageBox .mileage_text:last-child:after{ display:none}
 .subArea .report li .myReport .mileageBox .mileage_text .text01{ font-size:12px; font-weight:bold; color:#999;}
@@ -195,7 +241,7 @@ export default {
 .subArea .report li .missionBox .coffee{ position:absolute; right:5px; bottom:10px; width:40px;}
 .subArea .report li .chartBox{ width:100%; padding:0 10px; box-sizing:border-box; margin-top:20px;}
 .subArea .report li .chartBox table{ width:100%; border-collapse:collapse;}
-.subArea .report li .chartBox table th{ width:25%; background-color:transparent; text-align:center; padding:0;}
+.subArea .report li .chartBox table th{ width:25%; background-color:transparent; text-align:center; padding:0; vertical-align: bottom;}
 .subArea .report li .chartBox table th .number{ font-size:13px; font-weight:800; color:#999;}
 .subArea .report li .chartBox table th .bar{ width:20px; height:80px; margin:0 auto;}
 .subArea .report li .chartBox table th .color01{ background-color:#f9bd00}
@@ -206,4 +252,9 @@ export default {
 .subArea .report li .tip{ text-align:center; padding:5px 0; font-size:19px; font-weight:800; color:#333; letter-spacing:-0.05em;}
 .subArea .report li .tip span{ font-size:14px; font-weight:bold; color:#888; margin-left:15px;}
 
+
+/* 팝업 슬라이드 */
+.slide-fade-enter-active { transition: all .3s ease;}
+.slide-fade-leave-active { transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);}
+.slide-fade-enter, .slide-fade-leave-to { opacity: 0;}
 </style>

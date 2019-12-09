@@ -21,11 +21,11 @@
           <div id="2659560575" class="goal_score">목표 점수<br>95점</div>
           <div id="8870633421" class="my_score">{{safDrvIdx}} 점<p>(상위 32%, 96위)</p></div>
         </div>
-        <div id="6594630138" class="text01">좋은 안전운전 습관으로 도약하고 있습니다.</div>
-        <div id="1597772086" class="text02">가속패달을 조금 더 차분히 밟아주세요.</div>
+        <div id="6594630138" class="text01">{{safDrvMessage}}</div>
+        <div id="1597772086" class="text02">{{safDrvRecommend}}</div>
         <div id="1246721320" class="text03">지금 <span>안전운전 미션</span>을 확인해 보세요!</div>
       </a>
-      </router-link>      
+      </router-link>
       <a id="4079354739" @click="showERSCall=true" class="item">
         <div id="2613335142" class="item_title"><img id="2259556330" src="@/img/icon_accident.svg"> <span class="title">사고접수</span></div>
         <div id="9978640929" class="text04">사고 발생시 바로 연결</div>
@@ -89,7 +89,7 @@
     <transition name="slide-side">
       <Menu v-if="showMenu" @close="showMenu=false"></Menu>
     </transition>
-    
+
   </div>
 </template>
 
@@ -110,9 +110,11 @@ export default {
       showComingsoon01: false,
       userName: "",
       safDrvIdx: "",
+      safDrvMessage: "",
+      safDrvRecommend: "",
       shockAlarmList: [],
       newShockAlarm: false,
-      driveHistoryList: []
+      driveHistoryList: [],
     }
   },
   created : function() {
@@ -136,8 +138,8 @@ export default {
       var beforeYear = year;
       var beforeMonth = month - 1;
       var beforeDay = day;
-      
-      
+
+
       //1개월 전 Month 변환
       if(beforeMonth == 0){
         beforeMonth = 12;
@@ -157,13 +159,15 @@ export default {
 
       return {"stDtToday":stDtToday,"edDtToday":edDtToday};
     },
-    //운행 이력 조회
+    ///////////////////////////////////////////////////////////////////
+    // 운행 이력 조회
+    ///////////////////////////////////////////////////////////////////
     getDrvInfo() {
       console.log("CarName : "+ this.UserInfo.UserName);
       console.log("CarNum : "+ this.UserInfo.CarNo);
       console.log("SafDrvIdx : " + this.DrvInfo.SafDrvIdx);
       console.log("UserLoginId : " + this.UserInfo.UserLoginId);
-/*      
+/*
       var today_DATE = {};
       today_DATE = this.getTodayDate();
       var stDtToday = today_DATE.stDtToday;
@@ -171,7 +175,7 @@ export default {
 
       console.log("stDt : " + today_DATE.stDtToday);
       console.log("edDt : " + today_DATE.edDtToday);
-      
+
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
       param.reqTyp = "n";
@@ -179,11 +183,12 @@ export default {
       param.edDt = edDtToday;
       param.carNum = this.carNo;
 */
-      
+
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
-      now.setDate(now.getDate() -7);    // 일주일 전
-      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);      
+      //now.setDate(now.getDate() -7);    // 일주일 전
+      now.setMonth(now.getMonth() -1);    // 한달 전
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
 
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -208,47 +213,144 @@ export default {
         this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
         this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
 
-        //////////////////////////////////////////////////////////////////////
+        //-------------------------------------------------------//
         // 1. 안전지수 평균을 가져옴
-        var drvCount = result.data.drvHsts.length;
-        var safTotal = 0;
+        //-------------------------------------------------------//
+        var drvCount = result.data.drvHsts.length;  // 주행 횟수
+        var drvNightCount = 0;    // 야간 주행 시간
+        var safTotal = 0;         // 안전지수 총점
+        var fstAccelTotal = 0;    // 급가속 총점
+        var fstDecelTotal = 0;    // 급감속 총점
+        var overSpdTotal  = 0;    // 과속 총점
+        var startDist = 0;        // 시작 주행 거리
+        var endDist = 0;          // 종료 주행 거
+        var movTmTotal = 0;       // 주행 시간 총 합계
+        var w1stSafeCnt = 0;      // 1주차 운행 건수
+        var w1stSafeTot = 0;      // 1주차 안전지수 총점
+        var w2ndSafeCnt = 0;      // 2주차 운행 건수
+        var w2ndSafeTot = 0;      // 2주차 안전지수 총점
+        var w3rdSafeCnt = 0;      // 3주차 운행 건수
+        var w3rdSafeTot = 0;      // 3주차 안전지수 총점
+        var w4thSafeCnt = 0;      // 4주차 운행 건수
+        var w4thSafeTot = 0;      // 4주차 안전지수 총점
 
         result.data.drvHsts.sort(function(a,b) {
           return a.drvId > b.drvId ? -1 : a.drvId < b.drvId ? 1 : 0;
         });
 
+        this.DrvInfo.drvHstIFList = result.data.drvHsts;
+
         var i = 0;
         var tmpDrvHst = [];
         var tmpDispDrv = [];
+        now = new Date();
+
+        // 전체 운행 기록을 체크해 보자...
         for(var hist of result.data.drvHsts) {
-          safTotal += hist.safDrvIdx;
+          safTotal +=       (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          fstAccelTotal +=  (hist.fstAccelIdx === undefined ? 0 : hist.fstAccelIdx);
+          fstDecelTotal +=  (hist.fstDecelIdx === undefined ? 0 : hist.fstDecelIdx);
+          overSpdTotal +=   (hist.overSpdIdx === undefined ? 0 : hist.overSpdIdx);
+
+          if(i === 0) endDist = hist.offDist;   // 맨 마지막의 OFF 시 누적 거리
+          if(i === (drvCount-1)) startDist = hist.onDist;   // 맨 처음의 On 시 누적 거리
+
+          movTmTotal += hist.movTm;    // 운행 시간 합계 (초)
+          var drvDate = new Date(hist.offDt);
+          if(drvDate.getHours() >= 18)  drvNightCount++;  // 18시 이후인 경우 야간 주행시간으로 카운트
+
+          if(((now - drvDate)/1000/60/60/24) < 7) { // 현재 기준 7일 이내면 월 기준으로 4주차
+            w4thSafeCnt++;
+            w4thSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }
+          else if(((now - drvDate)/1000/60/60/24) < 14) { // 현재 기준 14일 이내면 월 기준으로 3주차
+            w3rdSafeCnt++;
+            w3rdSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }
+          else if(((now - drvDate)/1000/60/60/24) < 21) { // 현재 기준 21일 이내면 월 기준으로 3주차
+            w2ndSafeCnt++;
+            w2ndSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }
+          else if(((now - drvDate)/1000/60/60/24) < 28) { // 현재 기준 28일 이내면 월 기준으로 3주차
+            w1stSafeCnt++;
+            w1stSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }
+
+          // 최신 3개 이력은 별도로 주행 이력으로 상세 표시함.
           if(i++ < 3) {
             var drvDate = (hist.offDt.substr(5,1) === '0' ? hist.offDt.substr(6,1) : hist.offDt.substr(5,2)) + "월 " +
                           (hist.offDt.substr(8,1) === '0' ? hist.offDt.substr(9,1) : hist.offDt.substr(8,2)) + "일 " +
                           hist.offDt.substr(11,5);
             var drvId = hist.drvId;
-            var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId };        
-            tmpDrvHst.push(drv);    
+            var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId };
+            tmpDrvHst.push(drv);
           }
         }
         console.log("!!!!!!!!!!!!!! ", tmpDrvHst);
 
-        //////////////////////////////////////////////////////////////////////
-        // 2. 안전지수 게이지 표시
+        //-------------------------------------------------------//
+        // 2. 안전지수 게이지
+        //-------------------------------------------------------//
         //this.safDrvIdx = this.DrvInfo.safDrvIdx; // 안전지수
         this.safDrvIdx = parseInt(safTotal / drvCount);
+        this.DrvInfo.drvHstIFData.safDrvIdx = this.safDrvIdx;
+
         if(this.safDrvIdx != null && this.safDrvIdx != ""){
           var gageBar = document.getElementById('1771345032'); // 게이지 Bar
           var degree = this.safDrvIdx * 1.8 - 90;
-          
+
           gageBar.style.transform = 'rotate(' + degree + 'deg)';
         }
- 
+
         console.log("this.DrvInfo.movTm : " + this.DrvInfo.movTm);
         console.log("this.DrvInfo.SafeIndex : " + this.DrvInfo.safDrvIdx);
 
-        //////////////////////////////////////////////////////////////////////
-        // 3. 주행 기록 중 3개만 추출하여 GPS 좌표 조회
+        //-------------------------------------------------------//
+        // 3. 메시지 표시 계산
+        //-------------------------------------------------------//
+        var fstAccelMean = parseInt(fstAccelTotal / drvCount);  // 급가속 평균
+        var fstDecelMean = parseInt(fstDecelTotal / drvCount);  // 갑감속 평균
+        var overSpdMean = parseInt(overSpdTotal / drvCount);    // 과속 평균
+
+        this.DrvInfo.drvHstIFData.fstAccelMean = fstAccelMean;
+        this.DrvInfo.drvHstIFData.fstDecelMean = fstDecelMean;
+        this.DrvInfo.drvHstIFData.overSpdMean = overSpdMean;
+
+        var fstAccelAdjst = parseInt(fstAccelMean  * 0.4);  // 급가속 반영 비중 적용 점수
+        var fstDecelAdjst = parseInt(fstDecelMean * 0.2);  // 갑감속 반영 비중 적용 점수
+        var overSpdAdjst = parseInt(overSpdMean * 0.4);    // 과속 반영 비중 적용 점수
+
+        var recommendType = "";
+        if(fstAccelMean <= fstDecelMean && fstAccelMean <= overSpdMean) recommendType = "fstAccel";
+        else if(fstDecelMean <= fstAccelMean && fstDecelMean <= overSpdMean ) recommendType = "fstDecel";
+        else recommendType = "overSpd";
+
+        if(this.safDrvIdx == 0) this.safDrvMessage = "아직까지 주행이력이 없습니다.";
+        else if(this.safDrvIdx > 0 && this.safDrvIdx < 20 ) this.safDrvMessage = "사고 발생 가능성이 높습니다. 꼭 안전운전 하세요.";
+        else if(this.safDrvIdx >= 20 && this.safDrvIdx < 40 ) this.safDrvMessage = "안전운전 습관을 꾸준히 글러보세요.";
+        else if(this.safDrvIdx >= 40 && this.safDrvIdx < 60 ) this.safDrvMessage = "행복을 위해 안전운전하세요.";
+        else if(this.safDrvIdx >= 60 && this.safDrvIdx < 80 ) this.safDrvMessage = "좋은 안전운전 습관으로 도약하고 있습니다.";
+        else if(this.safDrvIdx >= 80 && this.safDrvIdx < 100 ) this.safDrvMessage = "안전운전을 잘하고 계십니다.";
+        else this.safDrvMessage = "최고의 안전운전을 하고 계십니다.";
+
+        if(recommendType === "fstAccel") this.safDrvRecommend = "가속 페달은 조금 더 차분히 밟아주세요.";
+        else if (recommendType === "fstDecel") this.safDrvRecommend = "돌발 상황 대응을 위해 먼저 속도를 줄여주세요.";
+        else this.safDrvRecommend = "조금만 더 속도를 줄여주세요.";
+
+        this.DrvInfo.drvHstIFData.safDrvMessage = this.safDrvMessage;
+        this.DrvInfo.drvHstIFData.safDrvRecommend = this.safDrvRecommend;
+        this.DrvInfo.drvHstIFData.drvCount = drvCount;
+        this.DrvInfo.drvHstIFData.drvNightCount = drvNightCount;
+        this.DrvInfo.drvHstIFData.totDrvDist = (endDist - startDist).toFixed(1);
+        this.DrvInfo.drvHstIFData.totDrvTm = parseInt(movTmTotal/60/60) + '시간 ' + parseInt((movTmTotal - parseInt(movTmTotal/60/60)*60*60)/60) + '분' ;
+        this.DrvInfo.drvHstIFData.w1stSafeIdx = parseInt(w1stSafeTot / w1stSafeCnt);
+        this.DrvInfo.drvHstIFData.w2ndSafeIdx = parseInt(w2ndSafeTot / w2ndSafeCnt);
+        this.DrvInfo.drvHstIFData.w3rdSafeIdx = parseInt(w3rdSafeTot / w3rdSafeCnt);
+        this.DrvInfo.drvHstIFData.w4thSafeIdx = parseInt(w4thSafeTot / w4thSafeCnt);
+
+        //-------------------------------------------------------//
+        // 4. 주행 기록 중 3개만 추출하여 GPS 좌표 조회
+        //-------------------------------------------------------//
         for(var path of tmpDrvHst) {
           param = {};
           param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -266,10 +368,10 @@ export default {
           .then((result) => {
             console.log("getGPSInfo 회신 결과 :(", JSON.parse(result.config.data).drvId, ") ", result);
 
-            //////////////////////////////////////////////////////////////////////
-            // 4. GPS 좌표를 기준으로 주소값을 읽어 옴
-            // 145167c3-796e-4989-b8ed-74241254b771
-            
+            //-------------------------------------------------------//
+            // 5. GPS 좌표를 기준으로 주소값을 읽어 옴
+            //-------------------------------------------------------//
+
             var gpsDate = result.data.gps[result.data.gps.length-1].gpsDt;
             var dispDate = (gpsDate.substr(5,1) === '0' ? gpsDate.substr(6,1) : gpsDate.substr(5,2)) + "월 " +
                             (gpsDate.substr(8,1) === '0' ? gpsDate.substr(9,1) : gpsDate.substr(8,2)) + "일 " +
@@ -293,11 +395,11 @@ export default {
               var addrArr = result.data.addressInfo.fullAddress.split(' ');
 
               var drvDate = hist.drvId;
-              var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };        
-              tmpDispDrv.push(drv);   
+              var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };
+              tmpDispDrv.push(drv);
               console.log('마지막 체크 : ', drv);
-              
-              // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display 
+
+              // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display
               // 데이터가 모두 Async로 조회 되므로 이렇게 처리하는게 가장 정확할 거 같음....
               if(tmpDispDrv.length === 3) {
                 tmpDispDrv.sort(function(a, b) {
@@ -312,15 +414,16 @@ export default {
 
           }).catch((error) => {
             console.log(error);
-          });          
+          });
         }
 
       }).catch((error) => {
         console.log(error);
       });
     },
-
+    ///////////////////////////////////////////////////////////////////
     // 자동차 정보
+    ///////////////////////////////////////////////////////////////////
     getCarInfo() {
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -338,12 +441,20 @@ export default {
       })
       .then((result) => {
         console.log("getCarInfo 회신 결과 : ", result);
+        this.accDist = result.data.cars[0].accDist;
         this.CarInfo.accDist = result.data.cars[0].accDist; // 총 누적거리
+        this.CarInfo.curLat = result.data.cars[0].curLat; // 현재 위치 (GPS 위도)
+        this.CarInfo.curLon = result.data.cars[0].curLon; // 현재 위치 (GPS 경도)
+        this.CarInfo.gpsDt = result.data.cars[0].gpsDt; // 현재 GPS 위치 업데이트 일시
+        //gspDt
         console.log("this.CarInfo.accDist : " + this.CarInfo.accDist);
       }).catch((error) => {
         console.log(error);
       });
     },
+    ///////////////////////////////////////////////////////////////////
+    // 안전점수 정보
+    ///////////////////////////////////////////////////////////////////
     getSafetyInfo() {
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
@@ -371,6 +482,9 @@ export default {
         console.log(error);
       });
     },
+    ///////////////////////////////////////////////////////////////////
+    // 충격알림 이력 조회
+    ///////////////////////////////////////////////////////////////////
     getImpactNotice() {
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
@@ -421,13 +535,50 @@ export default {
       }).catch((error) => {
         console.log(error);
       });
-    }
+    },
+    ///////////////////////////////////////////////////////////////////
+    // 안전점수 정보
+    ///////////////////////////////////////////////////////////////////
+    getCarRepairInfo() {
+
+      var param = {};
+      param.operation = "list";
+      param.tableName = "SMART_REPAIR";
+      param.payload = {};
+      param.payload.FilterExpression = "CAR = :car";
+      param.payload.ExpressionAttributeValues = {};
+      var key = ":car";
+      param.payload.ExpressionAttributeValues[key] = this.UserInfo.CarNo;
+
+      console.log("====== getCarRepairInfo ======");
+      console.log(param);
+
+      axios({
+        method: 'POST',
+        url: Constant.LAMBDA_URL,
+        headers: Constant.LAMBDA_HEADER,
+        data: param
+      })
+      .then((result) => {
+        console.log("getCarRepairInfo 회신 결과 : ", result);
+        this.CarRepairInfo.AirFilterBefore = result.data.Items[0].AirFilterBefore;
+        this.CarRepairInfo.AirFilterCycle = result.data.Items[0].AirFilterCycle;
+        this.CarRepairInfo.AirFilterType = result.data.Items[0].AirFilterType;
+        this.CarRepairInfo.EngineOilBefore = result.data.Items[0].EngineOilBefore;
+        this.CarRepairInfo.EngineOilCycle = result.data.Items[0].EngineOilCycle;
+        this.CarRepairInfo.EngineOilType = result.data.Items[0].EngineOilType;
+
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
   },
   beforeMount(){
     this.getDrvInfo();
     this.getCarInfo();
     this.getSafetyInfo();
     this.getImpactNotice();
+    this.getCarRepairInfo();
     this.getTodayDate();
   },
   components: {
@@ -447,6 +598,10 @@ export default {
     CarInfo: {
         get() { return this.$store.getters.CarInfo },
         set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
+    CarRepairInfo: {
+        get() { return this.$store.getters.CarRepairInfo },
+        set(value) { this.$store.dispatch('UpdateCarRepairInfo',value) }
     },
   },
 }

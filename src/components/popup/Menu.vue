@@ -9,9 +9,9 @@
     <div id="2316227097" class="popup_menu">
       <div id="9898896361" class="menu_list" @click="$emit('close')" >Home</div>
       <router-link to="/Notice"><div id="1723367321" class="menu_list">공지/안내사항</div></router-link>
-      <div id="1012500541" class="menu_list">1:1문의</div>
+      <router-link to="/QnA"><div id="1012500541" class="menu_list">1:1문의</div></router-link>
       <router-link to="/"><div id="9866648110" class="menu_list">로그아웃</div></router-link>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -23,10 +23,10 @@ export default {
     return {
       userName: "",
     }
-  },  
+  },
   created : function() {
     this.userName = this.UserInfo.UserName;
-  },  
+  },
   components: {
 
   },

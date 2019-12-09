@@ -76,15 +76,22 @@
       <ul id="6067869823" class="comingsoon_list">
         <div id="1294494412" class="item_title">신규 예정 서비스</div>
         <li id="7244752797" @click="showComingsoon01 = !showComingsoon01"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
-        <li id="2102151511"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
-        <li id="9737112597"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
-        <li id="2707965502"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
-        <li id="7117272266"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
+        <li id="2102151511" @click="showComingsoon02 = !showComingsoon02"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
+        <li id="9737112597" @click="showComingsoon03 = !showComingsoon03"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
+        <li id="2707965502" @click="showComingsoon04 = !showComingsoon04"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
+        <li id="7117272266" @click="showComingsoon05 = !showComingsoon05"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
+        <li id="7117272266" @click="showComingsoon06 = !showComingsoon06"><img src="@/img/icon_sos.png"> <span>스마트 사고대응 서비스</span></li>
       </ul>
     </div>
     <transition name="slide-fade">
       <Comingsoon01 v-if="showComingsoon01" @close="showComingsoon01=false"></Comingsoon01>
+      <Comingsoon02 v-if="showComingsoon02" @close="showComingsoon02=false"></Comingsoon02>
+      <Comingsoon03 v-if="showComingsoon03" @close="showComingsoon03=false"></Comingsoon03>
+      <Comingsoon04 v-if="showComingsoon04" @close="showComingsoon04=false"></Comingsoon04>
+      <Comingsoon05 v-if="showComingsoon05" @close="showComingsoon05=false"></Comingsoon05>
+      <Comingsoon06 v-if="showComingsoon06" @close="showComingsoon06=false"></Comingsoon06>
       <ERSCall v-if="showERSCall" @close="showERSCall=false"></ERSCall>
+      <Loading v-if="showLoading"></Loading>
     </transition>
     <transition name="slide-side">
       <Menu v-if="showMenu" @close="showMenu=false"></Menu>
@@ -96,8 +103,14 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import Comingsoon01 from '@/components/popup/Comingsoon01.vue'
+import Comingsoon02 from '@/components/popup/Comingsoon02.vue'
+import Comingsoon03 from '@/components/popup/Comingsoon03.vue'
+import Comingsoon04 from '@/components/popup/Comingsoon04.vue'
+import Comingsoon05 from '@/components/popup/Comingsoon05.vue'
+import Comingsoon06 from '@/components/popup/Comingsoon06.vue'
 import Menu from '@/components/popup/Menu.vue'
 import ERSCall from '@/components/popup/ERSCall.vue'
+import Loading from '@/components/popup/Loading.vue'
 import Constant from '@/Constant'
 import {datePadding} from '@/utils/common.js'
 
@@ -108,6 +121,12 @@ export default {
       showMenu: false,
       showERSCall: false,
       showComingsoon01: false,
+      showComingsoon02: false,
+      showComingsoon03: false,
+      showComingsoon04: false,
+      showComingsoon05: false,
+      showComingsoon06: false,
+      showLoading: false,
       userName: "",
       safDrvIdx: "",
       safDrvMessage: "",
@@ -351,13 +370,19 @@ export default {
         //-------------------------------------------------------//
         // 4. 주행 기록 중 3개만 추출하여 GPS 좌표 조회
         //-------------------------------------------------------//
-        var tmpGPSArr = [];
+        this.DrvInfo.drvGpsList = [];
         for(var path of tmpDrvHst) {
           param = {};
           param.authKey = Constant.SMARTLINK_AUTH_KEY;
           param.drvId = path.drvId;
 
           var gpsCount = 0;
+
+          var gpsRawData = {
+            "drvId" : path.drvId,
+            "drvRawData" : path.rawData
+          };
+          this.DrvInfo.drvGpsList.push(gpsRawData);
 
           console.log("====== getGPSInfo ======");
           console.log(param);
@@ -376,14 +401,21 @@ export default {
             //-------------------------------------------------------//
             gpsCount++;
             if(result.data.gps !== undefined) {
-              var gpsRawData = {"drvId" : JSON.parse(result.config.data).drvId, "rawData" : result.data.gps}; 
-              tmpGPSArr.push(gpsRawData);
+
+              for(var arr of this.DrvInfo.drvGpsList) {
+                if(arr.drvId === JSON.parse(result.config.data).drvId) {
+                  arr.gpsRawData = result.data.gps;
+                  arr.startDate = result.data.gps[0].gpsDt.substr(0, 19);
+                  arr.endDate = result.data.gps[result.data.gps.length-1].gpsDt.substr(0, 19);
+                }
+              }
 
               var gpsDate = result.data.gps[result.data.gps.length-1].gpsDt;
               var dispDate = (gpsDate.substr(5,1) === '0' ? gpsDate.substr(6,1) : gpsDate.substr(5,2)) + "월 " +
                               (gpsDate.substr(8,1) === '0' ? gpsDate.substr(9,1) : gpsDate.substr(8,2)) + "일 " +
                               gpsDate.substr(11,5);
 
+              // 종료된 시점 계산
               var url = Constant.TMAP_URL + "/reversegeocoding?version=1&format=json&callback=result&"
                         + "coordType=WGS84GEO&lon=" + result.data.gps[result.data.gps.length-1].lon
                         + "&lat=" + result.data.gps[result.data.gps.length-1].lat + "&appKey=" + Constant.TMAP_KEY
@@ -391,7 +423,7 @@ export default {
 
               axios.get(url)
               .then((result) => {
-                console.log("TMAP 회신 결과 : ", result);
+                console.log("TMAP 회신 결과(종료) : ", result);
 
                 var dateIdx = result.config.url.indexOf('&date=');
                 var drvIdIdx = result.config.url.indexOf('&drvId=');
@@ -404,7 +436,6 @@ export default {
                 var drvDate = hist.drvId;
                 var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };
                 tmpDispDrv.push(drv);
-                console.log('마지막 체크 : ', drv);
 
                 // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display
                 // 데이터가 모두 Async로 조회 되므로 이렇게 처리하는게 가장 정확할 거 같음....
@@ -413,6 +444,37 @@ export default {
                     return a.drvId > b.drvId ? -1 : a.drvId < b.drvId ? 1 : 0;
                   });
                   this.driveHistoryList = tmpDispDrv;
+                  this.showLoading = false;
+                }
+
+                for(var arr of this.DrvInfo.drvGpsList) {
+                  if(arr.drvId === parseInt(drvIdStr)) {
+                    arr.startAddr = result.data.addressInfo.fullAddress;
+                  }
+                }
+
+              }).catch((error) => {
+                console.log(error);
+              });
+
+
+              // 시작 시점 계산
+              url = Constant.TMAP_URL + "/reversegeocoding?version=1&format=json&callback=result&"
+                        + "coordType=WGS84GEO&lon=" + result.data.gps[0].lon
+                        + "&lat=" + result.data.gps[0].lat + "&appKey=" + Constant.TMAP_KEY
+                        + "&date=" + dispDate + "&drvId=" + JSON.parse(result.config.data).drvId;
+
+              axios.get(url)
+              .then((result) => {
+                console.log("TMAP 회신 결과(시작) : ", result);
+
+                var drvIdIdx = result.config.url.indexOf('&drvId=');
+                var drvIdStr = result.config.url.substr(drvIdIdx + 7);
+
+                for(var arr of this.DrvInfo.drvGpsList) {
+                  if(arr.drvId === parseInt(drvIdStr)) {
+                    arr.endAddr = result.data.addressInfo.fullAddress;
+                  }
                 }
 
               }).catch((error) => {
@@ -526,11 +588,16 @@ export default {
                             (impact.impactDt.substr(8,1) === '0' ? impact.impactDt.substr(9,1) : impact.impactDt.substr(8,2)) + "일 " +
                             impact.impactDt.substr(11,5);
             var shockMsg = "차량 충격이 감지되었습니다.";
-            var shock = { "index" : i, "shockDate" : shockDate, "shockMsg" : shockMsg };
+            var type = "";
+            if(edDt === impact.impactDt.substr(0, 10)) type = "new";
+            else type = "old";
+            var shock = { "index" : i, "shockDate" : shockDate, "shockMsg" : shockMsg, "type": type};
 
             tmpShockList.push(shock);
             i++;
           }
+
+          this.CarShockInfo.shockList = tmpShockList;
 
           tmpShockList.sort(function(a, b) {
             return a.index > b.index ? -1 : a.index < b.index ? 1 : 0;
@@ -582,6 +649,7 @@ export default {
     },
   },
   beforeMount(){
+    this.showLoading = true;
     this.getDrvInfo();
     this.getCarInfo();
     this.getSafetyInfo();
@@ -594,6 +662,12 @@ export default {
   } ,
   components: {
     Comingsoon01: Comingsoon01,
+    Comingsoon02: Comingsoon02,
+    Comingsoon03: Comingsoon03,
+    Comingsoon04: Comingsoon04,
+    Comingsoon05: Comingsoon05,
+    Comingsoon06: Comingsoon06,
+    Loading: Loading,
     Menu: Menu,
     ERSCall: ERSCall
   },
@@ -613,6 +687,10 @@ export default {
     CarRepairInfo: {
         get() { return this.$store.getters.CarRepairInfo },
         set(value) { this.$store.dispatch('UpdateCarRepairInfo',value) }
+    },
+    CarShockInfo: {
+        get() { return this.$store.getters.CarShockInfo },
+        set(value) { this.$store.dispatch('UpdateCarShockInfo',value) }
     },
   },
 }

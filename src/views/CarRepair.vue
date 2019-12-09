@@ -52,14 +52,16 @@
             </li>
             <li id="7923017196" class="comingsoon">
               <div id="8317196453" class="info_title">신규 예정 서비스</div>
-                <div id="4778325971" class="service"><img src="../img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></div>
-                <div id="4263336708" class="service"><img src="../img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></div>
+                <div id="4778325971" class="service" @click="showComingsoon04 = !showComingsoon04"><img src="../img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></div>
+                <div id="4263336708" class="service" @click="showComingsoon05 = !showComingsoon05"><img src="../img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></div>
             </li>
         </ul>
         <transition name="slide-fade">
           <RepairCycle01 v-if="showRepairCycle01" @close="showRepairCycle01=false" :repairItem="repairItem"></RepairCycle01>
           <RepairCycle02 v-if="showRepairCycle02" @close="showRepairCycle02=false" :repairItem="repairItem"></RepairCycle02>
           <RepairCycle03 v-if="showRepairCycle03" @close="showRepairCycle03=false"></RepairCycle03>
+          <Comingsoon04 v-if="showComingsoon04" @close="showComingsoon04=false"></Comingsoon04>
+          <Comingsoon05 v-if="showComingsoon05" @close="showComingsoon05=false"></Comingsoon05>
         </transition>
     </div>
 </template>
@@ -68,6 +70,8 @@
 import RepairCycle01 from '@/components/popup/RepairCycle01.vue'
 import RepairCycle02 from '@/components/popup/RepairCycle02.vue'
 import RepairCycle03 from '@/components/popup/RepairCycle03.vue'
+import Comingsoon04 from '@/components/popup/Comingsoon04.vue'
+import Comingsoon05 from '@/components/popup/Comingsoon05.vue'
 
 export default {
   name: 'ContractInfo',
@@ -76,12 +80,14 @@ export default {
       showRepairCycle01: false,
       showRepairCycle02: false,
       showRepairCycle03: false,
+      showComingsoon04: false,
+      showComingsoon05: false,
       repairItem: "",
     }
   },
   mounted () {
     this.$ga.page('/CarRepair');
-  } ,  
+  } ,
   methods: {
     showRepairCycle01Popup(type) {
       this.showRepairCycle01 = !this.showRepairCycle01;
@@ -96,6 +102,8 @@ export default {
     RepairCycle01: RepairCycle01,
     RepairCycle02: RepairCycle02,
     RepairCycle03: RepairCycle03,
+    Comingsoon04: Comingsoon04,
+    Comingsoon05: Comingsoon05,
   },
   computed:{
     UserInfo: {

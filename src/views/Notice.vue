@@ -7,42 +7,56 @@
         <div id="3144077403" class="title">공지사항</div>
       </div>
       <v-expansion-panels focusable class="notice">
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>신규서비스 안내 (주행 지역 날씨 정보 안내)</v-expansion-panel-header>
+        <v-expansion-panel v-for="(notice,index) in noticeList" v-bind:key="index">
+          <v-expansion-panel-header>{{notice.TITLE}}</v-expansion-panel-header>
           <v-expansion-panel-content>
-            <br>신규 서비스가  <br> 만들어져서... <br> 안내를 하려 합니다....
-          </v-expansion-panel-content>        
+            {{notice.DESC}}
+          </v-expansion-panel-content>
         </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>안전운전 이벤트 안내 (~'19.12.31까지)</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <br>안전운전이 최고에요 !!!!!  <br>완전좋아좋아좋아
-          </v-expansion-panel-content>        
-        </v-expansion-panel> 
-               
-        <v-expansion-panel>
-          <v-expansion-panel-header>MVP 사이트를 오픈 했습니다.</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <br>만세~~~~~
-          </v-expansion-panel-content>        
-        </v-expansion-panel>        
-      </v-expansion-panels>      
+      </v-expansion-panels>
     </div>
   </v-app>
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+import Constant from '@/Constant'
 
 export default {
   name: 'Notice',
+  data () {
+    return {
+      noticeList: [],
+    }
+  },
   components: {
 
   },
   mounted () {
     this.$ga.page('/Notice');
-  } ,      
+
+    var param = {};
+    param.operation = "list";
+    param.tableName = "SMART_NOTICE";
+    param.payload = {};
+
+    console.log("====== mounted ======");
+    console.log(param);
+
+    axios({
+      method: 'POST',
+      url: Constant.LAMBDA_URL,
+      headers: Constant.LAMBDA_HEADER,
+      data: param
+    })
+    .then((result) => {
+      console.log("mounted 회신 결과 : ", result);
+      this.noticeList = result.data.Items;
+
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 }
 </script>
 

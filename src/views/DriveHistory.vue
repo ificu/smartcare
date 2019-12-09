@@ -7,39 +7,39 @@
         </div>
         <ul id="3403304624" class="infoBox mileage">
           <li id="3299986171">
-            <div id="1589697674" class="info_text">현재 누적 주행거리 <span>58,705 Km</span> 주행</div>
+            <div id="1589697674" class="info_text">현재 누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span> 주행</div>
                 <div id="7145441350" class="info_text_black">스마트케어 (Smart Care) 설치 이후의 주행거리를 말합니다.</div>
                 <div class="mileage">
                   <div id="8800093588" class="textBox">
                     <div id="7895560229" class="text01">총 주행거리</div>
-                    <div id="5062870532" class="text02">341.6 km</div>
+                    <div id="5062870532" class="text02">{{CarInfo.accDist | currencyNum}} km</div>
                   </div>
                   <div id="8684162098" class="guageBox">
                     <div id="5946694751" class="top_text">
-                      <div id="1055888146" class="left">4.2 km(1%)</div>
-                          <div id="6403556384" class="right">333.6 km(99%)</div>
+                      <div id="1055888146" class="left"></div>
+                          <div id="6403556384" class="right">80,000 km(24%)</div>
                       </div>
                       <div id="3546067459" class="guage"><span style="width:10%"></span></div>
                       <div id="2946534962" class="bottom_text">
-                        <div id="7217849805" class="left">비업무용</div>
-                          <div id="8110743748" class="right">출/퇴근 및 업무용</div>
+                        <div id="7217849805" class="left"></div>
+                          <div id="8110743748" class="right">총 계약 거리</div>
                       </div>
                   </div>
                 </div>
                 <div id="2884652697" class="mileage">
                   <div id="1034217117" class="textBox">
-                    <div id="8916390546" class="text01">총 주행횟수</div>
-                    <div id="9433829126" class="text02">30회</div>
+                    <div id="8916390546" class="text01">최근 한달</div>
+                    <div id="9433829126" class="text02">{{CarInfo.accDist | currencyNum}} km</div>
                   </div>
                   <div id="9017259802" class="guageBox">
                     <div id="9908387410" class="top_text">
-                      <div id="6189443755" class="left">1회</div>
-                      <div id="6276053519" class="right">29회</div>
+                      <div id="6189443755" class="left"></div>
+                      <div id="6276053519" class="right">1,644 km(42%)</div>
                   </div>
-                  <div id="1195771929" class="guage"><span style="width:10%"></span></div>
+                  <div id="1195771929" class="guage"><span style="width:27%"></span></div>
                   <div id="4652004510" class="bottom_text">
-                    <div id="4999187550" class="left">비업무용</div>
-                      <div id="9602309909" class="right">출/퇴근 및 업무용</div>
+                    <div id="4999187550" class="left"></div>
+                      <div id="9602309909" class="right">권장 주행 거리</div>
                   </div>
               </div>
             </div>
@@ -48,70 +48,133 @@
             <li id="8899113537">
               <div id="4208281451" class="info_title">이전 주행 기록</div>
 
-                <div id="3903253433" class="mileage_item">
-                    <div id="5220113684" class="mileage_info">
-                        <div id="5523879721" class="textBox">
-                            <div id="4047802892" class="text01">0.1 km | 01분 18초</div>
-                            <div id="2752795652" class="text02">
-                                업무용<br>
-                                위치정보 없음 → 위치정보 없음<br>
-                                19.11.16 16:22:37 ~ 19.11.16 16:23:55
-                            </div>
-                        </div>
-                        <div id="7346146481" class="gradeBox">
-                            <div id="3151257694" class="item">
-                                <img src="../img/icon_grade03.svg">과속
-                            </div>
-                            <div id="6751531387" class="item">
-                                <img src="../img/icon_grade02.svg">급가속
-                            </div>
-                            <div id="3897340000" class="item">
-                                <img src="../img/icon_grade01.svg">급감속
-                            </div>
-                        </div>
-                    </div>
-                    <div id="1937010302" class="graphBox"></div>
-				</div>
+                <div id="3903253433" class="mileage_item" v-for="(drv, index) in drvHistList" v-bind:key="index">
+                  <div id="5220113684" class="mileage_info">
+                      <div id="5523879721" class="textBox">
+                          <div id="4047802892" class="text01">{{drv.dist}} km | {{drv.movTm}}</div>
+                          <div id="2752795652" class="text02">
+                              {{drv.startAddr}} → {{drv.endAddr}}<br>
+                              {{drv.startDate}} ~ {{drv.endDate}}
+                          </div>
+                      </div>
+                      <div id="7346146481" class="gradeBox">
+                          <div id="3151257694" class="item" v-if="drv.overSpdIdx === '양호'">
+                              <img src="../img/icon_grade03.svg">과속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.overSpdIdx === '안전'">
+                              <img src="../img/icon_grade02.svg">과속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.overSpdIdx === '모범'">
+                              <img src="../img/icon_grade01.svg">과속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '양호'">
+                              <img src="../img/icon_grade03.svg">급가속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '안전'">
+                              <img src="../img/icon_grade02.svg">급가속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '모범'">
+                              <img src="../img/icon_grade01.svg">급가속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '양호'">
+                              <img src="../img/icon_grade03.svg">급감속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '안전'">
+                              <img src="../img/icon_grade02.svg">급감속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '모범'">
+                              <img src="../img/icon_grade01.svg">급감속
+                          </div>
+                      </div>
+                  </div>
+                  <div v-bind:id="'TmapLayer_' + drv.drvId" class="graphBox"></div>
+                </div>
 
-                <div id="2647855986" class="mileage_item">
-                    <div id="7579124833" class="mileage_info">
-                        <div id="5702618358" class="textBox">
-                            <div id="2236782887" class="text01">0.1 km | 01분 18초</div>
-                            <div id="7856813414" class="text02">
-                                업무용<br>
-                                서울특별시 노원구 월계 3동 → 서울특별시 성동구 왕시리 도선동<br>
-                                19.11.16 14:20:44~19.11.16 14:53:20
-                            </div>
-                        </div>
-                        <div id="8389217178" class="gradeBox">
-                            <div id="9409312820" class="item">
-                                <img src="../img/icon_grade03.svg">과속
-                            </div>
-                            <div id="3745897700" class="item">
-                                <img src="../img/icon_grade02.svg">급가속
-                            </div>
-                            <div id="3052502258" class="item">
-                                <img src="../img/icon_grade01.svg">급감속
-                            </div>
-                        </div>
-                    </div>
-                    <div id="8278380577" class="graphBox"></div>
-				</div>
             </li>
         </ul>
     </div>
 </template>
 
+<script src="https://apis.openapi.sk.com/tmap/js?version=1&format=javascript&appKey=145167c3-796e-4989-b8ed-74241254b771"></script>
+<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appkey=145167c3-796e-4989-b8ed-74241254b771"></script>
 <script>
 
 export default {
   name: 'DriveHistory',
-  components: {
-
+  data () {
+    return {
+      drvHistList: []
+    }
   },
   mounted () {
     this.$ga.page('/DriveHistory');
-  } ,      
+    console.log("Mounted...");
+
+    for(var info of this.DrvInfo.drvGpsList) {
+      var id = "TmapLayer_" + info.drvId;
+
+      var map = new Tmapv2.Map(id,
+                    {
+                      center: new Tmapv2.LatLng(info.gpsRawData[parseInt(info.gpsRawData.length/2)].lat, info.gpsRawData[parseInt(info.gpsRawData.length/2)].lon), // 지도 초기 좌표
+                      width : "100%",
+                      height : "250px",
+                      zoom: 13
+                    });
+
+      var pathList = [];
+      for(var gps of info.gpsRawData) {
+        pathList.push(new Tmapv2.LatLng(gps.lat, gps.lon));
+      }
+      var polyline = new Tmapv2.Polyline(
+                    {
+                      path: pathList,
+                      strokeColor: "#dd00dd",
+                      strokeWeight:6,
+                      map:map
+                    });
+    }
+  },
+  created () {
+    console.log("DrvInfo : ", this.DrvInfo);
+
+    for(var info of this.DrvInfo.drvGpsList) {
+      var drvHist = {
+        "drvId" : info.drvId,
+        "dist" : (info.drvRawData.offDist - info.drvRawData.onDist).toFixed(1),
+        "movTm" : parseInt(info.drvRawData.movTm / 60) + "분 " + (info.drvRawData.movTm - parseInt(info.drvRawData.movTm / 60)*60) + "초",
+        "startAddr" : info.startAddr,
+        "endAddr" : info.endAddr,
+        "startDate" : info.startDate,
+        "endDate" : info.endDate,
+      };
+
+      if (info.drvRawData.overSpdIdx === undefined) drvHist.overSpdIdx = "모범";
+      else if(info.drvRawData.overSpdIdx <= 100 && info.drvRawData.overSpdIdx > 80 ) drvHist.overSpdIdx = "모범";
+      else if(info.drvRawData.overSpdIdx <= 80 && info.drvRawData.overSpdIdx > 60 ) drvHist.overSpdIdx = "안전";
+      else drvHist.overSpdIdx = "양호";
+
+      if(info.drvRawData.fstAccelIdx <= 100 && info.drvRawData.fstAccelIdx > 80 ) drvHist.fstAccelIdx = "모범";
+      else if(info.drvRawData.fstAccelIdx <= 80 && info.drvRawData.fstAccelIdx > 60 ) drvHist.fstAccelIdx = "안전";
+      else drvHist.fstAccelIdx = "양호";
+
+      if(info.drvRawData.fstDecelIdx <= 100 && info.drvRawData.fstDecelIdx > 80 ) drvHist.fstDecelIdx = "모범";
+      else if(info.drvRawData.fstDecelIdx <= 80 && info.drvRawData.fstDecelIdx > 60 ) drvHist.fstDecelIdx = "안전";
+      else drvHist.fstDecelIdx = "양호";
+
+      this.drvHistList.push(drvHist);
+
+    }
+  },
+  computed:{
+    DrvInfo: {
+        get() { return this.$store.getters.DrvInfo },
+        set(value) { this.$store.dispatch('UpdateDrvInfo',value) }
+    },
+    CarInfo: {
+        get() { return this.$store.getters.CarInfo },
+        set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
+  },
 }
 </script>
 

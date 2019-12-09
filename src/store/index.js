@@ -6,10 +6,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     UserInfo: {UserName: "", CarNo: "", UserLoginId: ""},
-    DrvInfo: {SafDrvIdx:"", MovTm:"", drvHstIFList: [], drvHstIFData: {}},
+    DrvInfo: {SafDrvIdx:"", MovTm:"", drvHstIFList: [], drvHstIFData: {}, drvGpsList: []},
     CarInfo: {AccDist:"", curLat:0, curLon:0, gpsDt: ""},
     ContractInfo: {CarModel:"",ProductYear:"",CarAMT:"",Option:"",Name:"",ContStart:"",ContEnd:"",ContPeriod:"",RentAMT:""},
     CarRepairInfo: {AirFilterBefore: 0, AirFilterCycle: "", AirFilterType: "", EngineOilBefore: 0, EngineOilCycle: "", EngineOilType: ""},
+    CarShockInfo: {shockList: []},
   },
   getters: {
     UserInfo(state) { return state.UserInfo },
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     CarInfo(state) { return state.CarInfo },
     ContractInfo(state) { return state.ContractInfo },
     CarRepairInfo(state) { return state.CarRepairInfo },
+    CarShockInfo(state) { return state.CarShockInfo },
   },
   mutations: {
     SetUserInfo(state, userInfo) {
@@ -34,6 +36,9 @@ export default new Vuex.Store({
     SetCarRepairInfo(state, carRepairInfo) {
       state.CarRepairInfo = carRepairInfo
     },
+    SetCarShockInfoo(state, carShockInfo) {
+      state.CarShockInfo = carShockInfo
+    },
   },
   actions: {
     UpdateUserInfo({ commit }, userInfo) {
@@ -50,6 +55,9 @@ export default new Vuex.Store({
     },
     UpdateCarRepairInfo({ commit }, carRepairInfo) {
       commit('SetCarRepairInfo', { carRepairInfo })
+    },
+    UpdateCarShockInfo({ commit }, carShockInfo) {
+      commit('SetCarShockInfoo', { carShockInfo })
     },
   }
 })

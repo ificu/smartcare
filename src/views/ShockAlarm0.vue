@@ -9,22 +9,34 @@
           <li id="1467150025">
             <div id="8697308162" class="info_title">새로운 알림</div>
                 <table id="8818160461">
-                  <tr id="6226981038" v-for="(newShock, index) in newShockList" v-bind:key="index">
-                    <th id="1755125895">{{newShock.shockDate}}</th>
-                    <td id="5076142077">차량 충격이 감지되었습니다.<br>차량 상태를 확인해주세요.</td>
-                  </tr>
+                  <tr id="6226981038">
+                    <th id="1755125895">11월 7일 14:02</th>
+                        <td id="5076142077">차량 충격이 감지되었습니다.<br>차량 상태를 확인해주세요.</td>
+                    </tr>
+                    <tr id="9458895533">
+                      <th id="4132565529">11월 6일 14:02</th>
+                        <td id="5337823818">차량 충격이 감지되었습니다.<br>차량 상태를 확인해주세요.</td>
+                    </tr>
                 </table>
             </li>
             <li id="7183661800">
               <div id="5814191749" class="info_title">지난 알림</div>
                 <table id="5258240579">
-                  <tr id="6307474462" v-for="(oldShock, index) in oldShocklist" v-bind:key="index">
-                    <th id="3335003040">{{oldShock.shockDate}}</th>
+                  <tr id="6307474462">
+                    <th id="3335003040">10월 7일 14:02</th>
                         <td id="2438936961">차량 충격이 감지되었습니다.<br>차량 상태를 확인해주세요.</td>
+                    </tr>
+                    <tr id="3167119839">
+                      <th id="4418064826">10월 6일 14:02</th>
+                        <td id="4100522818">차량 충격이 감지되었습니다.<br>차량 상태를 확인해주세요.</td>
+                    </tr>
+                    <tr id="8415065594">
+                      <th id="6082564655">10월 5일 14:02</th>
+                        <td id="8833004793">차량 충격이 감지되었습니다.<br>차량 상태를 확인해주세요.</td>
                     </tr>
                 </table>
             </li>
-            <li id="1190266500" class="comingsoon"  @click="showComingsoon01 = !showComingsoon01">
+            <li id="1190266500" class="comingsoon">
               <div id="1174615975" class="info_title">신규 예정 서비스</div>
                 <div id="8381761707" class="service">
                   <img src="../img/icon_119.svg" id=""> <span id="2485293019">대형 사고 발생시, 119 자동 출동 서비스</span>
@@ -32,36 +44,26 @@
                 </div>
             </li>
         </ul>
-        <transition name="slide-fade">
-          <Comingsoon01 v-if="showComingsoon01" @close="showComingsoon01=false"></Comingsoon01>
-        </transition>
     </div>
 </template>
 
 <script>
-import Comingsoon01 from '@/components/popup/Comingsoon01.vue'
 
 export default {
   name: 'ShockAlarm',
-  data () {
-    return {
-      showComingsoon01: false,
-      newShockList: [],
-      oldShocklist: [],
-    }
+  components: {
+    newShockList: [],
+    oldShocklist: []
   },
   mounted () {
     this.$ga.page('/ShockAlarm');
     console.log("CarShockInfo : ", this.CarShockInfo);
 
     for(var shock of this.CarShockInfo.shockList) {
-      if(shock.type === "new") this.newShockList.push(shock);
-      else this.oldShocklist.push(shock);
+      if(shock.type === "new") newShockList.push(shock);
+      else oldShocklist.push(shock);
     }
   } ,
-  components: {
-    Comingsoon01: Comingsoon01,
-  },
   computed:{
     CarShockInfo: {
         get() { return this.$store.getters.CarShockInfo },

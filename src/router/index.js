@@ -9,6 +9,7 @@ import CarRepair from '@/views/CarRepair.vue'
 import DriveHistory from '@/views/DriveHistory.vue'
 import Notice from '@/views/Notice.vue'
 import MyCarLocation from '@/views/MyCarLocation.vue'
+import QnA from '@/views/QnA.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,11 @@ const routes = [
     path: '/MyCarLocation',
     name: 'MyCarLocation',
     component: MyCarLocation
+  },
+  {
+    path: '/QnA',
+    name: 'QnA',
+    component: QnA
   },
   {
     path: '/',

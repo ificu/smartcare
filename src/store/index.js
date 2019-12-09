@@ -5,11 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-<<<<<<< HEAD
-    UserInfo: {UserName: "", CarNo: "", ID: ""},
-=======
+
     UserInfo: {UserName: "", CarNo: "", UserLoginId: ""},
->>>>>>> 1045e246287ff36956f5c83fa56a4958c98130b8
     DrvInfo: {SafDrvIdx:"", MovTm:""},
     CarInfo: {AccDist:""},
     ContractInfo: {CarModel:"",ProductYear:"",CarAMT:"",Option:"",Name:"",ContStart:"",ContEnd:"",ContPeriod:"",RentAMT:""}

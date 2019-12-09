@@ -352,7 +352,7 @@ export default {
 
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
-      param.userId = this.UserInfo.ID;
+      param.userId = this.UserInfo.UserLoginId;
       param.stDt = stDt;
       param.edDt = edDt;
 

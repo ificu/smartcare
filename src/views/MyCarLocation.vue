@@ -33,6 +33,9 @@ export default {
       carDate: ''
     }
   },
+  mounted () {
+    this.$ga.page('/MyCarLocation');
+  } ,      
   mounted: function() {
     console.log('CarInfo.... ', this.CarInfo);
 

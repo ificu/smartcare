@@ -5,8 +5,15 @@ import vuetify from './plugins/vuetify';
 import './registerServiceWorker'
 import router from './router'
 import './utils/filters'
+import VueAnalytics from 'vue-analytics'
 
 Vue.config.productionTip = false
+
+Vue.use(VueAnalytics, {
+  //id: 'UA-153508803-1',
+  id: 'UA-xxxxxxxxx-x',
+  router
+});
 
 new Vue({
   store,

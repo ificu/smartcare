@@ -130,6 +130,9 @@ export default {
   beforeMount(){
 
   },
+  mounted () {
+    this.$ga.page('/SafeReport');
+  } ,    
   components: {
     SafeDriveTip: SafeDriveTip,
   },

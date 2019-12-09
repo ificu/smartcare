@@ -105,6 +105,9 @@ export default {
   },
   components: {
 
+  },
+  mounted () {
+    this.$ga.page('/Login');
   }
 }
 </script>

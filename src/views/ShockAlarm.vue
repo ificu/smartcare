@@ -53,7 +53,10 @@ export default {
   name: 'ShockAlarm',
   components: {
 
-  }
+  },
+  mounted () {
+    this.$ga.page('/ShockAlarm');
+  } ,      
 }
 </script>
 

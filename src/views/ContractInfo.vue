@@ -167,6 +167,9 @@ export default {
     this.carContract();
     // this.test();
   },
+  mounted () {
+    this.$ga.page('/ContractInfo');
+  } ,    
   components: {
 
   },

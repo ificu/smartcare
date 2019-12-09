@@ -282,7 +282,7 @@ export default {
                           (hist.offDt.substr(8,1) === '0' ? hist.offDt.substr(9,1) : hist.offDt.substr(8,2)) + "일 " +
                           hist.offDt.substr(11,5);
             var drvId = hist.drvId;
-            var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId };
+            var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId , "rawData" : hist};
             tmpDrvHst.push(drv);
           }
         }
@@ -351,10 +351,13 @@ export default {
         //-------------------------------------------------------//
         // 4. 주행 기록 중 3개만 추출하여 GPS 좌표 조회
         //-------------------------------------------------------//
+        var tmpGPSArr = [];
         for(var path of tmpDrvHst) {
           param = {};
           param.authKey = Constant.SMARTLINK_AUTH_KEY;
           param.drvId = path.drvId;
+
+          var gpsCount = 0;
 
           console.log("====== getGPSInfo ======");
           console.log(param);
@@ -371,46 +374,51 @@ export default {
             //-------------------------------------------------------//
             // 5. GPS 좌표를 기준으로 주소값을 읽어 옴
             //-------------------------------------------------------//
+            gpsCount++;
+            if(result.data.gps !== undefined) {
+              var gpsRawData = {"drvId" : JSON.parse(result.config.data).drvId, "rawData" : result.data.gps}; 
+              tmpGPSArr.push(gpsRawData);
 
-            var gpsDate = result.data.gps[result.data.gps.length-1].gpsDt;
-            var dispDate = (gpsDate.substr(5,1) === '0' ? gpsDate.substr(6,1) : gpsDate.substr(5,2)) + "월 " +
-                            (gpsDate.substr(8,1) === '0' ? gpsDate.substr(9,1) : gpsDate.substr(8,2)) + "일 " +
-                            gpsDate.substr(11,5);
+              var gpsDate = result.data.gps[result.data.gps.length-1].gpsDt;
+              var dispDate = (gpsDate.substr(5,1) === '0' ? gpsDate.substr(6,1) : gpsDate.substr(5,2)) + "월 " +
+                              (gpsDate.substr(8,1) === '0' ? gpsDate.substr(9,1) : gpsDate.substr(8,2)) + "일 " +
+                              gpsDate.substr(11,5);
 
-            var url = Constant.TMAP_URL + "/reversegeocoding?version=1&format=json&callback=result&"
-                      + "coordType=WGS84GEO&lon=" + result.data.gps[result.data.gps.length-1].lon
-                      + "&lat=" + result.data.gps[result.data.gps.length-1].lat + "&appKey=" + Constant.TMAP_KEY
-                      + "&date=" + dispDate + "&drvId=" + JSON.parse(result.config.data).drvId;
+              var url = Constant.TMAP_URL + "/reversegeocoding?version=1&format=json&callback=result&"
+                        + "coordType=WGS84GEO&lon=" + result.data.gps[result.data.gps.length-1].lon
+                        + "&lat=" + result.data.gps[result.data.gps.length-1].lat + "&appKey=" + Constant.TMAP_KEY
+                        + "&date=" + dispDate + "&drvId=" + JSON.parse(result.config.data).drvId;
 
-            axios.get(url)
-            .then((result) => {
-              console.log("TMAP 회신 결과 : ", result);
+              axios.get(url)
+              .then((result) => {
+                console.log("TMAP 회신 결과 : ", result);
 
-              var dateIdx = result.config.url.indexOf('&date=');
-              var drvIdIdx = result.config.url.indexOf('&drvId=');
+                var dateIdx = result.config.url.indexOf('&date=');
+                var drvIdIdx = result.config.url.indexOf('&drvId=');
 
-              var dateStr = result.config.url.substr(dateIdx + 6, drvIdIdx - dateIdx - 6);
-              var drvIdStr = result.config.url.substr(drvIdIdx + 7);
+                var dateStr = result.config.url.substr(dateIdx + 6, drvIdIdx - dateIdx - 6);
+                var drvIdStr = result.config.url.substr(drvIdIdx + 7);
 
-              var addrArr = result.data.addressInfo.fullAddress.split(' ');
+                var addrArr = result.data.addressInfo.fullAddress.split(' ');
 
-              var drvDate = hist.drvId;
-              var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };
-              tmpDispDrv.push(drv);
-              console.log('마지막 체크 : ', drv);
+                var drvDate = hist.drvId;
+                var drv = { "drvId" : drvIdStr, "drvDate" : dateStr, "addr" : addrArr[0] + " " + addrArr[1] + " " + addrArr[2] + " ..." };
+                tmpDispDrv.push(drv);
+                console.log('마지막 체크 : ', drv);
 
-              // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display
-              // 데이터가 모두 Async로 조회 되므로 이렇게 처리하는게 가장 정확할 거 같음....
-              if(tmpDispDrv.length === 3) {
-                tmpDispDrv.sort(function(a, b) {
-                  return a.drvId > b.drvId ? -1 : a.drvId < b.drvId ? 1 : 0;
-                });
-                this.driveHistoryList = tmpDispDrv;
-              }
+                // 3개의 데이터가 모두 채워 졌다면, 최종 화면에 Display
+                // 데이터가 모두 Async로 조회 되므로 이렇게 처리하는게 가장 정확할 거 같음....
+                if(gpsCount === 3) {
+                  tmpDispDrv.sort(function(a, b) {
+                    return a.drvId > b.drvId ? -1 : a.drvId < b.drvId ? 1 : 0;
+                  });
+                  this.driveHistoryList = tmpDispDrv;
+                }
 
-            }).catch((error) => {
-              console.log(error);
-            });
+              }).catch((error) => {
+                console.log(error);
+              });
+            }
 
           }).catch((error) => {
             console.log(error);
@@ -581,6 +589,9 @@ export default {
     this.getCarRepairInfo();
     this.getTodayDate();
   },
+  mounted () {
+    this.$ga.page('/Main');
+  } ,
   components: {
     Comingsoon01: Comingsoon01,
     Menu: Menu,
@@ -629,9 +640,9 @@ export default {
 #app .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:35px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(45deg)}
 #app .mainArea .item_list .item .guageBox .guage_line{ position:absolute; left:50%; top:78px; margin-left:50px; width:65px; transform-origin:bottom center; transform:rotate(-12deg)}
 #app .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:50%; top:55px; margin-left:100px; font-size:14px; font-weight:bold; color:#666; text-align:center;}
-#app .mainArea .item_list .item .guageBox .my_score{ position:absolute; left:0; bottom:-15px; width:100%; font-size:30px; font-weight:800; color:#333; text-align:center;}
+#app .mainArea .item_list .item .guageBox .my_score{ position:absolute; left:0; bottom:-35px; width:100%; font-size:30px; font-weight:800; color:#333; text-align:center;}
 #app .mainArea .item_list .item .guageBox .my_score p{ display:block; font-size:14px; color:#666;}
-#app .mainArea .item_list .item .text01{ font-size:16px; font-weight:800; color:#333; text-align:center; margin-top:20px}
+#app .mainArea .item_list .item .text01{ font-size:16px; font-weight:800; color:#333; text-align:center; margin-top:50px}
 #app .mainArea .item_list .item .text02{ font-size:13px; color:#666; text-align:center; margin-top:5px;}
 #app .mainArea .item_list .item .text03{ width:100%; padding:7px 0 5px; font-size:18px; font-weight:800; color:#333; text-align:center; background-color:#ceece3; margin-top:25px; margin-bottom:10px; border-radius:3px;}
 #app .mainArea .item_list .item .text04{ font-size:20px; font-weight: 800; color:red; text-align:center; margin-top:5px; padding-bottom:10px;}

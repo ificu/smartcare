@@ -108,7 +108,10 @@ export default {
   name: 'DriveHistory',
   components: {
 
-  }
+  },
+  mounted () {
+    this.$ga.page('/DriveHistory');
+  } ,      
 }
 </script>
 

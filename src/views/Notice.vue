@@ -39,7 +39,10 @@ export default {
   name: 'Notice',
   components: {
 
-  }
+  },
+  mounted () {
+    this.$ga.page('/Notice');
+  } ,      
 }
 </script>
 

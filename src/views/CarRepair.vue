@@ -79,6 +79,9 @@ export default {
       repairItem: "",
     }
   },
+  mounted () {
+    this.$ga.page('/CarRepair');
+  } ,  
   methods: {
     showRepairCycle01Popup(type) {
       this.showRepairCycle01 = !this.showRepairCycle01;

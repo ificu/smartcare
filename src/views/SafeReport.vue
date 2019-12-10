@@ -7,7 +7,7 @@
     </div>
     <ul id="3610927099" class="infoBox report">
       <li id="3491418214">
-        <div id="4290904421" class="info_title">나의 안전점수 (이번 달)</div>
+        <div id="4290904421" class="info_title">나의 안전점수 ({{thisMonth}})</div>
             <div id="7416675010" class="report_text01">{{DrvInfo.drvHstIFData.safDrvMessage}}</div>
             <div id="4479799753" class="report_text02">{{DrvInfo.drvHstIFData.safDrvRecommend}}</div>
             <div id="6880835588" class="myReport">
@@ -15,24 +15,24 @@
                     <div id="8222585707" class="textBox">
                         <div id="8447182066" class="text01">나의 운전 점수 <img src="../img/icon_i.svg"></div>
                         <div id="9799274711" class="text02">{{DrvInfo.drvHstIFData.safDrvIdx}}<span>점</span></div>
-                        <div id="6613488413" class="text03">(상위 32%, 96위)</div>
+                        <div id="6613488413" class="text03">(상위 {{SafetyInfo.safeIdxRank}}%, {{parseInt(SafetyInfo.safeIdxRank/100*SafetyInfo.drvrCnt)}}위)</div>
                     </div>
                     <div id="1040758924" class="gradeBox">
                         <div id="3031104676" class="item">
-                            <img v-if="DrvInfo.drvHstIFData.fstAccelMean < 30" src="../img/icon_grade03.svg" id="">
-                            <img v-else-if="DrvInfo.drvHstIFData.fstAccelMean >= 30 && DrvInfo.drvHstIFData.fstAccelMean < 70" src="../img/icon_grade02.svg" id="">
+                            <img v-if="SafetyInfo.overSpeedIdx < 24" src="../img/icon_grade03.svg" id="">
+                            <img v-else-if="SafetyInfo.overSpeedIdx >= 24 && SafetyInfo.overSpeedIdx < 32" src="../img/icon_grade02.svg" id="">
                             <img v-else src="../img/icon_grade01.svg" id="">
                             과속
                         </div>
                         <div id="4160634505" class="item">
-                          <img v-if="DrvInfo.drvHstIFData.fstDecelMean < 30" src="../img/icon_grade03.svg" id="">
-                          <img v-else-if="DrvInfo.drvHstIFData.fstDecelMean >= 30 && DrvInfo.drvHstIFData.fstDecelMean < 70" src="../img/icon_grade02.svg" id="">
+                          <img v-if="SafetyInfo.fstAcclIdx < 24" src="../img/icon_grade03.svg" id="">
+                          <img v-else-if="SafetyInfo.fstAcclIdx >= 24 && SafetyInfo.fstAcclIdx < 32" src="../img/icon_grade02.svg" id="">
                           <img v-else src="../img/icon_grade01.svg" id="">
                             급가속
                         </div>
                         <div id="2650417521" class="item">
-                          <img v-if="DrvInfo.drvHstIFData.overSpdMean < 30" src="../img/icon_grade03.svg" id="">
-                          <img v-else-if="DrvInfo.drvHstIFData.overSpdMean >= 30 && DrvInfo.drvHstIFData.overSpdMean < 70" src="../img/icon_grade02.svg" id="">
+                          <img v-if="SafetyInfo.fastDecIdx < 12" src="../img/icon_grade03.svg" id="">
+                          <img v-else-if="SafetyInfo.fastDecIdx >= 12 && SafetyInfo.fastDecIdx < 16" src="../img/icon_grade02.svg" id="">
                           <img v-else src="../img/icon_grade01.svg" id="">
                             급감속
                         </div>
@@ -118,6 +118,7 @@ export default {
       w3rdSafeStyle: "",
       w4thSafeStyle: "",
       showSafeDriveTip: false,
+      thisMonth: ""
     }
   },
   created: function() {
@@ -126,13 +127,17 @@ export default {
     this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";
     this.w3rdSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w3rdSafeIdx + "px";
     this.w4thSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w4thSafeIdx + "px";
+
+    var now = new Date();
+    this.thisMonth = (now.getMonth()+1) +"월";
   },
   beforeMount(){
 
   },
   mounted () {
     this.$ga.page('/SafeReport');
-  } ,    
+    console.log("SafetyInfo : ", this.SafetyInfo);
+  } ,
   components: {
     SafeDriveTip: SafeDriveTip,
   },
@@ -148,6 +153,10 @@ export default {
     CarInfo: {
         get() { return this.$store.getters.CarInfo },
         set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
+    SafetyInfo: {
+        get() { return this.$store.getters.SafetyInfo },
+        set(value) { this.$store.dispatch('UpdateSafetyInfo',value) }
     },
   },
 }

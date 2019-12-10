@@ -18,7 +18,7 @@
         </v-alert>
         <div id="2274436683" class="formBox">
           <div id="5585182297" class="inputBox"><p class="iconBox icon01"></p><input type="text" placeholder="USERNAME" v-model="id"></div>
-          <div id="4302035340" class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd"></div>
+          <div id="4302035340" class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd" style="font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif ;"></div>
           <a id="8672175743" @click="login" class="btn">LOGIN</a>
         </div>
         <div id="9283563635" class="bottom_text">궁금하신 내용용이나 로그인 문제시,<br>스마트링크 고객센터 (1800-2023)<br>혹은 canadajw@sk.com으로 연락주시기 바랍니다.</div>
@@ -77,6 +77,7 @@ export default {
           var pwd = result.data.Items[0].PWD;
           var car = result.data.Items[0].CAR;
 
+console.log("Password : ", this.pwd);
 
           if(!(pwd === this.pwd)) {
             this.loginAlertMessage = "비밀번호 불일치";
@@ -90,6 +91,11 @@ export default {
             this.$router.push('/Main');
 
             //this.$cookies.set('UserNM', name, '60000s');
+
+            this.$cookie.set('LoginID', id, { expires: '100Y' });
+            this.$cookie.set('CarNo', car, '10s');
+            //this.$cookie.set('CarNo', car, '1h');
+            this.$cookie.set('UserName', name, '10s');
 
           }
         }
@@ -108,6 +114,11 @@ export default {
   },
   mounted () {
     this.$ga.page('/Login');
+    var checkID = this.$cookie.get('LoginID');
+    console.log("checkID : ", checkID);
+    if(checkID !== undefined && checkID != "") {
+      this.id = checkID;
+    }
   }
 }
 </script>
@@ -129,5 +140,7 @@ export default {
 #login .formBox .inputBox input{ display:block; width:100%; height:100%; font-size:14px; padding-left:10px; color:#333; text-align:left; border:none; background-color:transparent; outline:none; box-sizing:border-box;}
 #login .formBox .btn{ display:block; width:100%; height:45px; line-height:45px; font-size:14px; font-weight:bold; color:#fff; text-align:center; background-color:#28ce99; border-radius:4px; margin-top:10px;}
 #login .bottom_text{ font-size:12px; color:#9fa0a0; margin-top:80px; line-height:1.2;}
+
+.v-text-field__slot{ margin-top: -10px}
 
 </style>

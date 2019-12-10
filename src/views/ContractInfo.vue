@@ -24,7 +24,7 @@
                     <tr id="9792864102">
                       <th id="7309450569">⊙ 옵션</th>
                         <td id="7809431477">
-                          <p style="height:70px">{{option}}</p>
+                          <p style="height:110px" v-html="option"></p>
                         </td>
                     </tr>
                 </table>
@@ -42,7 +42,7 @@
                     </tr>
                     <tr id="3666856390">
                       <th id="9369307643">⊙ 연간 계약마일리지</th>
-                        <td id="2230891365"><p>10,000 km ???</p></td>
+                        <td id="2230891365"><p>{{cDist}}</p></td>
                     </tr>
                     <tr id="2073806950">
                       <th id="3354100226">⊙ 월렌탈료</th>
@@ -50,7 +50,7 @@
                     </tr>
                     <tr id="4199842230" class="sub">
                       <th id="7830008680" class="indent"> - 선수금</th>
-                        <td id="4762140537"><p>800 만원 (30%)???</p></td>
+                        <td id="4762140537"><p>{{prePayed}}</p></td>
                     </tr>
                     <tr id="9648754559">
                       <th id="9531536027">⊙ 인수가액</th>
@@ -58,7 +58,7 @@
                     </tr>
                     <tr id="1638381196">
                       <th id="5835603339">⊙ 정비관련</th>
-                        <td id="6875771441"><p></p></td>
+                        <td id="6875771441"><p>{{carRepair}}</p></td>
                     </tr>
                     <tr id="6571979376">
                       <th id="7383588514">⊙ 중도해지 위약금</th>
@@ -86,27 +86,39 @@ export default {
       cStart: '',
       cEnd: '',
       cPeriod: '',
-      rentPrice: ''
+      cDist: '',
+      rentPrice: '',
+      prePayed: '',
+      carRepair: ''
     }
   },
   created : function(){
-    this.carContract();
+    //this.carContract();
 
     this.carModel =  this.ContractInfo.carModel;
     this.pYear = this.ContractInfo.ProductYear;
     this.carPrice = this.ContractInfo.CarAMT;
     this.option = this.ContractInfo.Option;
     this.drvName = this.ContractInfo.Name;
-    this.cStart = this.ContractInfo.ContStart.substring(2).replace('-',".");
-    this.cEnd = this.ContractInfo.ContEnd.substring(2).replace('-','.');
+    this.cStart = this.ContractInfo.ContStart.substring(2).replace(/-/gi,".");
+    this.cEnd = this.ContractInfo.ContEnd.substring(2).replace(/-/gi,".");
     this.cPeriod = this.ContractInfo.ContPeriod;
     this.rentPrice = this.ContractInfo.RentAMT;
+    this.prePayed = this.ContractInfo.PrePayed;
+    this.carRepair = this.ContractInfo.CarRepair;
+
+    if(this.ContractInfo.ContDist === "0") {
+      this.cDist = "무제한";
+    }
+    else {
+      this.cDist = this.ContractInfo.ContDist + "km";
+    }
   },
   methods:{
     test(){
       console.log("ddddddddddddddddddd :"+this.UserInfo.CarNo);
     },
-    carContract() {
+    carContract() {     // Main에서 초기에 한번에 읽어 오는 것으로 위치 변경....
 
       console.log("Check Login : ", this.UserInfo.CarNo);
 
@@ -183,7 +195,7 @@ export default {
   },
   mounted () {
     this.$ga.page('/ContractInfo');
-  } ,    
+  } ,
   components: {
 
   },
@@ -192,7 +204,7 @@ export default {
         get() { return this.$store.getters.UserInfo },
         set(value) { this.$store.dispatch('UpdateUserInfo',value) }
     },
-  ContractInfo: {
+    ContractInfo: {
         get() { return this.$store.getters.ContractInfo },
         set(value) { this.$store.dispatch('UpdateConractInfo',value) }
     },
@@ -213,7 +225,7 @@ export default {
 .subArea .infoBox li table{ width:100%;}
 .subArea .infoBox li table th{ width:80px; font-size:14px; font-weight:bold; color:#777; text-align:left; background-color:transparent; vertical-align:middle; letter-spacing:-0.03em;}
 .subArea .infoBox li table td{ padding:5px 0; vertical-align:middle;}
-.subArea .infoBox li table td p{ height:25px; font-size:14px; font-weight:14px; font-weight:bold; color:#777; padding:5px 8px; box-sizing:border-box; background-color:#efefef; letter-spacing:-0.03em;}
+.subArea .infoBox li table td p{ height:25px; font-size:13px; font-weight:bold; color:#777; padding:5px 8px; box-sizing:border-box; background-color:#efefef; letter-spacing:-0.03em;}
 .subArea .infoBox li table .sub th{ font-weight:normal; vertical-align:top}
 .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}
 .subArea .infoBox li table .sub td p{ height:auto; background-color:transparent; padding:0 8px;}

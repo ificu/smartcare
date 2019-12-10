@@ -9,8 +9,7 @@
       <v-expansion-panels focusable class="notice">
         <v-expansion-panel v-for="(notice,index) in noticeList" v-bind:key="index">
           <v-expansion-panel-header>{{notice.TITLE}}</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            {{notice.DESC}}
+          <v-expansion-panel-content v-html = "notice.DESC">
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -67,4 +66,6 @@ export default {
 .subArea .titleBox .title{ font-size:20px; font-weight:800; color:#fff; height:50px; line-height:50px;}
 
 .subArea .notice {padding: 10px}
+
+.v-expansion-panel-content {padding: 20px}
 </style>

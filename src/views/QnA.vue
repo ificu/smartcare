@@ -85,11 +85,11 @@ export default {
     param.tableName = "SMART_QNA";
     param.payload = {};
 
+    /*
     param.payload.FilterExpression = "ID = :id";
     param.payload.ExpressionAttributeValues = {};
     var key = ":id";
-    param.payload.ExpressionAttributeValues[key] = this.UserInfo.UserLoginId;    
-
+    param.payload.ExpressionAttributeValues[key] = this.UserInfo.UserLoginId;    */
     console.log("====== mounted ======");
     console.log(param);
 
@@ -101,6 +101,9 @@ export default {
     })
     .then((result) => {
       console.log("mounted 회신 결과 : ", result);
+      result.data.Items.sort(function(a,b) {
+        return a.SEQ > b.SEQ ? -1 : a.SEQ < b.SEQ ? 1 : 0;
+      });
       this.qnaList = result.data.Items;
 
     }).catch((error) => {

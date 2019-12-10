@@ -19,11 +19,11 @@
           <img id="1771345032" src="@/img/guage_bar.svg" class="guage_bar">
           <img id="1771345032" src="@/img/line_guage.png" class="guage_line">
           <div id="2659560575" class="goal_score">목표 점수<br>95점</div>
-          <div id="8870633421" class="my_score">{{safDrvIdx}} 점<p>(상위 32%, 96위)</p></div>
+          <div id="8870633421" class="my_score">{{safDrvIdx}} 점<p>(상위 {{SafetyInfo.safeIdxRank}}%, {{parseInt(SafetyInfo.safeIdxRank/100*SafetyInfo.drvrCnt)}}위)</p></div>
         </div>
         <div id="6594630138" class="text01">{{safDrvMessage}}</div>
         <div id="1597772086" class="text02">{{safDrvRecommend}}</div>
-        <div id="1246721320" class="text03">지금 <span>안전운전 미션</span>을 확인해 보세요!</div>
+        <div id="1246721320" class="text03"><span>안전운전 미션이 향후 서비스 예정입니다!</span></div>
       </a>
       </router-link>
       <a id="4079354739" @click="showERSCall=true" class="item">
@@ -186,22 +186,6 @@ export default {
       console.log("CarNum : "+ this.UserInfo.CarNo);
       console.log("SafDrvIdx : " + this.DrvInfo.SafDrvIdx);
       console.log("UserLoginId : " + this.UserInfo.UserLoginId);
-/*
-      var today_DATE = {};
-      today_DATE = this.getTodayDate();
-      var stDtToday = today_DATE.stDtToday;
-      var edDtToday = today_DATE.edDtToday;
-
-      console.log("stDt : " + today_DATE.stDtToday);
-      console.log("edDt : " + today_DATE.edDtToday);
-
-      var param = {};
-      param.authKey = Constant.SMARTLINK_AUTH_KEY;
-      param.reqTyp = "n";
-      param.stDt = stDtToday;
-      param.edDt = edDtToday;
-      param.carNum = this.carNo;
-*/
 
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
@@ -278,6 +262,7 @@ export default {
           var drvDate = new Date(hist.offDt);
           if(drvDate.getHours() >= 18)  drvNightCount++;  // 18시 이후인 경우 야간 주행시간으로 카운트
 
+          /*
           if(((now - drvDate)/1000/60/60/24) < 7) { // 현재 기준 7일 이내면 월 기준으로 4주차
             w4thSafeCnt++;
             w4thSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
@@ -293,13 +278,33 @@ export default {
           else if(((now - drvDate)/1000/60/60/24) < 28) { // 현재 기준 28일 이내면 월 기준으로 3주차
             w1stSafeCnt++;
             w1stSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }*/
+          // 일단 하드코딩으로....
+          if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 1 && drvDate.getDate() <= 7)) {
+            w1stSafeCnt++;
+            w1stSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }
+          else if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 8 && drvDate.getDate() <= 14)) {
+            w2ndSafeCnt++;
+            w2ndSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }
+          else if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 15 && drvDate.getDate() <= 21)) {
+            w3rdSafeCnt++;
+            w3rdSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
+          }
+          else if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 22 && drvDate.getDate() <= 28)) {
+            w4thSafeCnt++;
+            w4thSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
           }
 
           // 최신 3개 이력은 별도로 주행 이력으로 상세 표시함.
           if(i++ < 3) {
-            var drvDate = (hist.offDt.substr(5,1) === '0' ? hist.offDt.substr(6,1) : hist.offDt.substr(5,2)) + "월 " +
-                          (hist.offDt.substr(8,1) === '0' ? hist.offDt.substr(9,1) : hist.offDt.substr(8,2)) + "일 " +
-                          hist.offDt.substr(11,5);
+            var drvDate = "";
+            if(hist.offDt !== undefined) {
+              drvDate = (hist.offDt.substr(5,1) === '0' ? hist.offDt.substr(6,1) : hist.offDt.substr(5,2)) + "월 " +
+                        (hist.offDt.substr(8,1) === '0' ? hist.offDt.substr(9,1) : hist.offDt.substr(8,2)) + "일 " +
+                        hist.offDt.substr(11,5);
+                        }
             var drvId = hist.drvId;
             var drv = { "index" : i, "drvDate" : drvDate, "drvId" : drvId , "rawData" : hist};
             tmpDrvHst.push(drv);
@@ -311,7 +316,8 @@ export default {
         // 2. 안전지수 게이지
         //-------------------------------------------------------//
         //this.safDrvIdx = this.DrvInfo.safDrvIdx; // 안전지수
-        this.safDrvIdx = parseInt(safTotal / drvCount);
+        //this.safDrvIdx = parseInt(safTotal / drvCount);
+        this.safDrvIdx = this.SafetyInfo.safeIdx;
         this.DrvInfo.drvHstIFData.safDrvIdx = this.safDrvIdx;
 
         if(this.safDrvIdx != null && this.safDrvIdx != ""){
@@ -340,8 +346,11 @@ export default {
         var overSpdAdjst = parseInt(overSpdMean * 0.4);    // 과속 반영 비중 적용 점수
 
         var recommendType = "";
-        if(fstAccelMean <= fstDecelMean && fstAccelMean <= overSpdMean) recommendType = "fstAccel";
-        else if(fstDecelMean <= fstAccelMean && fstDecelMean <= overSpdMean ) recommendType = "fstDecel";
+        //if(fstAccelMean <= fstDecelMean && fstAccelMean <= overSpdMean) recommendType = "fstAccel";
+        //else if(fstDecelMean <= fstAccelMean && fstDecelMean <= overSpdMean ) recommendType = "fstDecel";
+        //else recommendType = "overSpd";
+        if(this.SafetyInfo.fstAcclIdx/0.4 <= this.SafetyInfo.fastDecIdx/0.2 && this.SafetyInfo.fstAcclIdx/0.4 <= this.SafetyInfo.overSpeedIdx/0.4) recommendType = "fstAccel";
+        else if(this.SafetyInfo.fastDecIdx/0.2 <= this.SafetyInfo.fstAcclIdx/0.4 && this.SafetyInfo.fastDecIdx/0.2 <= this.SafetyInfo.overSpeedIdx/0.4 ) recommendType = "fstDecel";
         else recommendType = "overSpd";
 
         if(this.safDrvIdx == 0) this.safDrvMessage = "아직까지 주행이력이 없습니다.";
@@ -362,10 +371,10 @@ export default {
         this.DrvInfo.drvHstIFData.drvNightCount = drvNightCount;
         this.DrvInfo.drvHstIFData.totDrvDist = (endDist - startDist).toFixed(1);
         this.DrvInfo.drvHstIFData.totDrvTm = parseInt(movTmTotal/60/60) + '시간 ' + parseInt((movTmTotal - parseInt(movTmTotal/60/60)*60*60)/60) + '분' ;
-        this.DrvInfo.drvHstIFData.w1stSafeIdx = parseInt(w1stSafeTot / w1stSafeCnt);
-        this.DrvInfo.drvHstIFData.w2ndSafeIdx = parseInt(w2ndSafeTot / w2ndSafeCnt);
-        this.DrvInfo.drvHstIFData.w3rdSafeIdx = parseInt(w3rdSafeTot / w3rdSafeCnt);
-        this.DrvInfo.drvHstIFData.w4thSafeIdx = parseInt(w4thSafeTot / w4thSafeCnt);
+        this.DrvInfo.drvHstIFData.w1stSafeIdx = (w1stSafeCnt === 0 ? 0 : parseInt(w1stSafeTot / w1stSafeCnt));
+        this.DrvInfo.drvHstIFData.w2ndSafeIdx = (w2ndSafeCnt === 0 ? 0 : parseInt(w2ndSafeTot / w2ndSafeCnt));
+        this.DrvInfo.drvHstIFData.w3rdSafeIdx = (w3rdSafeCnt === 0 ? 0 : parseInt(w3rdSafeTot / w3rdSafeCnt));
+        this.DrvInfo.drvHstIFData.w4thSafeIdx = (w4thSafeCnt === 0 ? 0 : parseInt(w4thSafeTot / w4thSafeCnt));
 
         //-------------------------------------------------------//
         // 4. 주행 기록 중 3개만 추출하여 GPS 좌표 조회
@@ -481,6 +490,18 @@ export default {
                 console.log(error);
               });
             }
+            else {  // gps 정보가 없다면 리스트에서 삭제해 줘야 함.
+              var index = 0;
+              var check = 0;
+              for(var arr of this.DrvInfo.drvGpsList) {
+                if(arr.drvId === JSON.parse(result.config.data).drvId) {
+                  check = index;
+                }
+                index++;
+              }
+              console.log(check + "번째 요소 삭제......");
+              this.DrvInfo.drvGpsList.slice(check, 1);
+            }
 
           }).catch((error) => {
             console.log(error);
@@ -548,6 +569,13 @@ export default {
       })
       .then((result) => {
         console.log("getSafetyInfo 회신 결과 : ", result);
+        this.SafetyInfo.safeIdx = result.data.safeRank.safeIdx;
+        this.SafetyInfo.safeIdxRank = result.data.safeRank.safeIdxRank;
+        this.SafetyInfo.drvrCnt = result.data.safeRank.drvrCnt;
+        this.SafetyInfo.fstAcclIdx = result.data.safeRank.fstAcclIdx;
+        this.SafetyInfo.fastDecIdx = result.data.safeRank.fastDecIdx;
+        this.SafetyInfo.overSpeedIdx = result.data.safeRank.overSpeedIdx;
+
       }).catch((error) => {
         console.log(error);
       });
@@ -584,17 +612,19 @@ export default {
           var tmpShockList = [];
           var i = 0;
           for(var impact of result.data.impacts) {
-            var shockDate = (impact.impactDt.substr(5,1) === '0' ? impact.impactDt.substr(6,1) : impact.impactDt.substr(5,2)) + "월 " +
-                            (impact.impactDt.substr(8,1) === '0' ? impact.impactDt.substr(9,1) : impact.impactDt.substr(8,2)) + "일 " +
-                            impact.impactDt.substr(11,5);
-            var shockMsg = "차량 충격이 감지되었습니다.";
-            var type = "";
-            if(edDt === impact.impactDt.substr(0, 10)) type = "new";
-            else type = "old";
-            var shock = { "index" : i, "shockDate" : shockDate, "shockMsg" : shockMsg, "type": type};
+            if(impact.impactDt !== undefined) {
+              var shockDate = (impact.impactDt.substr(5,1) === '0' ? impact.impactDt.substr(6,1) : impact.impactDt.substr(5,2)) + "월 " +
+                              (impact.impactDt.substr(8,1) === '0' ? impact.impactDt.substr(9,1) : impact.impactDt.substr(8,2)) + "일 " +
+                              impact.impactDt.substr(11,5);
+              var shockMsg = "차량 충격이 감지되었습니다.";
+              var type = "";
+              if(edDt === impact.impactDt.substr(0, 10)) type = "new";
+              else type = "old";
+              var shock = { "index" : i, "shockDate" : shockDate, "shockMsg" : shockMsg, "type": type};
 
-            tmpShockList.push(shock);
-            i++;
+              tmpShockList.push(shock);
+              i++;
+            }
           }
 
           this.CarShockInfo.shockList = tmpShockList;
@@ -612,7 +642,7 @@ export default {
       });
     },
     ///////////////////////////////////////////////////////////////////
-    // 안전점수 정보
+    // 차량 정비 이력 정보
     ///////////////////////////////////////////////////////////////////
     getCarRepairInfo() {
 
@@ -647,14 +677,74 @@ export default {
         console.log(error);
       });
     },
+    ///////////////////////////////////////////////////////////////////
+    // 차량 계약 정보
+    ///////////////////////////////////////////////////////////////////
+    getCarContractInfo() {
+      console.log("Check Login : ", this.UserInfo.CarNo);
+
+      var param = {};
+      param.operation = "list";
+      param.tableName = "SMART_CONTRACT";
+      param.payload = {};
+      param.payload.FilterExpression = "CAR = :id";
+      param.payload.ExpressionAttributeValues = {};
+      var key = ":id";
+      param.payload.ExpressionAttributeValues[key] = this.UserInfo.CarNo;
+
+      console.log("====== getCarContractInfo ======");
+      console.log(param);
+
+      axios({
+        method: 'POST',
+        url: Constant.LAMBDA_URL,
+        headers: Constant.LAMBDA_HEADER,
+        data: param
+      })
+      .then((result) => {
+        console.log("getCarContractInfo 회신 결과 : ", result);
+
+        this.ContractInfo.carModel = result.data.Items[0].CAR_MODEL;
+        this.ContractInfo.ProductYear = result.data.Items[0].PRODUCT_YEAR;
+        this.ContractInfo.CarAMT =  result.data.Items[0].CAR_AMT;
+        this.ContractInfo.Option = result.data.Items[0].OPTION;
+        this.ContractInfo.Name =  result.data.Items[0].NAME;
+        this.ContractInfo.ContStart = result.data.Items[0].CONTRACT_START;
+        this.ContractInfo.ContEnd = result.data.Items[0].CONTRACT_END;
+        this.ContractInfo.ContPeriod = result.data.Items[0].CONTRACT_PERIOD;
+        this.ContractInfo.ContDist = result.data.Items[0].CONTRACT_DIST;
+        this.ContractInfo.RentAMT = result.data.Items[0].RENTAL_AMT;
+        this.ContractInfo.PrePayed = result.data.Items[0].RENTAL_PREPAID;
+        this.ContractInfo.CarRepair = result.data.Items[0].REPAIR_SERVICE;
+
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
   },
   beforeMount(){
+    var checkCookie = this.$cookie.get('CarNo');
+    console.log("checkCookie : ", checkCookie);
+    if(checkCookie !== undefined && checkCookie != "" && checkCookie != null) {
+      this.UserInfo.UserName = this.$cookie.get('UserName');
+      this.UserInfo.CarNo = this.$cookie.get('CarNo');
+      this.UserInfo.UserLoginId = this.$cookie.get('LoginID');
+
+      this.userLoginId = this.UserInfo.userLoginId;
+      this.userName = this.UserInfo.UserName;
+      this.carNo = this.UserInfo.CarNo;
+    }
+    else {
+      this.$router.push('/');
+    }
+
     this.showLoading = true;
+    this.getSafetyInfo();
     this.getDrvInfo();
     this.getCarInfo();
-    this.getSafetyInfo();
     this.getImpactNotice();
     this.getCarRepairInfo();
+    this.getCarContractInfo();
     this.getTodayDate();
   },
   mounted () {
@@ -692,6 +782,14 @@ export default {
         get() { return this.$store.getters.CarShockInfo },
         set(value) { this.$store.dispatch('UpdateCarShockInfo',value) }
     },
+    SafetyInfo: {
+        get() { return this.$store.getters.SafetyInfo },
+        set(value) { this.$store.dispatch('UpdateSafetyInfo',value) }
+    },
+    ContractInfo: {
+        get() { return this.$store.getters.ContractInfo },
+        set(value) { this.$store.dispatch('UpdateConractInfo',value) }
+    },
   },
 }
 </script>
@@ -724,7 +822,7 @@ export default {
 #app .mainArea .item_list .item .text02{ font-size:13px; color:#666; text-align:center; margin-top:5px;}
 #app .mainArea .item_list .item .text03{ width:100%; padding:7px 0 5px; font-size:18px; font-weight:800; color:#333; text-align:center; background-color:#ceece3; margin-top:25px; margin-bottom:10px; border-radius:3px;}
 #app .mainArea .item_list .item .text04{ font-size:20px; font-weight: 800; color:red; text-align:center; margin-top:5px; padding-bottom:10px;}
-#app .mainArea .item_list .item .text03 span{ color:#f2000d;}
+#app .mainArea .item_list .item .text03 span{ font-size:16px; font-weight: 400; color:#999;}
 #app .mainArea .item_list .item .alarm_list{ margin-top:10px}
 #app .mainArea .item_list .item .alarm_list li{ display:table; width:100%; margin-bottom:5px;}
 #app .mainArea .item_list .item .alarm_list li p{ display:table-cell; font-size:15px; font-weight:bold; color:#333; vertical-align:middle;}

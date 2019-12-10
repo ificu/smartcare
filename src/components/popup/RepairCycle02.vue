@@ -7,11 +7,11 @@
         <table id="">
           <tr>
             <th id="">⊙ 일반조건</th>
-            <td id=""><input type="radio" id="일반조건" name="정비주기설정" v-model="checkedValues" value="1"><label for="일반조건">매 7,500 km / 6개월</label></td>
+            <td id=""><input type="radio" id="일반조건" name="정비주기설정" v-model="checkedValues" value="1"><label for="일반조건">{{conditionMessage1}}</label></td>
           </tr>
           <tr>
             <th id="">⊙ 가혹조건</th>
-            <td id=""><input type="radio" id="가혹조건" name="정비주기설정" v-model="checkedValues" value="2"><label for="가혹조건">매 7,500 km / 6개월</label></td>
+            <td id=""><input type="radio" id="가혹조건" name="정비주기설정" v-model="checkedValues" value="2"><label for="가혹조건">{{conditionMessage2}}</label></td>
           </tr>
           <tr>
             <th id="">⊙ 개인 설정조건</th>
@@ -38,6 +38,8 @@ export default {
     return {
 			item: this.repairItem,
 			checkedValues: [],
+			conditionMessage1: '',
+			conditionMessage2: '',
 			inputKm: this.repairItem === "엔진오일" ? this.$store.getters.CarRepairInfo.EngineOilCycle : this.$store.getters.CarRepairInfo.AirFilterCycle
     }
   },
@@ -61,11 +63,13 @@ export default {
 
 			if(this.checkedValues === '1') {
 				tmpType = "일반";
-				tmpKm = 7500;
+				if(this.repairItem === "엔진오일") tmpKm = 15000;
+				else tmpKm = 10000;
 			}
 			else if(this.checkedValues === '2') {
 				tmpType = "가혹";
-				tmpKm = 7500;
+				if(this.repairItem === "엔진오일") tmpKm = 7500;
+				else tmpKm = 5000;
 			}
 			else {
 				tmpType = "개인";
@@ -123,6 +127,8 @@ export default {
 			else {
 				this.checkedValues = 3;
 			}
+			this.conditionMessage1 = '15,000Km / 1년';
+			this.conditionMessage2 = '7,500km / 6개월';
 		}
 		else {
 			if(this.CarRepairInfo.AirFilterType === "일반") {
@@ -134,6 +140,8 @@ export default {
 			else {
 				this.checkedValues = 3;
 			}
+			this.conditionMessage1 = '10,000Km / 6개월';
+			this.conditionMessage2 = '5,000Km / 3개월';
 		}
   },
 	computed:{
@@ -152,7 +160,10 @@ export default {
 <style scoped>
 
 /* 팝업(정비주기설정) */
-#popup_period_setting .popup_main{ padding:50px 20px 30px}
+.popup_layer{ position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:10}
+.popup_layer .popup_main{ position:absolute; left:5%; top:50%; transform:translateY(-50%); width:90%; background-color:#fff; border:1px solid #28ce99; box-sizing:border-box; padding:50px 15px 30px; text-align:center}
+.popup_layer .popup_main .xBtn{ position:absolute; top:12px; right:10px;}
+.popup_layer .popup_main .xBtn img{ width:22px;}
 .popup_layer .popup_main .title2{ font-size:26px; font-weight:800; color:#333; letter-spacing:-0.05em;}
 .popup_layer .popup_main .popup_table{ margin-top:30px;}
 .popup_layer .popup_main .popup_table table{ width:100%;}

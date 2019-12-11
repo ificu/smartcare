@@ -262,7 +262,8 @@ export default {
           if(i === 0) endDist = hist.offDist;   // 맨 마지막의 OFF 시 누적 거리
           if(i === (drvCount-1)) startDist = hist.onDist;   // 맨 처음의 On 시 누적 거리
 
-          movTmTotal += hist.movTm;    // 운행 시간 합계 (초)
+          if(hist.movTm !== undefined)
+            movTmTotal += hist.movTm;    // 운행 시간 합계 (초)
           var drvDate = new Date(hist.offDt);
           if(drvDate.getHours() >= 18)  drvNightCount++;  // 18시 이후인 경우 야간 주행시간으로 카운트
 
@@ -335,7 +336,7 @@ export default {
         console.log("this.DrvInfo.SafeIndex : " + this.DrvInfo.safDrvIdx);
 
         //-------------------------------------------------------//
-        // 3. 메시지 표시 계산
+        // 3. 전체 주행거리 계산
         //-------------------------------------------------------//
         var fstAccelMean = parseInt(fstAccelTotal / drvCount);  // 급가속 평균
         var fstDecelMean = parseInt(fstDecelTotal / drvCount);  // 갑감속 평균
@@ -349,28 +350,11 @@ export default {
         var fstDecelAdjst = parseInt(fstDecelMean * 0.2);  // 갑감속 반영 비중 적용 점수
         var overSpdAdjst = parseInt(overSpdMean * 0.4);    // 과속 반영 비중 적용 점수
 
-        var recommendType = "";
+        //var recommendType = "";
         //if(fstAccelMean <= fstDecelMean && fstAccelMean <= overSpdMean) recommendType = "fstAccel";
         //else if(fstDecelMean <= fstAccelMean && fstDecelMean <= overSpdMean ) recommendType = "fstDecel";
         //else recommendType = "overSpd";
-        if(this.SafetyInfo.fstAcclIdx/0.4 <= this.SafetyInfo.fastDecIdx/0.2 && this.SafetyInfo.fstAcclIdx/0.4 <= this.SafetyInfo.overSpeedIdx/0.4) recommendType = "fstAccel";
-        else if(this.SafetyInfo.fastDecIdx/0.2 <= this.SafetyInfo.fstAcclIdx/0.4 && this.SafetyInfo.fastDecIdx/0.2 <= this.SafetyInfo.overSpeedIdx/0.4 ) recommendType = "fstDecel";
-        else recommendType = "overSpd";
 
-        if(this.safDrvIdx == 0) this.safDrvMessage = "아직까지 주행이력이 없습니다.";
-        else if(this.safDrvIdx > 0 && this.safDrvIdx < 20 ) this.safDrvMessage = "사고 발생 가능성이 높습니다. 꼭 안전운전 하세요.";
-        else if(this.safDrvIdx >= 20 && this.safDrvIdx < 40 ) this.safDrvMessage = "안전운전 습관을 꾸준히 글러보세요.";
-        else if(this.safDrvIdx >= 40 && this.safDrvIdx < 60 ) this.safDrvMessage = "행복을 위해 안전운전하세요.";
-        else if(this.safDrvIdx >= 60 && this.safDrvIdx < 80 ) this.safDrvMessage = "좋은 안전운전 습관으로 도약하고 있습니다.";
-        else if(this.safDrvIdx >= 80 && this.safDrvIdx < 100 ) this.safDrvMessage = "안전운전을 잘하고 계십니다.";
-        else this.safDrvMessage = "최고의 안전운전을 하고 계십니다.";
-
-        if(recommendType === "fstAccel") this.safDrvRecommend = "가속 페달은 조금 더 차분히 밟아주세요.";
-        else if (recommendType === "fstDecel") this.safDrvRecommend = "돌발 상황 대응을 위해 먼저 속도를 줄여주세요.";
-        else this.safDrvRecommend = "조금만 더 속도를 줄여주세요.";
-
-        this.DrvInfo.drvHstIFData.safDrvMessage = this.safDrvMessage;
-        this.DrvInfo.drvHstIFData.safDrvRecommend = this.safDrvRecommend;
         this.DrvInfo.drvHstIFData.drvCount = drvCount;
         this.DrvInfo.drvHstIFData.drvNightCount = drvNightCount;
         this.DrvInfo.drvHstIFData.totDrvDist = (endDist - startDist).toFixed(1);
@@ -537,7 +521,7 @@ export default {
       .then((result) => {
         console.log("getCarInfo 회신 결과 : ", result);
         this.accDist = numberWithCommas(Math.floor(result.data.cars[0].accDist));
-        this.CarInfo.accDist = numberWithCommas(Math.floor(result.data.cars[0].accDist)); // 총 누적거리
+        this.CarInfo.accDist = result.data.cars[0].accDist; // 총 누적거리
         this.CarInfo.curLat = result.data.cars[0].curLat; // 현재 위치 (GPS 위도)
         this.CarInfo.curLon = result.data.cars[0].curLon; // 현재 위치 (GPS 경도)
         this.CarInfo.gpsDt = result.data.cars[0].gpsDt; // 현재 GPS 위치 업데이트 일시
@@ -551,10 +535,28 @@ export default {
     // 안전점수 정보
     ///////////////////////////////////////////////////////////////////
     getSafetyInfo() {
+
       var now = new Date();
+      var stDt, edDt;
+      /*
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
       now.setMonth(now.getMonth() -1);    // 한달 전
       var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+      */
+      if(now.getDay() === 0) {
+        // 일요일이면 바로 전 주 일주일을 계산함.
+        now.setDate(now.getDate() - 7 - now.getDay());
+        var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+        now.setDate(now.getDate() + 7 - 1);
+        var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+      }
+      else {
+        // 평일이면 금주 주간을 계산함
+        var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+        now.setDate(now.getDate() - now.getDay());
+        var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+      }
+      console.log('Date : ', stDt + ' / ' + edDt);
 
       var param = {};
       param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -579,6 +581,50 @@ export default {
         this.SafetyInfo.fstAcclIdx = result.data.safeRank.fstAcclIdx;
         this.SafetyInfo.fastDecIdx = result.data.safeRank.fastDecIdx;
         this.SafetyInfo.overSpeedIdx = result.data.safeRank.overSpeedIdx;
+
+        // 출력 할 메시지를 계산하자....
+        var recommendType = "";
+        if(this.SafetyInfo.fstAcclIdx/0.4 <= this.SafetyInfo.fastDecIdx/0.2 && this.SafetyInfo.fstAcclIdx/0.4 <= this.SafetyInfo.overSpeedIdx/0.4) recommendType = "fstAccel";
+        else if(this.SafetyInfo.fastDecIdx/0.2 <= this.SafetyInfo.fstAcclIdx/0.4 && this.SafetyInfo.fastDecIdx/0.2 <= this.SafetyInfo.overSpeedIdx/0.4 ) recommendType = "fstDecel";
+        else recommendType = "overSpd";
+
+        if(this.SafetyInfo.safeIdx == 0) this.safDrvMessage = "아직까지 주행이력이 없습니다.";
+        else if(this.SafetyInfo.safeIdx > 0 && this.SafetyInfo.safeIdx < 45 ) this.safDrvMessage = "사고 발생 가능성이 높습니다. 꼭 안전운전 하세요.";
+        else if(this.SafetyInfo.safeIdx >= 45 && this.SafetyInfo.safeIdx < 75 ) this.safDrvMessage = "안전운전 습관을 꾸준히 길러보세요.";
+        else if(this.SafetyInfo.safeIdx >= 75 && this.SafetyInfo.safeIdx < 85 ) this.safDrvMessage = "행복을 위해 안전운전하세요.";
+        else if(this.SafetyInfo.safeIdx >= 85 && this.SafetyInfo.safeIdx < 95 ) this.safDrvMessage = "안전운전을 잘하고 계십니다.";
+        else if(this.SafetyInfo.safeIdx >= 95 && this.SafetyInfo.safeIdx < 100 ) this.safDrvMessage = "최고의 안전운전을 하고 계십니다.";
+        else this.safDrvMessage = "최고의 안전운전을 하고 계십니다.";
+
+        if(this.SafetyInfo.safeIdx !== 0 && this.SafetyInfo.safeIdx !== 100) {
+          if(recommendType === "fstAccel") {
+            if(this.SafetyInfo.fstAcclIdx/0.4 > 0 && this.SafetyInfo.fstAcclIdx/0.4 < 45 ) this.safDrvRecommend = "급가속이 많네요. 조심히 운전해 주세요.";
+            else if(this.SafetyInfo.fstAcclIdx/0.4 >= 45 && this.SafetyInfo.fstAcclIdx/0.4 < 75 ) this.safDrvRecommend = "급가속이 많네요. 조심히 운전해 주세요.";
+            else if(this.SafetyInfo.fstAcclIdx/0.4 >= 75 && this.SafetyInfo.fstAcclIdx/0.4 < 85 ) this.safDrvRecommend = "가속 페달은 조금 더 차분히 밟아주세요.";
+            else if(this.SafetyInfo.fstAcclIdx/0.4 >= 85 && this.SafetyInfo.fstAcclIdx/0.4 < 95 ) this.safDrvRecommend = "조금만 급가속을 줄이시면 모범운전이 되십니다.";
+            else if(this.SafetyInfo.fstAcclIdx/0.4 >= 95 && this.SafetyInfo.fstAcclIdx/0.4 < 100 ) this.safDrvRecommend = "지금과 같은 운전습관을 유지해 주세요.";
+          }
+          else if(recommendType === "fstAccel") {
+            if(this.SafetyInfo.fastDecIdx/0.2 > 0 && this.SafetyInfo.fastDecIdx/0.2 < 45 ) this.safDrvRecommend = "급감속이 많네요. 조심히 운전해 주세요.";
+            else if(this.SafetyInfo.fastDecIdx/0.2 >= 45 && this.SafetyInfo.fastDecIdx/0.2 < 75 ) this.safDrvRecommend = "급감속이 많네요. 조심히 운전해 주세요.";
+            else if(this.SafetyInfo.fastDecIdx/0.2 >= 75 && this.SafetyInfo.fastDecIdx/0.2 < 85 ) this.safDrvRecommend = "돌발 상황 대응을 위해 먼저 속도를 줄여주세요.";
+            else if(this.SafetyInfo.fastDecIdx/0.2 >= 85 && this.SafetyInfo.fastDecIdx/0.2 < 95 ) this.safDrvRecommend = "조금만 급감속을 줄이시면 모범운전이 되십니다.";
+            else if(this.SafetyInfo.fastDecIdx/0.2 >= 95 && this.SafetyInfo.fastDecIdx/0.2 < 100 ) this.safDrvRecommend = "지금과 같은 운전습관을 유지해 주세요.";
+          }
+          else {
+            if(this.SafetyInfo.overSpeedIdx/0.4 > 0 && this.SafetyInfo.overSpeedIdx/0.4 < 45 ) this.safDrvRecommend = "과속이 많네요. 조심히 운전해 주세요.";
+            else if(this.SafetyInfo.overSpeedIdx/0.4 >= 45 && this.SafetyInfo.overSpeedIdx/0.4 < 75 ) this.safDrvRecommend = "과속이 많네요. 조심히 운전해 주세요.";
+            else if(this.SafetyInfo.overSpeedIdx/0.4 >= 75 && this.SafetyInfo.overSpeedIdx/0.4 < 85 ) this.safDrvRecommend = "조금만 더 속도를 줄여주세요.";
+            else if(this.SafetyInfo.overSpeedIdx/0.4 >= 85 && this.SafetyInfo.overSpeedIdx/0.4 < 95 ) this.safDrvRecommend = "조금만 과속을 줄이시면 모범운전이 되십니다.";
+            else if(this.SafetyInfo.overSpeedIdx/0.4 >= 95 && this.SafetyInfo.overSpeedIdx/0.4 < 100 ) this.safDrvRecommend = "지금과 같은 운전습관을 유지해 주세요.";
+          }
+        }
+
+        this.DrvInfo.drvHstIFData.safDrvMessage = this.safDrvMessage;
+        this.DrvInfo.drvHstIFData.safDrvRecommend = this.safDrvRecommend;
+
+        console.log("safDrvMessage : ", this.safDrvMessage);
+        console.log("safDrvRecommend : ", this.safDrvRecommend);
 
       }).catch((error) => {
         console.log(error);

@@ -89,7 +89,7 @@ export default {
 .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}
 .subArea .infoBox li table .sub td p{ height:auto; background-color:transparent; padding:0 8px;}
 .subArea .infoBox li table .sub .indent{ padding-left: 10px;}
-.subArea .infoBox li table.tb02 th{ width:125px;}
+.subArea .infoBox li table.tb02 th{ width:115px;}
 
 .subArea .alarm li table th{ font-size:11px; color:#898989; vertical-align:top}
 .subArea .alarm li table td{ font-size:14px; font-weight:800; color:#333; line-height:1.2; vertical-align:top; padding-top:0; padding-bottom:10px;}

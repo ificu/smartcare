@@ -7,32 +7,38 @@
     </div>
     <ul id="3610927099" class="infoBox report">
       <li id="3491418214">
-        <div id="4290904421" class="info_title">나의 안전점수 ({{thisMonth}})</div>
+        <div id="4290904421" class="info_title">나의 안전점수 ({{thisMonth}}월 {{thisWeek}}주차)</div>
             <div id="7416675010" class="report_text01">{{DrvInfo.drvHstIFData.safDrvMessage}}</div>
             <div id="4479799753" class="report_text02">{{DrvInfo.drvHstIFData.safDrvRecommend}}</div>
+            <a href="javascript:;" id="8556562402" class="change_info">나의 운전 점수 <img src="../img/icon_i.svg" id=""></a>
             <div id="6880835588" class="myReport">
               <div id="7199598694" class="box">
                     <div id="8222585707" class="textBox">
-                        <div id="8447182066" class="text01">나의 운전 점수 <img src="../img/icon_i.svg"></div>
                         <div id="9799274711" class="text02">{{DrvInfo.drvHstIFData.safDrvIdx}}<span>점</span></div>
                         <div id="6613488413" class="text03">(상위 {{SafetyInfo.safeIdxRank}}%, {{parseInt(SafetyInfo.safeIdxRank/100*SafetyInfo.drvrCnt)}}위)</div>
                     </div>
                     <div id="1040758924" class="gradeBox">
                         <div id="3031104676" class="item">
-                            <img v-if="SafetyInfo.overSpeedIdx < 24" src="../img/icon_grade03.png" id="">
-                            <img v-else-if="SafetyInfo.overSpeedIdx >= 24 && SafetyInfo.overSpeedIdx < 32" src="../img/icon_grade02.png" id="">
+                            <img v-if="SafetyInfo.overSpeedIdx/0.4 < 45" src="../img/icon_grade05.png" id="">
+                            <img v-else-if="SafetyInfo.overSpeedIdx/0.4 >= 45 && SafetyInfo.overSpeedIdx/0.4 < 75" src="../img/icon_grade04.png" id="">
+                            <img v-else-if="SafetyInfo.overSpeedIdx/0.4 >= 75 && SafetyInfo.overSpeedIdx/0.4 < 85" src="../img/icon_grade03.png" id="">
+                            <img v-else-if="SafetyInfo.overSpeedIdx/0.4 >= 85 && SafetyInfo.overSpeedIdx/0.4 < 95" src="../img/icon_grade02.png" id="">
                             <img v-else src="../img/icon_grade01.png" id="">
                             과속
                         </div>
                         <div id="4160634505" class="item">
-                          <img v-if="SafetyInfo.fstAcclIdx < 24" src="../img/icon_grade03.png" id="">
-                          <img v-else-if="SafetyInfo.fstAcclIdx >= 24 && SafetyInfo.fstAcclIdx < 32" src="../img/icon_grade02.png" id="">
+                          <img v-if="SafetyInfo.fstAcclIdx/0.4 < 45" src="../img/icon_grade05.png" id="">
+                          <img v-else-if="SafetyInfo.fstAcclIdx/0.4 >= 45 && SafetyInfo.fstAcclIdx/0.4 < 75" src="../img/icon_grade04.png" id="">
+                          <img v-else-if="SafetyInfo.fstAcclIdx/0.4 >= 75 && SafetyInfo.fstAcclIdx/0.4 < 85" src="../img/icon_grade03.png" id="">
+                          <img v-else-if="SafetyInfo.fstAcclIdx/0.4 >= 85 && SafetyInfo.fstAcclIdx/0.4 < 95" src="../img/icon_grade02.png" id="">
                           <img v-else src="../img/icon_grade01.png" id="">
                             급가속
                         </div>
                         <div id="2650417521" class="item">
-                          <img v-if="SafetyInfo.fastDecIdx < 12" src="../img/icon_grade03.svg" id="">
-                          <img v-else-if="SafetyInfo.fastDecIdx >= 12 && SafetyInfo.fastDecIdx < 16" src="../img/icon_grade02.png" id="">
+                          <img v-if="SafetyInfo.fastDecIdx/0.2 < 45" src="../img/icon_grade05.png" id="">
+                          <img v-else-if="SafetyInfo.fastDecIdx/0.2 >= 45 && SafetyInfo.fastDecIdx/0.2 < 75" src="../img/icon_grade04.png" id="">
+                          <img v-else-if="SafetyInfo.fastDecIdx/0.2 >= 75 && SafetyInfo.fastDecIdx/0.2 < 85" src="../img/icon_grade03.png" id="">
+                          <img v-else-if="SafetyInfo.fastDecIdx/0.2 >= 85 && SafetyInfo.fastDecIdx/0.2 < 95" src="../img/icon_grade02.png" id="">
                           <img v-else src="../img/icon_grade01.png" id="">
                             급감속
                         </div>
@@ -106,8 +112,10 @@
 
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import SafeDriveTip from '@/components/popup/SafeDriveTip.vue'
+import Constant from '@/Constant'
 
 export default {
   name: 'SafeReport',
@@ -118,18 +126,129 @@ export default {
       w3rdSafeStyle: "",
       w4thSafeStyle: "",
       showSafeDriveTip: false,
-      thisMonth: ""
+      thisMonth: "",
+      thisWeek: ""
     }
   },
   created: function() {
     console.log('DrvInfo : ', this.DrvInfo);
+
+    // 일단 시간이 없어서 첫주차는 하드코딩하고....
+    var stDt = '2019-12-01'
+    var edDt = '2019-12-07';
+
+    var param = {};
+    param.authKey = Constant.SMARTLINK_AUTH_KEY;
+    param.userId = this.UserInfo.UserLoginId;
+    param.stDt = stDt;
+    param.edDt = edDt;
+
+    console.log("====== getSafetyInfo ======");
+    console.log(param);
+
+    axios({
+     method: 'POST',
+     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+     headers: Constant.SMARTLINK_HEADER,
+     data: param
+    })
+    .then((result) => {
+      console.log("getSafetyInfo 회신 결과 : ", result);
+      this.DrvInfo.drvHstIFData.w1stSafeIdx = result.data.safeRank.safeIdx;
+      this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
+
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    this.DrvInfo.drvHstIFData.w2ndSafeIdx = this.SafetyInfo.safeIdx;
+    this.DrvInfo.drvHstIFData.w3rdSafeIdx = 0;
+    this.DrvInfo.drvHstIFData.w4thSafeIdx = 0;
+
     this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
     this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";
     this.w3rdSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w3rdSafeIdx + "px";
     this.w4thSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w4thSafeIdx + "px";
 
+
     var now = new Date();
-    this.thisMonth = (now.getMonth()+1) +"월";
+    console.log("This Week : ", this.weekNumberByMonth(now));
+    
+    this.thisMonth = this.weekNumberByMonth(now).month;
+    this.thisWeek = this.weekNumberByMonth(now).weekNo;
+    // 정확히는 이렇게 계산하자...
+    /*
+    for(var i = 0; i< this.thisWeek; i++) {
+      this.getThisMonthWeekData(i);
+    }*/
+  },
+  methods: {
+    //getThisMonthWeekData(weekNo){  // 이번달의 1주차, 2주차, 3주차, 4주차, 5주차 값을 계산하여 조회 함.
+    //},
+    weekNumberByMonth(dateFormat) {
+      const inputDate = new Date(dateFormat);
+
+      // 인풋의 년, 월
+      let year = inputDate.getFullYear();
+      let month = inputDate.getMonth() + 1;
+
+      // 목요일 기준 주차 구하기
+      const weekNumberByThurFnc = (paramDate) => {
+
+        const year = paramDate.getFullYear();
+        const month = paramDate.getMonth();
+        const date = paramDate.getDate();
+
+        // 인풋한 달의 첫 날과 마지막 날의 요일
+        const firstDate = new Date(year, month, 1);
+        const lastDate = new Date(year, month+1, 0);
+        const firstDayOfWeek = firstDate.getDay() === 0 ? 7 : firstDate.getDay();
+        const lastDayOfweek = lastDate.getDay();
+
+        // 인풋한 달의 마지막 일
+        const lastDay = lastDate.getDate();
+
+        // 첫 날의 요일이 금, 토, 일요일 이라면 true
+        const firstWeekCheck = firstDayOfWeek === 5 || firstDayOfWeek === 6 || firstDayOfWeek === 7;
+        // 마지막 날의 요일이 월, 화, 수라면 true
+        const lastWeekCheck = lastDayOfweek === 1 || lastDayOfweek === 2 || lastDayOfweek === 3;
+
+        // 해당 달이 총 몇주까지 있는지
+        const lastWeekNo = Math.ceil((firstDayOfWeek - 1 + lastDay) / 7);
+
+        // 날짜 기준으로 몇주차 인지
+        let weekNo = Math.ceil((firstDayOfWeek - 1 + date) / 7);
+
+        // 인풋한 날짜가 첫 주에 있고 첫 날이 월, 화, 수로 시작한다면 'prev'(전달 마지막 주)
+        if(weekNo === 1 && firstWeekCheck) weekNo = 'prev';
+        // 인풋한 날짜가 마지막 주에 있고 마지막 날이 월, 화, 수로 끝난다면 'next'(다음달 첫 주)
+        else if(weekNo === lastWeekNo && lastWeekCheck) weekNo = 'next';
+        // 인풋한 날짜의 첫 주는 아니지만 첫날이 월, 화 수로 시작하면 -1;
+        else if(firstWeekCheck) weekNo = weekNo -1;
+
+        return weekNo;
+      };
+
+      // 목요일 기준의 주차
+      let weekNo = weekNumberByThurFnc(inputDate);
+
+      // 이전달의 마지막 주차일 떄
+      if(weekNo === 'prev') {
+        // 이전 달의 마지막날
+        const afterDate = new Date(year, month-1, 0);
+        year = month === 1 ? year - 1 : year;
+        month = month === 1 ? 12 : month - 1;
+        weekNo = weekNumberByThurFnc(afterDate);
+      }
+      // 다음달의 첫 주차일 때
+      if(weekNo === 'next') {
+        year = month === 12 ? year + 1 : year;
+        month = month === 12 ? 1 : month + 1;
+        weekNo = 1;
+      }
+
+      return {year, month, weekNo};
+    }
   },
   beforeMount(){
 
@@ -179,7 +298,6 @@ export default {
 .subArea .infoBox li table .sub th{ font-weight:normal; vertical-align:top}
 .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}
 .subArea .infoBox li table .sub td p{ height:auto; background-color:transparent; padding:0 8px;}
-.subArea .infoBox li table.tb02 th{ width:125px;}
 .subArea .infoBox .info_text{ font-size:18px; font-weight:800; color:#333; margin-bottom:10px; letter-spacing:-0.03em;}
 .subArea .infoBox .info_text span{ padding:5px 20px; background-color:#efefef}
 .subArea .infoBox .info_text_orange{ font-size:15px; font-weight:bold; color:#ed6c00; line-height:1.3; text-align:center;}

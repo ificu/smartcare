@@ -180,9 +180,8 @@ export default {
 .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}
 .subArea .infoBox li table .sub td p{ height:auto; background-color:transparent; padding:0 8px;}
 .subArea .infoBox li table .sub .indent{ padding-left: 10px;}
-.subArea .infoBox li table.tb02 th{ width:125px;}
 
-.subArea .infoBox .info_text{ font-size:17px; font-weight:800; color:#333; margin-bottom:10px; letter-spacing:-0.03em;}
+.subArea .infoBox .info_text{ font-size:17px; font-weight:800; color:#333; margin-bottom:10px; letter-spacing:-0.03em; text-align: center;}
 .subArea .infoBox .info_text span{ padding:5px 20px; background-color:#efefef}
 .subArea .infoBox .info_text_orange{ font-size:15px; font-weight:bold; color:#ed6c00; line-height:1.3; text-align:center;}
 .subArea .infoBox .info_text_black{ font-size:13px; font-weight:bold; color:#333; text-align:center; letter-spacing:-0.03em}

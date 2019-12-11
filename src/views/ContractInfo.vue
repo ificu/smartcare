@@ -212,7 +212,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .subArea .titleBox{ position:relative; width:100%; background-color:#28ce99; text-align:center}
 .subArea .titleBox .backBtn{ position:absolute; top:15px; left:20px;}
 .subArea .titleBox .backBtn img{ width:15px;}
@@ -225,7 +225,7 @@ export default {
 .subArea .infoBox li table{ width:100%;}
 .subArea .infoBox li table th{ width:80px; font-size:14px; font-weight:bold; color:#777; text-align:left; background-color:transparent; vertical-align:middle; letter-spacing:-0.03em;}
 .subArea .infoBox li table td{ padding:5px 0; vertical-align:middle;}
-.subArea .infoBox li table td p{ height:25px; font-size:13px; font-weight:bold; color:#777; padding:5px 8px; box-sizing:border-box; background-color:#efefef; letter-spacing:-0.03em;}
+.subArea .infoBox li table td p{ height:25px; font-size:14px; font-weight:bold; color:#777; padding:5px 8px; box-sizing:border-box; background-color:#efefef; letter-spacing:-0.03em;}
 .subArea .infoBox li table .indent{ padding-left: 10px;}
 .subArea .infoBox li table .sub th{ font-weight:normal; vertical-align:top}
 .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}

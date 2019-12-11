@@ -112,9 +112,6 @@ export default {
   components: {
     QnARegister: QnARegister,
   },
-  mounted () {
-    this.$ga.page('/Notice');
-  },  
   computed:{
     UserInfo: {
         get() { return this.$store.getters.UserInfo },

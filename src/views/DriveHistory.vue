@@ -39,10 +39,13 @@
                   <div id="1195771929" class="guage"><span v-bind:style="recommendDistBarStyle"></span></div>
                   <div id="4652004510" class="bottom_text">
                     <div id="4999187550" class="left"></div>
-                      <div id="9602309909" class="right">{{recommendMessage}}</div>
+                      <div id="9602309909" class="right" >권장 주행거리</div>
                   </div>
+
               </div>
             </div>
+            <div id="9602309909" class="normal" v-if="!recommandEmphasize">{{recommendMessage}}</div>
+            <div id="9602309909" class="emphasize" v-if="recommandEmphasize">{{recommendMessage}}</div>
         </li>
 
             <li id="8899113537">
@@ -109,6 +112,7 @@ export default {
       recommendDist: "",
       recommendDistBarStyle: "",
       recommendMessage: "",
+      recommandEmphasize: false
     }
   },
   mounted () {
@@ -153,6 +157,8 @@ export default {
       this.contractDistBarStyle = "width:" + parseInt((now-start)/(end-start)*100) + "%" ;
     }
     else {
+
+
       this.contractDist = (this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "km (" + ((this.CarInfo.accDist)/(this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12)*100).toFixed(1) + "%)";
       if((this.CarInfo.accDist) < (this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12)*100)
         this.contractDistBarStyle = "width:" + parseInt((this.CarInfo.accDist)/(this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12)*100) + "%";
@@ -162,12 +168,18 @@ export default {
      this.recommendDist = parseInt(this.ContractInfo.ContDist / 12).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "km (" + ((this.DrvInfo.drvHstIFData.totDrvDist)/(this.ContractInfo.ContDist / 12) * 100).toFixed(1) + "%)";
 
      if(this.DrvInfo.drvHstIFData.totDrvDist < (this.ContractInfo.ContDist / 12)) {
+
        this.recommendDistBarStyle = "width:" + parseInt((this.DrvInfo.drvHstIFData.totDrvDist/(this.ContractInfo.ContDist / 12)) * 100) + "%";
        this.recommendMessage = "이번달 권장주행거리 대비 " + (parseInt(this.ContractInfo.ContDist / 12) - parseInt(this.DrvInfo.drvHstIFData.totDrvDist)) + "km 남으셨습니다.";
      }
      else {
+       console.log("totDrvDist : ", this.DrvInfo.drvHstIFData.totDrvDist);
+       console.log("totDrvDist : ", this.ContractInfo.ContDist);
        this.recommendDistBarStyle = "width:100%; background-color:red;";
-       this.recommendMessage = "이번달 권장주행거리 대비 " + (parseInt(this.DrvInfo.drvHstIFData.totDrvDist / 12) - parseInt(this.ContractInfo.ContDist)) + "km 초과하셨습니다.";
+       this.recommendMessage = "이번달 권장주행거리 대비 "
+                              + (parseInt(this.DrvInfo.drvHstIFData.totDrvDist) - parseInt(this.ContractInfo.ContDist / 12)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                              + "km 초과하셨습니다.";
+       this.recommandEmphasize = true;
      }
 
 //        recommendDist: "",
@@ -239,7 +251,6 @@ export default {
 .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}
 .subArea .infoBox li table .sub td p{ height:auto; background-color:transparent; padding:0 8px;}
 .subArea .infoBox li table .sub .indent{ padding-left: 10px;}
-.subArea .infoBox li table.tb02 th{ width:125px;}
 
 .subArea .infoBox li .mileage{ width:100%; padding:0 5px; box-sizing:border-box; overflow:hidden; margin-top:15px}
 .subArea .infoBox li .mileage:after{ content:""; display:block; clear:both}
@@ -251,6 +262,7 @@ export default {
 .subArea .infoBox li .mileage .guageBox .top_text:after{ content:""; display:block; clear:both}
 .subArea .infoBox li .mileage .guageBox .top_text .left{ float:left; font-size:10px; font-weight:bold; color:#ef8300; letter-spacing:-0.03em;}
 .subArea .infoBox li .mileage .guageBox .top_text .right{ float:right; font-size:10px; font-weight:bold; color:#e60012; letter-spacing:-0.03em;}
+
 .subArea .infoBox li .mileage .guageBox .guage{ position:relative; width:100%; height:20px; background-color:#ddd}
 .subArea .infoBox li .mileage .guageBox .guage span{ position:absolute; display:block; top:0; left:0; height:100%; background-color:#ef8300; z-index:1}
 .subArea .infoBox li .mileage .guageBox .bottom_text{ overflow:hidden}
@@ -267,5 +279,8 @@ export default {
 .subArea .infoBox li .mileage_item .mileage_info .gradeBox .item{ display:inline-block; vertical-align:middle; text-align:center; font-size:11px; font-weight:bold; color:#999; margin:0 2px;}
 .subArea .infoBox li .mileage_item .mileage_info .gradeBox .item img{ display:block; width:32px; margin:0 auto 5px;}
 .subArea .infoBox li .mileage_item .graphBox{ width:100%; min-height:80px; background-color:#555; margin-top:10px; border-radius:5px;}
+
+.subArea .infoBox li .emphasize{ font-size:12px; font-weight:bold; color:red; padding:10px 20px 0px 20px}
+.subArea .infoBox li .normal{ font-size:12px; padding:10px 20px 0px 20px}
 
 </style>

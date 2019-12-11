@@ -7,8 +7,8 @@
         </div>
         <ul id="3403304624" class="infoBox mileage">
           <li id="3299986171">
-            <div id="1589697674" class="info_text">현재 누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span> 주행</div>
-                <div id="7145441350" class="info_text_black">스마트케어 (Smart Care) 설치 이후의 주행거리를 말합니다.</div>
+            <div id="1589697674" class="info_text">누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span></div>
+                <!--<div id="7145441350" class="info_text_black">스마트케어 (Smart Care) 설치 이후의 주행거리를 말합니다.</div>-->
                 <div class="mileage" v-if="ContractInfo.RentAMT !== ''">
                   <div id="8800093588" class="textBox">
                     <div id="7895560229" class="text01">총 주행거리</div>
@@ -215,13 +215,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .subArea .titleBox{ position:relative; width:100%; background-color:#28ce99; text-align:center}
 .subArea .titleBox .backBtn{ position:absolute; top:15px; left:20px;}
 .subArea .titleBox .backBtn img{ width:15px;}
 .subArea .titleBox .title{ font-size:20px; font-weight:800; color:#fff; height:50px; line-height:50px;}
 
 .subArea .infoBox{ width:100%; padding:20px 10px; box-sizing:border-box;}
+.subArea .infoBox .info_text{ font-size:18px; font-weight:800; color:#333; margin-bottom:10px; letter-spacing:-0.03em; text-align: center;}
 .subArea .infoBox li{ position:relative; width:100%; padding:15px 10px; box-sizing:border-box; border:1px solid #ddd; box-shadow:0 0 8px rgba(0,0,0,0.2); margin-bottom:15px; border-radius:5px;}
 .subArea .infoBox li:last-child{ margin-bottom:0}
 .subArea .infoBox li .info_title{ font-size:18px; font-weight:800; color:#333; margin-bottom:10px;}

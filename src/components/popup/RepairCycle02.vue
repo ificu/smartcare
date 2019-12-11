@@ -9,7 +9,7 @@
             <th id="">⊙ 일반조건</th>
             <td id=""><input type="radio" id="일반조건" name="정비주기설정" v-model="checkedValues" value="1"><label for="일반조건">{{conditionMessage1}}</label></td>
           </tr>
-          <tr>
+          <tr v-if = "repairItem === '엔진오일'">
             <th id="">⊙ 가혹조건</th>
             <td id=""><input type="radio" id="가혹조건" name="정비주기설정" v-model="checkedValues" value="2"><label for="가혹조건">{{conditionMessage2}}</label></td>
           </tr>
@@ -127,7 +127,7 @@ export default {
 			else {
 				this.checkedValues = 3;
 			}
-			this.conditionMessage1 = '15,000Km / 1년';
+			this.conditionMessage1 = '15,000Km / 6개월';
 			this.conditionMessage2 = '7,500km / 6개월';
 		}
 		else {

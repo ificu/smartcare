@@ -45,11 +45,11 @@
       </router-link>
       <router-link to="/CarRepair">
       <a id="4507565108" href="" class="item">
-        <div id="7558405712" class="item_title"><img id="3486064755" src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new">NEW</span></div>
-        <div id="5094331840" class="item_text">현재 누적 주행거리 {{accDist}}Km 주행</div>
+        <div id="7558405712" class="item_title"><img id="3486064755" src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new" v-if="isNewRepairMessage">NEW</span></div>
+        <div id="5094331840" class="item_text">누적 주행거리 {{accDist}}Km</div>
         <ul id="6794243679" class="text_list">
-          <li id="9524843842">- 이달의 점검 항목이 없습니다.</li>
-          <li id="2016902426">- 다가오는 점검 항목을 확인하세요.</li>
+          <li id="9524843842">- {{repairMessage1}}</li>
+          <li id="2016902426">- {{repairMessage2}}</li>
         </ul>
       </a>
       </router-link>
@@ -135,6 +135,9 @@ export default {
       shockAlarmList: [],
       newShockAlarm: false,
       driveHistoryList: [],
+      isNewRepairMessage: false,
+      repairMessage1: "",
+      repairMessage2: "",
     }
   },
   created : function() {
@@ -673,6 +676,26 @@ export default {
         this.CarRepairInfo.EngineOilBefore = result.data.Items[0].EngineOilBefore;
         this.CarRepairInfo.EngineOilCycle = result.data.Items[0].EngineOilCycle;
         this.CarRepairInfo.EngineOilType = result.data.Items[0].EngineOilType;
+
+        var engineOilCheck = parseInt(this.CarRepairInfo.EngineOilBefore) + parseInt(this.CarRepairInfo.EngineOilCycle);
+        var airFilterCheck = parseInt(this.CarRepairInfo.AirFilterBefore) + parseInt(this.CarRepairInfo.AirFilterCycle);
+
+        if(engineOilCheck < (parseInt(this.CarInfo.accDist) + 2000)) {
+          this.isNewRepairMessage = true;
+          this.repairMessage1 = "주행거리 2,000km 혹은 1달 이내에";
+          this.repairMessage2 = "엔진오일 및 필터 교환이 필요합니다.";
+        }
+        else if(airFilterCheck < (parseInt(this.CarInfo.accDist) + 2000)) {
+          this.isNewRepairMessage = true;
+          this.repairMessage1 = "주행거리 2,000km 혹은 1달 이내에";
+          this.repairMessage2 = "에어컨 필터 교환이 필요합니다.";
+        }
+        else {
+          this.isNewRepairMessage = false;
+          this.repairMessage1 = "이달의 점검 항목이 없습니다.";
+          this.repairMessage2 = "다가오는 점검 항목을 확인하세요.";
+        }
+
 
       }).catch((error) => {
         console.log(error);

@@ -12,7 +12,7 @@
         <div id="3273278861" class="title">주차위치</div>
         <div id="3273278861" class="subtitle">{{carLocation}}</div>
         <div id="3273278861" class="title">마지막 주행 완료 시간</div>
-        <div id="3273278861" class="subtitle">{{carDate}}~</div>
+        <div id="3273278861" class="subtitle">{{carDate}}</div>
       </div>
     </div>
 
@@ -35,7 +35,7 @@ export default {
   },
   mounted () {
     this.$ga.page('/MyCarLocation');
-  } ,      
+  } ,
   mounted: function() {
     console.log('CarInfo.... ', this.CarInfo);
 

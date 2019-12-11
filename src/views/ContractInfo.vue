@@ -41,16 +41,16 @@
                         <td id="8677225059"><p>{{cStart}} ~ {{cEnd}} ({{cPeriod}}개월)</p></td>
                     </tr>
                     <tr id="3666856390">
-                      <th id="9369307643">⊙ 연간 계약마일리지</th>
+                      <th id="9369307643">⊙ 연간 계약거리</th>
                         <td id="2230891365"><p>{{cDist}}</p></td>
                     </tr>
                     <tr id="2073806950">
                       <th id="3354100226">⊙ 월렌탈료</th>
                         <td id="4520749211"><p>{{rentPrice}}</p></td>
                     </tr>
-                    <tr id="4199842230" class="sub">
+                    <tr id="4199842230">
                       <th id="7830008680" class="indent"> - 선수금</th>
-                        <td id="4762140537"><p>{{prePayed}}</p></td>
+                        <td id="4762140537"><p>{{prePayed}}원</p></td>
                     </tr>
                     <tr id="9648754559">
                       <th id="9531536027">⊙ 인수가액</th>
@@ -226,10 +226,11 @@ export default {
 .subArea .infoBox li table th{ width:80px; font-size:14px; font-weight:bold; color:#777; text-align:left; background-color:transparent; vertical-align:middle; letter-spacing:-0.03em;}
 .subArea .infoBox li table td{ padding:5px 0; vertical-align:middle;}
 .subArea .infoBox li table td p{ height:25px; font-size:13px; font-weight:bold; color:#777; padding:5px 8px; box-sizing:border-box; background-color:#efefef; letter-spacing:-0.03em;}
+.subArea .infoBox li table .indent{ padding-left: 10px;}
 .subArea .infoBox li table .sub th{ font-weight:normal; vertical-align:top}
 .subArea .infoBox li table .sub td{ padding:0; vertical-align:top}
 .subArea .infoBox li table .sub td p{ height:auto; background-color:transparent; padding:0 8px;}
 .subArea .infoBox li table .sub .indent{ padding-left: 10px;}
-.subArea .infoBox li table.tb02 th{ width:125px;}
+.subArea .infoBox li table.tb02 th{ width:115px;}
 
 </style>

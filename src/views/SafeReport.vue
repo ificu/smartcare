@@ -19,21 +19,21 @@
                     </div>
                     <div id="1040758924" class="gradeBox">
                         <div id="3031104676" class="item">
-                            <img v-if="SafetyInfo.overSpeedIdx < 24" src="../img/icon_grade03.svg" id="">
-                            <img v-else-if="SafetyInfo.overSpeedIdx >= 24 && SafetyInfo.overSpeedIdx < 32" src="../img/icon_grade02.svg" id="">
-                            <img v-else src="../img/icon_grade01.svg" id="">
+                            <img v-if="SafetyInfo.overSpeedIdx < 24" src="../img/icon_grade03.png" id="">
+                            <img v-else-if="SafetyInfo.overSpeedIdx >= 24 && SafetyInfo.overSpeedIdx < 32" src="../img/icon_grade02.png" id="">
+                            <img v-else src="../img/icon_grade01.png" id="">
                             과속
                         </div>
                         <div id="4160634505" class="item">
-                          <img v-if="SafetyInfo.fstAcclIdx < 24" src="../img/icon_grade03.svg" id="">
-                          <img v-else-if="SafetyInfo.fstAcclIdx >= 24 && SafetyInfo.fstAcclIdx < 32" src="../img/icon_grade02.svg" id="">
-                          <img v-else src="../img/icon_grade01.svg" id="">
+                          <img v-if="SafetyInfo.fstAcclIdx < 24" src="../img/icon_grade03.png" id="">
+                          <img v-else-if="SafetyInfo.fstAcclIdx >= 24 && SafetyInfo.fstAcclIdx < 32" src="../img/icon_grade02.png" id="">
+                          <img v-else src="../img/icon_grade01.png" id="">
                             급가속
                         </div>
                         <div id="2650417521" class="item">
                           <img v-if="SafetyInfo.fastDecIdx < 12" src="../img/icon_grade03.svg" id="">
-                          <img v-else-if="SafetyInfo.fastDecIdx >= 12 && SafetyInfo.fastDecIdx < 16" src="../img/icon_grade02.svg" id="">
-                          <img v-else src="../img/icon_grade01.svg" id="">
+                          <img v-else-if="SafetyInfo.fastDecIdx >= 12 && SafetyInfo.fastDecIdx < 16" src="../img/icon_grade02.png" id="">
+                          <img v-else src="../img/icon_grade01.png" id="">
                             급감속
                         </div>
                     </div>
@@ -55,8 +55,8 @@
             </div>
         </li>
 
-        <li id="1001295270">
-          <div id="1885665149" class="info_title">나의 미션</div>
+        <li id="1001295270" class="comingsoon">
+          <div id="1885665149" class="info_title">나의 미션 (서비스 예정)</div>
             <div id="9868666097" class="missionBox">
                 <div id="2767257233" class="text01">안전점수 <font color="#d7000f">95점</font>을 달성하시면<br><font color="#d7000f">스타벅스 커피 쿠폰</font>을 드립니다.</div>
                 <div id="9073072639" class="text02">(Beta Test 기간 내, 50km 이상 주행시)</div>

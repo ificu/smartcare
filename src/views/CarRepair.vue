@@ -7,7 +7,7 @@
         </div>
         <ul id="4764318411" class="infoBox">
           <li id="3392725263">
-            <div id="3419537846" class="info_text">현재 누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span> 주행</div>
+            <div id="3419537846" class="info_text">누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span></div>
                 <div id="1951702467" class="info_text_orange">{{repairMessage1}}<br>{{repairMessage2}}</div>
             </li>
             <li id="7296812947">
@@ -121,11 +121,11 @@ export default {
         this.repairMessage2 = "";
       }
       else if(engineOilCheck < (parseInt(this.CarInfo.accDist) + 2000)) {
-        this.repairMessage1 = "주행거리 2,000km/1달 이내에";
+        this.repairMessage1 = "주행거리 2,000km 혹은 1달 이내에";
         this.repairMessage2 = "엔진오일 및 필터 교환이 필요합니다.";
       }
       else if(airFilterCheck < (parseInt(this.CarInfo.accDist) + 2000)) {
-        this.repairMessage1 = "주행거리 2,000km/1달 이내에";
+        this.repairMessage1 = "주행거리 2,000km 혹은 1달 이내에";
         this.repairMessage2 = "에어컨 필터 교환이 필요합니다.";
       }
       else {

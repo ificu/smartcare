@@ -5,8 +5,8 @@
       <a id="7422023528" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="4507885082" class="title">119 자동출동 서비스</div>
       <div id="2747284928" class="textBox">
-          <span>Smart Care</span> 를 통한 긴급<br>
-          자동 119 자동출동 호출 서비스
+          <span>Smart Care</span> 를 통한 119 긴급<br>
+          출동 자동호출서비스
       </div>
       <div id="4586417187" class="subText">
           긴급 혹은 대형사고로 판단될 경우,<br>

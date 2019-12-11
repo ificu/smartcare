@@ -110,7 +110,7 @@ input{ -webkit-border-radius:0; -webkit-appearance:none; }
 #wraper .subArea .infoBox li.comingsoon .service{ margin-top:10px;}
 #wraper .subArea .infoBox li.comingsoon .service img{ display:inline-block; vertical-align:middle; width:22px; margin-right:5px; margin-left:10px;}
 #wraper .subArea .infoBox li.comingsoon .service span{ display:inline-block; vertical-align:middle; font-size:15px; font-weight:800; color:#333;}
-#wraper .subArea .infoBox li.comingsoon .service p{ display:block; width:100%; font-size:12px; font-weight:bold; color:#333; text-align:center; line-height:1.2; margin-top:7px;}
+#wraper .subArea .infoBox li.comingsoon .service p{ display:block; width:100%; font-size:12px; font-weight:bold; color:#333; text-align:left; line-height:1.2; margin-top:7px; padding-left:40px;}
 #wraper .subArea .infoBox li .mileage{ width:100%; padding:0 10px; box-sizing:border-box; overflow:hidden; margin-top:15px}
 #wraper .subArea .infoBox li .mileage:after{ content:""; display:block; clear:both}
 #wraper .subArea .infoBox li .mileage .textBox{ float:left; display:inline-block; text-align:left;}

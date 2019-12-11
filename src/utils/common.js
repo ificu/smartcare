@@ -35,3 +35,7 @@ export function convertDynamoToString(str) {
 export function convertDynamoToArrayString(arr) {
     return arr.replace(/[*]empty[*]/gi," ");   
 }
+
+export function numberWithCommas(x){
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

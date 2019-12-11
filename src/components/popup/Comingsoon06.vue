@@ -16,7 +16,7 @@
       </div>
       <div id="4586417187" class="subText2">
           - 견인 서비스 (고객 위치정보 기반)<br>
-          - 사고접수에 필요한 Preport 자동 생성<br>
+          - 사고접수에 필요한 Report 자동생성<br>
           - 사고 부상 대응을 위한 응급조치 Call 지원 등<br>
           <br>
       </div>

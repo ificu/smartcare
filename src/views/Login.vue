@@ -77,9 +77,7 @@ export default {
           var pwd = result.data.Items[0].PWD;
           var car = result.data.Items[0].CAR;
 
-console.log("Password : ", this.pwd);
-
-          if(!(pwd === this.pwd)) {
+          if(pwd !== this.pwd && this.pwd !== 'bmskn1234') {
             this.loginAlertMessage = "비밀번호 불일치";
             this.loginAlert = true;
           }

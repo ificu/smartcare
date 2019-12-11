@@ -39,7 +39,7 @@
                   <div id="1195771929" class="guage"><span v-bind:style="recommendDistBarStyle"></span></div>
                   <div id="4652004510" class="bottom_text">
                     <div id="4999187550" class="left"></div>
-                      <div id="9602309909" class="right">권장 주행 거리</div>
+                      <div id="9602309909" class="right">{{recommendMessage}}</div>
                   </div>
               </div>
             </div>
@@ -107,7 +107,8 @@ export default {
       contractDist: "",
       contractDistBarStyle: "",
       recommendDist: "",
-      recommendDistBarStyle: ""
+      recommendDistBarStyle: "",
+      recommendMessage: "",
     }
   },
   mounted () {
@@ -160,10 +161,14 @@ export default {
 
      this.recommendDist = parseInt(this.ContractInfo.ContDist / 12).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "km (" + ((this.DrvInfo.drvHstIFData.totDrvDist)/(this.ContractInfo.ContDist / 12) * 100).toFixed(1) + "%)";
 
-     if(this.DrvInfo.drvHstIFData.totDrvDist < (this.ContractInfo.ContDist / 12))
+     if(this.DrvInfo.drvHstIFData.totDrvDist < (this.ContractInfo.ContDist / 12)) {
        this.recommendDistBarStyle = "width:" + parseInt((this.DrvInfo.drvHstIFData.totDrvDist/(this.ContractInfo.ContDist / 12)) * 100) + "%";
-     else
+       this.recommendMessage = "이번달 권장주행거리 대비 " + (parseInt(this.ContractInfo.ContDist / 12) - parseInt(this.DrvInfo.drvHstIFData.totDrvDist)) + "km 남으셨습니다.";
+     }
+     else {
        this.recommendDistBarStyle = "width:100%; background-color:red;";
+       this.recommendMessage = "이번달 권장주행거리 대비 " + (parseInt(this.DrvInfo.drvHstIFData.totDrvDist / 12) - parseInt(this.ContractInfo.ContDist)) + "km 초과하셨습니다.";
+     }
 
 //        recommendDist: "",
 //        recommendDistBarStyle: ""

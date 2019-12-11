@@ -13,6 +13,15 @@
           </tr>
         </table>
       </div>
+			<v-alert
+				type="success"
+				v-model="repairAlert"
+				dismissible
+				icon="mdi-account-alert"
+				id="8401667302"
+			>
+				{{repairAlertMessage}}
+			</v-alert>			
 			<br>
 			<a id="8672175743" class="btn" @click="updateData">확인</a>
     </div>
@@ -33,11 +42,19 @@ export default {
 			item: this.repairItem,
       beforeChangeKm: 0,
 			beforeChangeItem: "",
+			repairAlert: false,
+			repairAlertMessage: '',
 			inputKm: this.repairItem === "엔진오일" ? this.$store.getters.CarRepairInfo.EngineOilBefore : this.$store.getters.CarRepairInfo.AirFilterBefore
     }
   },
 	methods: {
     updateData() {
+
+			if(parseInt(this.inputKm) > parseInt(this.CarInfo.accDist)) {
+				this.repairAlert = true;
+				this.repairAlertMessage = "현 주행거리보다 더 크게 입력하실 수 없습니다.";
+				return;
+			}
 
       var param = {};
       param.operation = "update";
@@ -81,6 +98,10 @@ export default {
         get() { return this.$store.getters.UserInfo },
         set(value) { this.$store.dispatch('UpdateUserInfo',value) }
     },
+		CarInfo: {
+        get() { return this.$store.getters.CarInfo },
+        set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
     CarRepairInfo: {
         get() { return this.$store.getters.CarRepairInfo },
         set(value) { this.$store.dispatch('UpdateCarRepairInfo',value) }
@@ -92,7 +113,10 @@ export default {
 <style scoped>
 
 /* 팝업(정비주기설정) */
-#popup_period_setting .popup_main{ padding:50px 20px 30px}
+.popup_layer{ position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:10}
+.popup_layer .popup_main{ position:absolute; left:5%; top:50%; transform:translateY(-50%); width:90%; background-color:#fff; border:1px solid #28ce99; box-sizing:border-box; padding:50px 15px 30px; text-align:center}
+.popup_layer .popup_main .xBtn{ position:absolute; top:12px; right:10px;}
+.popup_layer .popup_main .xBtn img{ width:22px;}
 .popup_layer .popup_main .title2{ font-size:26px; font-weight:800; color:#333; letter-spacing:-0.05em;}
 .popup_layer .popup_main .message1{ font-size:16px; font-weight:600; color:#999; padding-top:30px; padding-bottom: 30px}
 .popup_layer .popup_main .message2{ font-size:14px; font-weight:600; color:#999; }

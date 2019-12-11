@@ -8,7 +8,7 @@
         <ul id="4764318411" class="infoBox">
           <li id="3392725263">
             <div id="3419537846" class="info_text">현재 누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span> 주행</div>
-                <div id="1951702467" class="info_text_orange">주행거리 1,000km/1달 이내의<br>점검항목은 없습니다.</div>
+                <div id="1951702467" class="info_text_orange">{{repairMessage1}}<br>{{repairMessage2}}</div>
             </li>
             <li id="7296812947">
               <div id="6304186534" class="info_title">엔진 오일 및 필터</div>
@@ -37,7 +37,7 @@
                     <table id="8621326213">
                         <tr id="2701029199">
                             <th id="1268464829">⊙ 교환 필요 시기</th>
-                            <td id="1236704141"><p class="orange">{{(parseInt(CarRepairInfo.AirFilterBefore) + parseInt(CarRepairInfo.EngineOilCycle)) | currencyNum}} km</p></td>
+                            <td id="1236704141"><p class="orange">{{(parseInt(CarRepairInfo.AirFilterBefore) + parseInt(CarRepairInfo.AirFilterCycle)) | currencyNum}} km</p></td>
                         </tr>
                         <tr id="8933153618">
                             <th id="6670662465">⊙ 이전 교환 시기</th>
@@ -83,11 +83,18 @@ export default {
       showComingsoon04: false,
       showComingsoon05: false,
       repairItem: "",
+      repairMessage1: "",
+      repairMessage2: ""
     }
   },
   mounted () {
     this.$ga.page('/CarRepair');
+    this.updateMessage();
   } ,
+  updated() {
+    console.log("message update.....");
+    this.updateMessage();
+  },
   methods: {
     showRepairCycle01Popup(type) {
       this.showRepairCycle01 = !this.showRepairCycle01;
@@ -96,7 +103,36 @@ export default {
     showRepairCycle02Popup(type) {
       this.showRepairCycle02 = !this.showRepairCycle02;
       this.repairItem = type;
-		}
+		},
+    updateMessage() {
+      var engineOilCheck = parseInt(this.CarRepairInfo.EngineOilBefore) + parseInt(this.CarRepairInfo.EngineOilCycle);
+      var airFilterCheck = parseInt(this.CarRepairInfo.AirFilterBefore) + parseInt(this.CarRepairInfo.AirFilterCycle);
+
+      if(engineOilCheck === 0 && airFilterCheck === 0 ) {
+        this.repairMessage1 = "엔진오일 및 필터와";
+        this.repairMessage2 = "에어컨 필터 교환 시기를 입력해 주세요.";
+      }
+      else if(engineOilCheck === 0) {
+        this.repairMessage1 = "엔진오일 및 필터 교환 시기를 입력해 주세요.";
+        this.repairMessage2 = "";
+      }
+      else if(airFilterCheck === 0) {
+        this.repairMessage1 = "에어컨 필터 교환 시기를 입력해 주세요.";
+        this.repairMessage2 = "";
+      }
+      else if(engineOilCheck < (parseInt(this.CarInfo.accDist) + 2000)) {
+        this.repairMessage1 = "주행거리 2,000km/1달 이내에";
+        this.repairMessage2 = "엔진오일 및 필터 교환이 필요합니다.";
+      }
+      else if(airFilterCheck < (parseInt(this.CarInfo.accDist) + 2000)) {
+        this.repairMessage1 = "주행거리 2,000km/1달 이내에";
+        this.repairMessage2 = "에어컨 필터 교환이 필요합니다.";
+      }
+      else {
+        this.repairMessage1 = "주행거리 2,000km/1달 이내의";
+        this.repairMessage2 = "점검항목은 없습니다.";
+      }
+    }
 	},
   components: {
     RepairCycle01: RepairCycle01,
@@ -146,7 +182,7 @@ export default {
 .subArea .infoBox li table .sub .indent{ padding-left: 10px;}
 .subArea .infoBox li table.tb02 th{ width:125px;}
 
-.subArea .infoBox .info_text{ font-size:18px; font-weight:800; color:#333; margin-bottom:10px; letter-spacing:-0.03em;}
+.subArea .infoBox .info_text{ font-size:17px; font-weight:800; color:#333; margin-bottom:10px; letter-spacing:-0.03em;}
 .subArea .infoBox .info_text span{ padding:5px 20px; background-color:#efefef}
 .subArea .infoBox .info_text_orange{ font-size:15px; font-weight:bold; color:#ed6c00; line-height:1.3; text-align:center;}
 .subArea .infoBox .info_text_black{ font-size:13px; font-weight:bold; color:#333; text-align:center; letter-spacing:-0.03em}

@@ -27,7 +27,10 @@ export default {
 <style scoped>
 
 /* 팝업(정비주기설정) */
-#popup_period_setting .popup_main{ padding:50px 15px 30px}
+.popup_layer{ position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:10}
+.popup_layer .popup_main{ position:absolute; left:5%; top:50%; transform:translateY(-50%); width:90%; background-color:#fff; border:1px solid #28ce99; box-sizing:border-box; padding:50px 15px 30px; text-align:center}
+.popup_layer .popup_main .xBtn{ position:absolute; top:12px; right:10px;}
+.popup_layer .popup_main .xBtn img{ width:22px;}
 .popup_layer .popup_main .title2{ font-size:26px; font-weight:800; color:#333; letter-spacing:-0.05em;}
 .popup_layer .popup_main .btn{ display:block; margin:auto; width:40%; height:30px; line-height:35px; font-size:14px; font-weight:bold; color:#fff; text-align:center; background-color:#28ce99; border-radius:4px; margin-top:10px;}
 

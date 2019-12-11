@@ -9,7 +9,7 @@
           <li id="3299986171">
             <div id="1589697674" class="info_text">현재 누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span> 주행</div>
                 <div id="7145441350" class="info_text_black">스마트케어 (Smart Care) 설치 이후의 주행거리를 말합니다.</div>
-                <div class="mileage">
+                <div class="mileage" v-if="ContractInfo.RentAMT !== ''">
                   <div id="8800093588" class="textBox">
                     <div id="7895560229" class="text01">총 주행거리</div>
                     <div id="5062870532" class="text02">{{CarInfo.accDist | currencyNum}} km</div>
@@ -17,26 +17,26 @@
                   <div id="8684162098" class="guageBox">
                     <div id="5946694751" class="top_text">
                       <div id="1055888146" class="left"></div>
-                          <div id="6403556384" class="right">80,000 km(24%)</div>
+                          <div id="6403556384" class="right">{{contractDist}}</div>
                       </div>
-                      <div id="3546067459" class="guage"><span style="width:10%"></span></div>
+                      <div id="3546067459" class="guage"><span v-bind:style="contractDistBarStyle"></span></div>
                       <div id="2946534962" class="bottom_text">
                         <div id="7217849805" class="left"></div>
                           <div id="8110743748" class="right">총 계약 거리</div>
                       </div>
                   </div>
                 </div>
-                <div id="2884652697" class="mileage">
+                <div id="2884652697" class="mileage" v-if="ContractInfo.RentAMT !== '' && ContractInfo.ContDist !== '0'">
                   <div id="1034217117" class="textBox">
                     <div id="8916390546" class="text01">최근 한달</div>
-                    <div id="9433829126" class="text02">{{CarInfo.accDist | currencyNum}} km</div>
+                    <div id="9433829126" class="text02">{{DrvInfo.drvHstIFData.totDrvDist | currencyNum}} km</div>
                   </div>
                   <div id="9017259802" class="guageBox">
                     <div id="9908387410" class="top_text">
                       <div id="6189443755" class="left"></div>
-                      <div id="6276053519" class="right">1,644 km(42%)</div>
+                      <div id="6276053519" class="right">{{recommendDist}}</div>
                   </div>
-                  <div id="1195771929" class="guage"><span style="width:27%"></span></div>
+                  <div id="1195771929" class="guage"><span v-bind:style="recommendDistBarStyle"></span></div>
                   <div id="4652004510" class="bottom_text">
                     <div id="4999187550" class="left"></div>
                       <div id="9602309909" class="right">권장 주행 거리</div>
@@ -103,39 +103,71 @@ export default {
   name: 'DriveHistory',
   data () {
     return {
-      drvHistList: []
+      drvHistList: [],
+      contractDist: "",
+      contractDistBarStyle: "",
+      recommendDist: "",
+      recommendDistBarStyle: ""
     }
   },
   mounted () {
     this.$ga.page('/DriveHistory');
     console.log("Mounted...");
+    console.log("CarContractInfo : ", this.ContractInfo);
 
     for(var info of this.DrvInfo.drvGpsList) {
-      var id = "TmapLayer_" + info.drvId;
+      if(info.gpsRawData !== undefined) {
+        var id = "TmapLayer_" + info.drvId;
 
-      var map = new Tmapv2.Map(id,
-                    {
-                      center: new Tmapv2.LatLng(info.gpsRawData[parseInt(info.gpsRawData.length/2)].lat, info.gpsRawData[parseInt(info.gpsRawData.length/2)].lon), // 지도 초기 좌표
-                      width : "100%",
-                      height : "250px",
-                      zoom: 13
-                    });
+        var map = new Tmapv2.Map(id,
+                      {
+                        center: new Tmapv2.LatLng(info.gpsRawData[parseInt(info.gpsRawData.length/2)].lat, info.gpsRawData[parseInt(info.gpsRawData.length/2)].lon), // 지도 초기 좌표
+                        width : "100%",
+                        height : "250px",
+                        zoom: 13
+                      });
 
-      var pathList = [];
-      for(var gps of info.gpsRawData) {
-        pathList.push(new Tmapv2.LatLng(gps.lat, gps.lon));
+        var pathList = [];
+        for(var gps of info.gpsRawData) {
+          pathList.push(new Tmapv2.LatLng(gps.lat, gps.lon));
+        }
+        var polyline = new Tmapv2.Polyline(
+                      {
+                        path: pathList,
+                        strokeColor: "#dd00dd",
+                        strokeWeight:6,
+                        map:map
+                      });
       }
-      var polyline = new Tmapv2.Polyline(
-                    {
-                      path: pathList,
-                      strokeColor: "#dd00dd",
-                      strokeWeight:6,
-                      map:map
-                    });
     }
   },
   created () {
     console.log("DrvInfo : ", this.DrvInfo);
+
+    if(this.ContractInfo.ContDist === '0') {
+      this.contractDist = "무제한";
+      var now = new Date();
+      var start = new Date(this.ContractInfo.ContStart);
+      var end = new Date(this.ContractInfo.ContEnd);
+      this.contractDistBarStyle = "width:" + parseInt((now-start)/(end-start)*100) + "%" ;
+    }
+    else {
+      this.contractDist = (this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "km (" + ((this.CarInfo.accDist)/(this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12)*100).toFixed(1) + "%)";
+      if((this.CarInfo.accDist) < (this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12)*100)
+        this.contractDistBarStyle = "width:" + parseInt((this.CarInfo.accDist)/(this.ContractInfo.ContDist * this.ContractInfo.ContPeriod / 12)*100) + "%";
+      else
+        this.contractDistBarStyle = "width:100%; background-color:red;";
+
+     this.recommendDist = parseInt(this.ContractInfo.ContDist / 12).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "km (" + ((this.DrvInfo.drvHstIFData.totDrvDist)/(this.ContractInfo.ContDist / 12) * 100).toFixed(1) + "%)";
+
+     if(this.DrvInfo.drvHstIFData.totDrvDist < (this.ContractInfo.ContDist / 12))
+       this.recommendDistBarStyle = "width:" + parseInt((this.DrvInfo.drvHstIFData.totDrvDist/(this.ContractInfo.ContDist / 12)) * 100) + "%";
+     else
+       this.recommendDistBarStyle = "width:100%; background-color:red;";
+
+//        recommendDist: "",
+//        recommendDistBarStyle: ""
+    }
 
     for(var info of this.DrvInfo.drvGpsList) {
       var drvHist = {
@@ -161,7 +193,8 @@ export default {
       else if(info.drvRawData.fstDecelIdx <= 80 && info.drvRawData.fstDecelIdx > 60 ) drvHist.fstDecelIdx = "안전";
       else drvHist.fstDecelIdx = "양호";
 
-      this.drvHistList.push(drvHist);
+      if(info.endAddr !== undefined)
+        this.drvHistList.push(drvHist);
 
     }
   },
@@ -173,6 +206,10 @@ export default {
     CarInfo: {
         get() { return this.$store.getters.CarInfo },
         set(value) { this.$store.dispatch('UpdateCarInfo',value) }
+    },
+    ContractInfo: {
+        get() { return this.$store.getters.ContractInfo },
+        set(value) { this.$store.dispatch('UpdateConractInfo',value) }
     },
   },
 }
@@ -198,17 +235,17 @@ export default {
 .subArea .infoBox li table .sub .indent{ padding-left: 10px;}
 .subArea .infoBox li table.tb02 th{ width:125px;}
 
-.subArea .infoBox li .mileage{ width:100%; padding:0 10px; box-sizing:border-box; overflow:hidden; margin-top:15px}
+.subArea .infoBox li .mileage{ width:100%; padding:0 5px; box-sizing:border-box; overflow:hidden; margin-top:15px}
 .subArea .infoBox li .mileage:after{ content:""; display:block; clear:both}
 .subArea .infoBox li .mileage .textBox{ float:left; display:inline-block; text-align:left;}
 .subArea .infoBox li .mileage .textBox .text01{ font-size:12px; font-weight:bold; color:#999; letter-spacing:-0.03em;}
-.subArea .infoBox li .mileage .textBox .text02{ font-size:16px; font-weight:800; color:#333; letter-spacing:-0.03em;}
+.subArea .infoBox li .mileage .textBox .text02{ font-size:15px; font-weight:800; color:#333; letter-spacing:-0.03em;}
 .subArea .infoBox li .mileage .guageBox{ float:right; display:inline-block; width:68%;}
 .subArea .infoBox li .mileage .guageBox .top_text{ overflow:hidden}
 .subArea .infoBox li .mileage .guageBox .top_text:after{ content:""; display:block; clear:both}
 .subArea .infoBox li .mileage .guageBox .top_text .left{ float:left; font-size:10px; font-weight:bold; color:#ef8300; letter-spacing:-0.03em;}
 .subArea .infoBox li .mileage .guageBox .top_text .right{ float:right; font-size:10px; font-weight:bold; color:#e60012; letter-spacing:-0.03em;}
-.subArea .infoBox li .mileage .guageBox .guage{ position:relative; width:100%; height:20px; background-color:#e60012}
+.subArea .infoBox li .mileage .guageBox .guage{ position:relative; width:100%; height:20px; background-color:#ddd}
 .subArea .infoBox li .mileage .guageBox .guage span{ position:absolute; display:block; top:0; left:0; height:100%; background-color:#ef8300; z-index:1}
 .subArea .infoBox li .mileage .guageBox .bottom_text{ overflow:hidden}
 .subArea .infoBox li .mileage .guageBox .bottom_text:after{ content:""; display:block; clear:both}

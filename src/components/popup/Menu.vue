@@ -4,7 +4,7 @@
       <a id="4561323194" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="9788353122" class="title">{{userName}} 님</div>
       <div id="8226028451" class="subtitle1">계약기간</div>
-      <div id="9307216051" class="subtitle2">2019.12.01 ~ 2023.11.30</div>
+      <div id="9307216051" class="subtitle2">{{ContractInfo.ContStart.replace(/-/gi,".")}} ~ {{ContractInfo.ContEnd.replace(/-/gi,".")}}</div>
     </div>
     <div id="2316227097" class="popup_menu">
       <div id="9898896361" class="menu_list" @click="$emit('close')" >Home</div>
@@ -26,6 +26,7 @@ export default {
   },
   created : function() {
     this.userName = this.UserInfo.UserName;
+    console.log("ContractInfo : ", this.ContractInfo);
   },
   components: {
 
@@ -34,6 +35,10 @@ export default {
     UserInfo: {
         get() { return this.$store.getters.UserInfo },
         set(value) { this.$store.dispatch('UpdateUserInfo',value) }
+    },
+    ContractInfo: {
+        get() { return this.$store.getters.ContractInfo },
+        set(value) { this.$store.dispatch('UpdateConractInfo',value) }
     },
   },
 }

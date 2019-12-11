@@ -8,8 +8,9 @@ export default new Vuex.Store({
     UserInfo: {UserName: "", CarNo: "", UserLoginId: ""},
     DrvInfo: {SafDrvIdx:"", MovTm:"", drvHstIFList: [], drvHstIFData: {}, drvGpsList: []},
     CarInfo: {AccDist:"", curLat:0, curLon:0, gpsDt: ""},
-    ContractInfo: {CarModel:"",ProductYear:"",CarAMT:"",Option:"",Name:"",ContStart:"",ContEnd:"",ContPeriod:"",RentAMT:""},
+    ContractInfo: {CarModel:"",ProductYear:"",CarAMT:"",Option:"",Name:"",ContStart:"",ContEnd:"",ContPeriod:"",ContDist:"",RentAMT:"",PrePayed:"",CarRepair:""},
     CarRepairInfo: {AirFilterBefore: 0, AirFilterCycle: "", AirFilterType: "", EngineOilBefore: 0, EngineOilCycle: "", EngineOilType: ""},
+    SafetyInfo: {safeIdx: 0, safeIdxRank: 0, drvrCnt: 0, fstAcclIdx: 0, fastDecIdx: 0, overSpeedIdx: 0},
     CarShockInfo: {shockList: []},
   },
   getters: {
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     CarInfo(state) { return state.CarInfo },
     ContractInfo(state) { return state.ContractInfo },
     CarRepairInfo(state) { return state.CarRepairInfo },
+    SafetyInfo(state) { return state.SafetyInfo },
     CarShockInfo(state) { return state.CarShockInfo },
   },
   mutations: {
@@ -35,6 +37,9 @@ export default new Vuex.Store({
     },
     SetCarRepairInfo(state, carRepairInfo) {
       state.CarRepairInfo = carRepairInfo
+    },
+    SafetyInfo(state, safetyInfo) {
+      state.SafetyInfo = safetyInfo
     },
     SetCarShockInfoo(state, carShockInfo) {
       state.CarShockInfo = carShockInfo
@@ -55,6 +60,9 @@ export default new Vuex.Store({
     },
     UpdateCarRepairInfo({ commit }, carRepairInfo) {
       commit('SetCarRepairInfo', { carRepairInfo })
+    },
+    UpdateSafetyInfo({ commit }, safetyInfo) {
+      commit('SafetyInfo', { safetyInfo })
     },
     UpdateCarShockInfo({ commit }, carShockInfo) {
       commit('SetCarShockInfoo', { carShockInfo })

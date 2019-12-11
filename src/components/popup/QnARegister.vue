@@ -15,6 +15,15 @@
           </tr>
         </table>
       </div>
+			<v-alert
+				type="success"
+				v-model="registerAlert"
+				dismissible
+				icon="mdi-account-alert"
+				id="8401667302"
+			>
+				{{registerAlertMessage}}
+			</v-alert>
 			<br>
 			<a id="8672175743" class="btn" @click="updateData">확인</a>
     </div>
@@ -31,10 +40,23 @@ export default {
     return {
 			inputTitle: "",
 			inputDesc: "",
+			registerAlert: false,
+      registerAlertMessage: ''
     }
   },
 	methods: {
     updateData() {
+			if(this.inputTitle.length === 0) {
+				this.registerAlert = true;
+				this.registerAlertMessage = "문의 제목에 내용을 넣어 주세요.";
+				return;
+			}
+			if(this.inputDesc.length === 0) {
+				this.registerAlert = true;
+				this.registerAlertMessage = "문의 내용을 입력해 주세요.";
+				return;
+			}
+
 			var data = {'inputTitle': this.inputTitle, 'inputDesc': this.inputDesc};
 			this.$emit('updateData', data);
 			this.$emit('close');

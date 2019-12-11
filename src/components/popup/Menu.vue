@@ -2,7 +2,7 @@
   <div id="2250439541" class="popup_layer">
     <div id="5726124298" class="popup_header">
       <a id="4561323194" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
-      <div id="9788353122" class="title">{{userName}}님</div>
+      <div id="9788353122" class="title">{{userName}} 님</div>
       <div id="8226028451" class="subtitle1">계약기간</div>
       <div id="9307216051" class="subtitle2">2019.12.01 ~ 2023.11.30</div>
     </div>

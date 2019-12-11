@@ -102,7 +102,6 @@ export default {
     .then((result) => {
       console.log("mounted 회신 결과 : ", result);
       this.qnaList = result.data.Items;
-
     }).catch((error) => {
       console.log(error);
     });
@@ -110,6 +109,9 @@ export default {
   components: {
     QnARegister: QnARegister,
   },
+  mounted () {
+    this.$ga.page('/Notice');
+  },  
   computed:{
     UserInfo: {
         get() { return this.$store.getters.UserInfo },

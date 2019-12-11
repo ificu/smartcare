@@ -23,7 +23,7 @@
         </div>
         <div id="6594630138" class="text01">{{safDrvMessage}}</div>
         <div id="1597772086" class="text02">{{safDrvRecommend}}</div>
-        <div id="1246721320" class="text03"><span>안전운전 미션이 향후 서비스 예정입니다!</span></div>
+        <div id="1246721320" class="text03"><span>안전운전 미션이 향후 안내될 예정입니다.</span></div>
       </a>
       </router-link>
       <a id="4079354739" @click="showERSCall=true" class="item">
@@ -113,6 +113,7 @@ import ERSCall from '@/components/popup/ERSCall.vue'
 import Loading from '@/components/popup/Loading.vue'
 import Constant from '@/Constant'
 import {datePadding} from '@/utils/common.js'
+import {numberWithCommas} from '@/utils/common.js'
 
 export default {
   name: 'main',
@@ -532,8 +533,8 @@ export default {
       })
       .then((result) => {
         console.log("getCarInfo 회신 결과 : ", result);
-        this.accDist = result.data.cars[0].accDist;
-        this.CarInfo.accDist = result.data.cars[0].accDist; // 총 누적거리
+        this.accDist = numberWithCommas(Math.floor(result.data.cars[0].accDist));
+        this.CarInfo.accDist = numberWithCommas(Math.floor(result.data.cars[0].accDist)); // 총 누적거리
         this.CarInfo.curLat = result.data.cars[0].curLat; // 현재 위치 (GPS 위도)
         this.CarInfo.curLon = result.data.cars[0].curLon; // 현재 위치 (GPS 경도)
         this.CarInfo.gpsDt = result.data.cars[0].gpsDt; // 현재 GPS 위치 업데이트 일시

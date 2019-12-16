@@ -1,7 +1,7 @@
 <template>
 	<div id="popup_period_setting" class="popup_layer">
     <div id="" class="popup_main">
-      <a href="javascript:;" id="" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
+      <a href="javascript:;" id="RepairCycle02_xBtn" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
       <div id="" class="title2">정비주기 설정</div>
       <div id="" class="popup_table">
         <table id="">
@@ -20,7 +20,7 @@
         </table>
       </div>
 			<br>
-			<a id="8672175743" class="btn" @click="updateData">확인</a>
+			<a id="RepairCycle02_Confirm" class="btn" @click="updateData">확인</a>
     </div>
   </div>
 </template>

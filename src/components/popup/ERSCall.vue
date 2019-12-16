@@ -1,12 +1,12 @@
 <template>
   <div id="" class="popup_layer">
     <div id="" class="popup_main">
-      <a id="" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <a id="ERSCall_xBtn" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="" class="title">사고접수 연결을 선택하셨습니다.</div>
       <div id="" class="message">고객센터(1599-9111)로 전화연결 하시겠습니까?</div>
       <div id="" class="description">전화연결 후 <span>1</span> → <span>1</span>(사고접수)</div>
-      <div id="" @click="$emit('close')" class="btn_cancel">취소</div>
-      <a href="tel:1599-9111"><div id="" class="btn_ok">확인</div></a>
+      <div id="ERSCall_	Cancel" @click="$emit('close')" class="btn_cancel">취소</div>
+      <a href="tel:1599-9111"><div id="ERSCall_Confirm" class="btn_ok">확인</div></a>
     </div>
   </div>
 </template>

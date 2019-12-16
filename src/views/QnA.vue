@@ -1,11 +1,11 @@
-<template>
+﻿<template>
   <div id="4158449995" class="subArea">
 		<div id="5433017376" class="titleBox">
       <router-link to="/Main">
-      <a href="" id="4916679281" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
+      <a href="" id="QnA_backBtn" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
         <div id="3273278861" class="title">1:1문의</div>
     </div>
-    <a id="8672175743" class="btn" @click="showQnARegister = !showQnARegister">문의사항이 있으시다면 Click</a>
+    <a id="QnA_Click" class="btn" @click="showQnARegister = !showQnARegister">문의사항이 있으시다면 Click</a>
 
       <div id="5433017376" class="messageList">
         <div id="1937010302" class="qnaCard" v-for="(qna,index) in qnaList" v-bind:key="index">

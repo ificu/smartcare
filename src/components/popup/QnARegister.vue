@@ -1,7 +1,7 @@
 <template>
 	<div id="" class="popup_layer">
     <div id="" class="popup_main">
-      <a href="javascript:;" id="" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
+      <a href="javascript:;" id="QnARegister_xBtn" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
       <div id="" class="title2">문의사항 등록</div>
       <div id="" class="popup_table">
         <table id="">
@@ -25,7 +25,7 @@
 				{{registerAlertMessage}}
 			</v-alert>
 			<br>
-			<a id="8672175743" class="btn" @click="updateData">확인</a>
+			<a id="QnARegister_Confirm" class="btn" @click="updateData">확인</a>
     </div>
   </div>
 </template>

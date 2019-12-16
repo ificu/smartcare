@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div id="2226720608" class="subArea">
 		<div id="" class="titleBox">
       <router-link to="/Main">
-      <a href="" id="7450363646" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
+      <a href="" id="CarRepair_backBtn" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
             <div id="8923171213" class="title">정비 관리</div>
         </div>
         <ul id="4764318411" class="infoBox">
@@ -12,7 +12,7 @@
             </li>
             <li id="7296812947">
               <div id="6304186534" class="info_title">엔진 오일 및 필터</div>
-                <a href="javascript:;" id="8556562402" class="change_info" @click="showRepairCycle03 = !showRepairCycle03">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
+                <a href="javascript:;" id="CarRepair_Change_info" class="change_info" @click="showRepairCycle03 = !showRepairCycle03">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
                 <div class="tbBox">
                     <table id="5043474514">
                         <tr id="3092841551">
@@ -21,18 +21,18 @@
                         </tr>
                         <tr id="7485670708">
                             <th id="6999051553">⊙ 이전 교환 시기</th>
-                            <td id="1509834952"><p>{{CarRepairInfo.EngineOilBefore | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle01Popup('엔진오일')"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <td id="1509834952"><p>{{CarRepairInfo.EngineOilBefore | currencyNum}} km</p> <a href="javascript:;" id="CarRepair_E_Oil_Change_Mile" class="btn" @click="showRepairCycle01Popup('엔진오일')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                         <tr id="">
                             <th id="4843185622">⊙ 교환 주기({{CarRepairInfo.EngineOilType}})</th>
-                            <td id="6580229234"><p>{{CarRepairInfo.EngineOilCycle | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle02Popup('엔진오일')"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <td id="6580229234"><p>{{CarRepairInfo.EngineOilCycle | currencyNum}} km</p> <a href="javascript:;" id="CarRepair_E_Oil_Change_Period" class="btn" @click="showRepairCycle02Popup('엔진오일')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                     </table>
                 </div>
             </li>
             <li id="3724146898">
               <div id="8290452472" class="info_title">에어컨 필터</div>
-                <a href="javascript:;" id="3699652317" class="change_info" @click="showRepairCycle03 = !showRepairCycle03">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
+                <a href="javascript:;" id="CarRepair_Change_info" class="change_info" @click="showRepairCycle03 = !showRepairCycle03">교환주기안내 <img src="../img/icon_i.svg" id=""></a>
                 <div class="tbBox">
                     <table id="8621326213">
                         <tr id="2701029199">
@@ -41,19 +41,19 @@
                         </tr>
                         <tr id="8933153618">
                             <th id="6670662465">⊙ 이전 교환 시기</th>
-                            <td id="2587137395"><p>{{CarRepairInfo.AirFilterBefore | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle01Popup('에어컨필터')"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <td id="2587137395"><p>{{CarRepairInfo.AirFilterBefore | currencyNum}} km</p> <a href="javascript:;" id="CarRepair_Air_Change_Milage" class="btn" @click="showRepairCycle01Popup('에어컨필터')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                         <tr id="4839548584">
                             <th id="6580755721">⊙ 교환 주기({{CarRepairInfo.AirFilterType}})</th>
-                            <td id="7428966092"><p>{{CarRepairInfo.AirFilterCycle | currencyNum}} km</p> <a href="javascript:;" id="" class="btn" @click="showRepairCycle02Popup('에어컨필터')"><img src="../img/icon_pen.svg" id=""></a></td>
+                            <td id="7428966092"><p>{{CarRepairInfo.AirFilterCycle | currencyNum}} km</p> <a href="javascript:;" id="CarRepair_Air_Change_Period" class="btn" @click="showRepairCycle02Popup('에어컨필터')"><img src="../img/icon_pen.svg" id=""></a></td>
                         </tr>
                     </table>
                 </div>
             </li>
             <li id="7923017196" class="comingsoon">
               <div id="8317196453" class="info_title">신규 예정 서비스</div>
-                <div id="4778325971" class="service" @click="showComingsoon04 = !showComingsoon04"><img src="../img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></div>
-                <div id="4263336708" class="service" @click="showComingsoon05 = !showComingsoon05"><img src="../img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></div>
+                <div id="CarRepair_popup_Optimized_Period" class="service" @click="showComingsoon04 = !showComingsoon04"><img src="../img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></div>
+                <div id="CarRepair_popup_Closed_Store" class="service" @click="showComingsoon05 = !showComingsoon05"><img src="../img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></div>
             </li>
         </ul>
         <transition name="slide-fade">

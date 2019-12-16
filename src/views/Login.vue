@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div id="login">
 		<img id="8731035285" src="@/img/logo_login.svg" class="logo">
         <div id="4719756158" class="title">Smart Care</div>
@@ -19,7 +19,7 @@
         <div id="2274436683" class="formBox">
           <div id="5585182297" class="inputBox"><p class="iconBox icon01"></p><input type="text" placeholder="USERNAME" v-model="id"></div>
           <div id="4302035340" class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd" style="font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif ;"></div>
-          <router-link to="/Main"><a id="8672175743" @click="login" class="btn">LOGIN</a></router-link>
+          <router-link to="/Main"><a id="LOGIN" @click="login" class="btn">LOGIN</a></router-link>
         </div>
         <div id="9283563635" class="bottom_text">궁금하신 내용이나 로그인 문제시,<br> 카톡(ID: canadajw) 혹은 이메일(canadajw@sk.com)으로 연락 주시기 바랍니다.</div>
     </div>

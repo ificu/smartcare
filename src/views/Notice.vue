@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <v-app>
     <div id="1198754371" class="subArea">
       <div id="4307942033" class="titleBox">
         <router-link to="/Main">
-        <a href="" id="6893267579" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
+        <a href="" id="Notice_backBtn" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
         <div id="3144077403" class="title">공지사항</div>
       </div>
       <v-expansion-panels focusable class="notice">

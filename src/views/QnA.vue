@@ -73,7 +73,27 @@ export default {
         console.log(error);
       });
 
-			this.qnaList.unshift(cont);
+      this.qnaList.unshift(cont);
+      
+
+      param = {};
+      param.system = "BAY4U";
+      param.telNo = "01036981010";      // 김승택 매니저
+      param.callbackNo = "01036981010";
+      param.msg = param.payload.Item.ID = this.UserInfo.UserLoginId + "님께서 문의사항을 등록하셨습니다.";
+
+      axios({
+        method: 'POST',
+        url: Constant.SCPIF_URL + 'SendSMS',
+        headers: Constant.JSON_HEADER,
+        data: param
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });   
 		}
 	},
   mounted () {
@@ -85,11 +105,10 @@ export default {
     param.tableName = "SMART_QNA";
     param.payload = {};
 
-    /*
     param.payload.FilterExpression = "ID = :id";
     param.payload.ExpressionAttributeValues = {};
     var key = ":id";
-    param.payload.ExpressionAttributeValues[key] = this.UserInfo.UserLoginId;    */
+    param.payload.ExpressionAttributeValues[key] = this.UserInfo.UserLoginId;
     console.log("====== mounted ======");
     console.log(param);
 

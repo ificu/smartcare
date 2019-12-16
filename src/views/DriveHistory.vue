@@ -3,12 +3,11 @@
 		<div id="5433017376" class="titleBox">
       <router-link to="/Main">
       <a href="" id="4916679281" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
-            <div id="3273278861" class="title">주행 이력 관리</div>
+            <div id="3273278861" class="title" ref="focus">주행 이력 관리</div>
         </div>
         <ul id="3403304624" class="infoBox mileage">
           <li id="3299986171">
             <div id="1589697674" class="info_text">누적 주행거리 <span>{{CarInfo.accDist | currencyNum}} Km</span></div>
-                <!--<div id="7145441350" class="info_text_black">스마트케어 (Smart Care) 설치 이후의 주행거리를 말합니다.</div>-->
                 <div class="mileage" v-if="ContractInfo.RentAMT !== ''">
                   <div id="8800093588" class="textBox">
                     <div id="7895560229" class="text01">총 주행거리</div>
@@ -44,8 +43,8 @@
 
               </div>
             </div>
-            <div id="9602309909" class="normal" v-if="!recommandEmphasize">{{recommendMessage}}</div>
-            <div id="9602309909" class="emphasize" v-if="recommandEmphasize">{{recommendMessage}}</div>
+            <div id="9602309909" class="normal" v-if="recommandEmphasize === 'normal'">{{recommendMessage}}</div>
+            <div id="9602309909" class="emphasize" v-if="recommandEmphasize === 'emphasize'">{{recommendMessage}}</div>
         </li>
 
             <li id="8899113537">
@@ -112,13 +111,14 @@ export default {
       recommendDist: "",
       recommendDistBarStyle: "",
       recommendMessage: "",
-      recommandEmphasize: false
+      recommandEmphasize: ""
     }
   },
   mounted () {
     this.$ga.page('/DriveHistory');
     console.log("Mounted...");
     console.log("CarContractInfo : ", this.ContractInfo);
+    console.log("recommandEmphasize : ", this.recommandEmphasize);
 
     for(var info of this.DrvInfo.drvGpsList) {
       if(info.gpsRawData !== undefined) {
@@ -148,8 +148,11 @@ export default {
   },
   created () {
     console.log("DrvInfo : ", this.DrvInfo);
-
-    if(this.ContractInfo.ContDist === '0') {
+    
+    if(this.ContractInfo.ContDist === '') {
+      this.recommandEmphasize = "";
+    }
+    else if(this.ContractInfo.ContDist === '0') {
       this.contractDist = "무제한";
       var now = new Date();
       var start = new Date(this.ContractInfo.ContStart);
@@ -171,6 +174,8 @@ export default {
 
        this.recommendDistBarStyle = "width:" + parseInt((this.DrvInfo.drvHstIFData.totDrvDist/(this.ContractInfo.ContDist / 12)) * 100) + "%";
        this.recommendMessage = "이번달 권장주행거리 대비 " + (parseInt(this.ContractInfo.ContDist / 12) - parseInt(this.DrvInfo.drvHstIFData.totDrvDist)) + "km 남으셨습니다.";
+
+       this.recommandEmphasize = "normal";
      }
      else {
        console.log("totDrvDist : ", this.DrvInfo.drvHstIFData.totDrvDist);
@@ -179,7 +184,8 @@ export default {
        this.recommendMessage = "이번달 권장주행거리 대비 "
                               + (parseInt(this.DrvInfo.drvHstIFData.totDrvDist) - parseInt(this.ContractInfo.ContDist / 12)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                               + "km 초과하셨습니다.";
-       this.recommandEmphasize = true;
+
+       this.recommandEmphasize = "emphasize";
      }
 
 //        recommendDist: "",

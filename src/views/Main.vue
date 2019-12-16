@@ -1,19 +1,19 @@
 <template>
   <div id="2290644288" class="mainArea">
     <div id="9603812673" class="titleBox">
-      <a id="1278953801" href="javascript:;" class="menuBtn" @click="showMenu=true"><img src="@/img/icon_menu.svg"></a>
+      <a id="img_btn_menu" href="javascript:;" class="menuBtn" @click="showMenu=true"><img src="@/img/icon_menu.svg"></a>
       <div id="7596576479" class="title">안녕하세요, {{userName}} 님</div>
       <div id="1054309100" class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
     </div>
     <div id="4644211896" class="item_list">
-      <router-link to="/ContractInfo">
-      <a id="7564086534" href="" class="item">
+    <router-link to="/ContractInfo">
+      <a id="link_sub_contractinfo" href="" class="item">
         <img id="1840625569" src="@/img/logo_skRental.svg" class="logo">
         <div id="6544656424" class="item_text">내 차 계약 정보 확인</div>
       </a>
     </router-link>
     <router-link to="/SafeReport">
-      <a id="3398034514" href="" class="item">
+      <a id="link_sub_safereport" href="" class="item">
         <div id="7829133626" class="item_title"><img id="7426634982" src="@/img/icon_target.svg"> <span id="" class="title">안전점수</span></div>
         <div id="2930701675" class="guageBox">
           <img id="1771345032" src="@/img/guage_bar.svg" class="guage_bar">
@@ -26,17 +26,13 @@
         <div id="1246721320" class="text03"><span>안전운전 미션이 향후 안내될 예정입니다.</span></div>
       </a>
       </router-link>
-      <a id="4079354739" @click="showERSCall=true" class="item">
+      <a id="link_popup_erscall" @click="showERSCall=true" class="item">
         <div id="2613335142" class="item_title"><img id="2259556330" src="@/img/icon_accident.svg"> <span class="title">사고접수</span></div>
         <div id="9978640929" class="text04">사고 발생시 바로 연결</div>
       </a>
       <router-link to="/ShockAlarm">
-      <a id="8195083055" href="" class="item">
+      <a id="link_sub_shockalarm" href="" class="item">
         <div id="6012095227" class="item_title"><img id="4450206969" src="@/img/icon_alarm01.svg"> <span class="title">정차 중 충격알림</span><span class="new" v-if="newShockAlarm">NEW</span></div>
-        <!--<ul id="5649529464" class="alarm_list">
-          <li id="8585590273"><p class="date">11월 7일 13:00</p><p>차량 충격이 감지되었습니다.</p></li>
-          <li id="6661413226"><p class="date">11월 6일 19:21</p><p>차량 충격이 감지되었습니다.</p></li>
-        </ul>-->
         <ul id="5649529464" class="alarm_list" v-for="(shock, index) in shockAlarmList" v-bind:key="index">
           <li v-bind:id="'9548127208'+index"><p class="date">{{shock.shockDate}}</p><p>{{shock.shockMsg}}</p></li>
         </ul>
@@ -44,7 +40,7 @@
       </a>
       </router-link>
       <router-link to="/CarRepair">
-      <a id="4507565108" href="" class="item">
+      <a id="link_sub_carrepair" href="" class="item">
         <div id="7558405712" class="item_title"><img id="3486064755" src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new" v-if="isNewRepairMessage">NEW</span></div>
         <div id="5094331840" class="item_text">누적 주행거리 {{accDist}}Km</div>
         <ul id="6794243679" class="text_list">
@@ -54,13 +50,8 @@
       </a>
       </router-link>
       <router-link to="/DriveHistory">
-      <a id="6185674754" href="" class="item">
+      <a id="link_sub_drivehistory" href="" class="item">
         <div id="1150123414" class="item_title"><img id="5638758827" src="@/img/icon_history.svg"> <span class="title">주행이력관리</span><span class="new">NEW</span></div>
-        <!--<ul id="1229086322" class="history_list">
-          <li id="9198852782"><p class="date">11월 7일 13:00</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
-          <li id="7587326910"><p class="date">11월 6일 19:21</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
-          <li id="7349622438"><p class="date">11월 5일 10:00</p><p class="address"><span>서울특별시 강남구 ...</span></p></li>
-        </ul>-->
         <ul id="1229086322" class="history_list" v-for="(drive, index) in driveHistoryList" v-bind:key="index">
           <li v-bind:id="'9198852782'+index"><p class="date">{{drive.drvDate}}</p><p class="address"><span>{{drive.addr}}</span></p></li>
         </ul>
@@ -68,19 +59,19 @@
       </a>
       </router-link>
       <router-link to="/MyCarLocation">
-      <a id="7552253682" href="javascript:;" class="item">
+      <a id="link_sub_mycarlocation" href="javascript:;" class="item">
         <div id="5425614371" class="item_title"><img id="8464994905" src="@/img/icon_locate.svg"> <span class="title">내차 위치 찾기</span></div>
         <div id="6545125044" class="item_text" style="padding-bottom:10px">공항, 식당에서 발렛 파킹 하셨나요?</div>
       </a>
       </router-link>
       <ul id="6067869823" class="comingsoon_list">
         <div id="1294494412" class="item_title">신규 예정 서비스</div>
-        <li id="7244752797" @click="showComingsoon01 = !showComingsoon01"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
-        <li id="2102151511" @click="showComingsoon02 = !showComingsoon02"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
-        <li id="9737112597" @click="showComingsoon03 = !showComingsoon03"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
-        <li id="2707965502" @click="showComingsoon04 = !showComingsoon04"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
-        <li id="7117272266" @click="showComingsoon05 = !showComingsoon05"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
-        <li id="7117272266" @click="showComingsoon06 = !showComingsoon06"><img src="@/img/icon_sos.png"> <span>스마트 사고대응 서비스</span></li>
+        <li id="link_popup_comingsoon1" @click="showComingsoon01 = !showComingsoon01"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
+        <li id="link_popup_comingsoon2" @click="showComingsoon02 = !showComingsoon02"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
+        <li id="link_popup_comingsoon3" @click="showComingsoon03 = !showComingsoon03"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
+        <li id="link_popup_comingsoon4" @click="showComingsoon04 = !showComingsoon04"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
+        <li id="link_popup_comingsoon5" @click="showComingsoon05 = !showComingsoon05"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
+        <li id="link_popup_comingsoon6" @click="showComingsoon06 = !showComingsoon06"><img src="@/img/icon_sos.png"> <span>스마트 사고대응 서비스</span></li>
       </ul>
     </div>
     <transition name="slide-fade">
@@ -230,6 +221,8 @@ export default {
         var fstDecelTotal = 0;    // 급감속 총점
         var overSpdTotal  = 0;    // 과속 총점
         var startDist = 0;        // 시작 주행 거리
+        var startThisMonDist = 0; // 이달의 시작 주행 거리
+        var drvThisMonCount = 0;   // 이달의 주행 횟수
         var endDist = 0;          // 종료 주행 거
         var movTmTotal = 0;       // 주행 시간 총 합계
         var w1stSafeCnt = 0;      // 1주차 운행 건수
@@ -259,13 +252,21 @@ export default {
           fstDecelTotal +=  (hist.fstDecelIdx === undefined ? 0 : hist.fstDecelIdx);
           overSpdTotal +=   (hist.overSpdIdx === undefined ? 0 : hist.overSpdIdx);
 
+          var drvDate = new Date(hist.onDt);
+
           if(i === 0) endDist = hist.offDist;   // 맨 마지막의 OFF 시 누적 거리
           if(i === (drvCount-1)) startDist = hist.onDist;   // 맨 처음의 On 시 누적 거리
 
-          if(hist.movTm !== undefined)
-            movTmTotal += hist.movTm;    // 운행 시간 합계 (초)
-          var drvDate = new Date(hist.offDt);
-          if(drvDate.getHours() >= 18)  drvNightCount++;  // 18시 이후인 경우 야간 주행시간으로 카운트
+          if((drvDate.getMonth() === now.getMonth())) {
+            startThisMonDist = hist.onDist;         
+          }
+
+          if(drvDate.getMonth() === now.getMonth()) {
+            if(hist.movTm !== undefined)
+              movTmTotal += hist.movTm;    // 운행 시간 합계 (초)
+            if(drvDate.getHours() >= 18)  drvNightCount++;  // 18시 이후인 경우 야간 주행시간으로 카운트
+            drvThisMonCount++;
+          }
 
           /*
           if(((now - drvDate)/1000/60/60/24) < 7) { // 현재 기준 7일 이내면 월 기준으로 4주차
@@ -356,8 +357,10 @@ export default {
         //else recommendType = "overSpd";
 
         this.DrvInfo.drvHstIFData.drvCount = drvCount;
+        this.DrvInfo.drvHstIFData.drvThisMonCount = drvThisMonCount;
         this.DrvInfo.drvHstIFData.drvNightCount = drvNightCount;
         this.DrvInfo.drvHstIFData.totDrvDist = (endDist - startDist).toFixed(1);
+        this.DrvInfo.drvHstIFData.monthTotDrvDist = (endDist - startThisMonDist).toFixed(1);
         this.DrvInfo.drvHstIFData.totDrvTm = parseInt(movTmTotal/60/60) + '시간 ' + parseInt((movTmTotal - parseInt(movTmTotal/60/60)*60*60)/60) + '분' ;
         this.DrvInfo.drvHstIFData.w1stSafeIdx = (w1stSafeCnt === 0 ? 0 : parseInt(w1stSafeTot / w1stSafeCnt));
         this.DrvInfo.drvHstIFData.w2ndSafeIdx = (w2ndSafeCnt === 0 ? 0 : parseInt(w2ndSafeTot / w2ndSafeCnt));
@@ -521,7 +524,7 @@ export default {
       .then((result) => {
         console.log("getCarInfo 회신 결과 : ", result);
         this.accDist = numberWithCommas(Math.floor(result.data.cars[0].accDist));
-        this.CarInfo.accDist = result.data.cars[0].accDist; // 총 누적거리
+        this.CarInfo.accDist = parseInt(result.data.cars[0].accDist); // 총 누적거리
         this.CarInfo.curLat = result.data.cars[0].curLat; // 현재 위치 (GPS 위도)
         this.CarInfo.curLon = result.data.cars[0].curLon; // 현재 위치 (GPS 경도)
         this.CarInfo.gpsDt = result.data.cars[0].gpsDt; // 현재 GPS 위치 업데이트 일시
@@ -882,7 +885,7 @@ export default {
 #app .mainArea .item_list .item .item_title img{ display:inline-block; vertical-align:middle; height:18px;}
 #app .mainArea .item_list .item .item_title .title{ display:inline-block; vertical-align:middle; font-size:14px; font-weight:bold; color:#666;}
 #app .mainArea .item_list .item .item_title .new{ display:inline-block; vertical-align:super; font-size:10px; font-weight:bold; color:#f2000d;}
-#app .mainArea .item_list .item .guageBox{ position:relative; width:100%; height:120px; background-image:url(../img/main_guage.png); background-position:center top; background-repeat:no-repeat; background-size:200px;}
+#app .mainArea .item_list .item .guageBox{ position:relative; width:100%; height:120px; background-image:url(../img/main_guage2.png); background-position:center top; background-repeat:no-repeat; background-size:200px;}
 #app .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:35px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(45deg)}
 #app .mainArea .item_list .item .guageBox .guage_line{ position:absolute; left:50%; top:78px; margin-left:50px; width:65px; transform-origin:bottom center; transform:rotate(-12deg)}
 #app .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:50%; top:55px; margin-left:100px; font-size:14px; font-weight:bold; color:#666; text-align:center;}

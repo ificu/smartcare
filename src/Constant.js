@@ -4,6 +4,8 @@ export default {
     SMARTLINK_AUTH_KEY: '0x0100000040591DF54CD2FECC841E5629FA40C16A0EBFE2E5755CDB865947FE4C1AF56C0F',
     SMARTLINK_URL: 'http://bay4u.co.kr:8086/api/smartlink',
     SMARTLINK_HEADER: {'Accept': 'application/json','Content-Type': 'application/json'},
+    SCPIF_URL: 'https://bay4u.co.kr/scpif/',
+    JSON_HEADER: {'Accept': 'application/json','Content-Type': 'application/json'},
     TMAP_URL: 'https://apis.openapi.sk.com/tmap/geo',
     TMAP_KEY: '145167c3-796e-4989-b8ed-74241254b771'
   };

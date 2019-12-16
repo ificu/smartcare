@@ -10,7 +10,7 @@
         <div id="4290904421" class="info_title">나의 안전점수 ({{thisMonth}}월 {{thisWeek}}주차)</div>
             <div id="7416675010" class="report_text01">{{DrvInfo.drvHstIFData.safDrvMessage}}</div>
             <div id="4479799753" class="report_text02">{{DrvInfo.drvHstIFData.safDrvRecommend}}</div>
-            <a href="javascript:;" id="8556562402" class="change_info">나의 운전 점수 <img src="../img/icon_i.svg" id=""></a>
+            <a href="javascript:;" id="8556562402" class="change_info" @click="showComingsoon06 = !showComingsoon06">나의 운전 점수 <img src="../img/icon_i.svg" id=""></a>
             <div id="6880835588" class="myReport">
               <div id="7199598694" class="box">
                     <div id="8222585707" class="textBox">
@@ -18,7 +18,7 @@
                         <div id="6613488413" class="text03">(상위 {{SafetyInfo.safeIdxRank}}%, {{parseInt(SafetyInfo.safeIdxRank/100*SafetyInfo.drvrCnt)}}위)</div>
                     </div>
                     <div id="1040758924" class="gradeBox">
-                        <div id="3031104676" class="item">
+                        <div id="3031104676" class="item" v-if="SafetyInfo.overSpeedIdx !== 0">
                             <img v-if="SafetyInfo.overSpeedIdx/0.4 < 45" src="../img/icon_grade05.png" id="">
                             <img v-else-if="SafetyInfo.overSpeedIdx/0.4 >= 45 && SafetyInfo.overSpeedIdx/0.4 < 75" src="../img/icon_grade04.png" id="">
                             <img v-else-if="SafetyInfo.overSpeedIdx/0.4 >= 75 && SafetyInfo.overSpeedIdx/0.4 < 85" src="../img/icon_grade03.png" id="">
@@ -26,7 +26,7 @@
                             <img v-else src="../img/icon_grade01.png" id="">
                             과속
                         </div>
-                        <div id="4160634505" class="item">
+                        <div id="4160634505" class="item" v-if="SafetyInfo.fstAcclIdx !== 0">
                           <img v-if="SafetyInfo.fstAcclIdx/0.4 < 45" src="../img/icon_grade05.png" id="">
                           <img v-else-if="SafetyInfo.fstAcclIdx/0.4 >= 45 && SafetyInfo.fstAcclIdx/0.4 < 75" src="../img/icon_grade04.png" id="">
                           <img v-else-if="SafetyInfo.fstAcclIdx/0.4 >= 75 && SafetyInfo.fstAcclIdx/0.4 < 85" src="../img/icon_grade03.png" id="">
@@ -34,7 +34,7 @@
                           <img v-else src="../img/icon_grade01.png" id="">
                             급가속
                         </div>
-                        <div id="2650417521" class="item">
+                        <div id="2650417521" class="item" v-if="SafetyInfo.fastDecIdx !== 0">
                           <img v-if="SafetyInfo.fastDecIdx/0.2 < 45" src="../img/icon_grade05.png" id="">
                           <img v-else-if="SafetyInfo.fastDecIdx/0.2 >= 45 && SafetyInfo.fastDecIdx/0.2 < 75" src="../img/icon_grade04.png" id="">
                           <img v-else-if="SafetyInfo.fastDecIdx/0.2 >= 75 && SafetyInfo.fastDecIdx/0.2 < 85" src="../img/icon_grade03.png" id="">
@@ -47,7 +47,7 @@
                 <div id="8358222060" class="mileageBox">
                   <div id="9305493453" class="mileage_text">
                     <div id="5140458082" class="text01">주행거리</div>
-                    <div id="1412679878" class="text02">{{DrvInfo.drvHstIFData.totDrvDist}} km</div>
+                    <div id="1412679878" class="text02">{{DrvInfo.drvHstIFData.monthTotDrvDist}} km</div>
                     </div>
                     <div id="5573506553" class="mileage_text">
                       <div id="7997781230" class="text01">주행시간</div>
@@ -55,17 +55,17 @@
                     </div>
                     <div id="3332851990" class="mileage_text">
                       <div id="4099284371" class="text01">주행횟수</div>
-                      <div id="8164271337" class="text02">{{DrvInfo.drvHstIFData.drvCount}}회 <span>(야간 {{DrvInfo.drvHstIFData.drvNightCount}}회)</span></div>
+                      <div id="8164271337" class="text02">{{DrvInfo.drvHstIFData.drvThisMonCount}}회 <span>(야간 {{DrvInfo.drvHstIFData.drvNightCount}}회)</span></div>
                     </div>
                 </div>
             </div>
         </li>
 
         <li id="1001295270" class="comingsoon">
-          <div id="1885665149" class="info_title">나의 미션 (서비스 예정)</div>
+          <div id="1885665149" class="info_title" style="color:#aaa">나의 미션 (서비스 예정)</div>
             <div id="9868666097" class="missionBox">
-                <div id="2767257233" class="text01">안전점수 <font color="#d7000f">95점</font>을 달성하시면<br><font color="#d7000f">스타벅스 커피 쿠폰</font>을 드립니다.</div>
-                <div id="9073072639" class="text02">(Beta Test 기간 내, 50km 이상 주행시)</div>
+                <div id="2767257233" class="text01" style="color:#aaa">안전점수 <font color="#ffb8b8">95점</font>을 달성하시면<br><font color="#ffb8b8">스타벅스 커피 쿠폰</font>을 드립니다.</div>
+                <div id="9073072639" class="text02" style="color:#aaa">(Beta Test 기간 내, 50km 이상 주행시)</div>
                 <img src="../img/coffee.png" class="coffee" id="6096018118">
 		</div>
         </li>
@@ -107,6 +107,7 @@
     </ul>
     <transition name="slide-fade">
       <SafeDriveTip v-if="showSafeDriveTip" @close="showSafeDriveTip=false"></SafeDriveTip>
+      <Comingsoon07 v-if="showComingsoon07" @close="showComingsoon07=false"></Comingsoon07>
     </transition>
     </div>
 
@@ -116,6 +117,7 @@
 <script>
 import SafeDriveTip from '@/components/popup/SafeDriveTip.vue'
 import Constant from '@/Constant'
+import Comingsoon07 from '@/components/popup/Comingsoon07.vue'
 
 export default {
   name: 'SafeReport',
@@ -127,7 +129,8 @@ export default {
       w4thSafeStyle: "",
       showSafeDriveTip: false,
       thisMonth: "",
-      thisWeek: ""
+      thisWeek: "",
+      showComingsoon07: false,
     }
   },
   created: function() {
@@ -143,7 +146,7 @@ export default {
     param.stDt = stDt;
     param.edDt = edDt;
 
-    console.log("====== getSafetyInfo ======");
+    console.log("====== getSafetyInfo 1주차 ======");
     console.log(param);
 
     axios({
@@ -153,7 +156,7 @@ export default {
      data: param
     })
     .then((result) => {
-      console.log("getSafetyInfo 회신 결과 : ", result);
+      console.log("getSafetyInfo 1주차 회신 결과 : ", result);
       this.DrvInfo.drvHstIFData.w1stSafeIdx = result.data.safeRank.safeIdx;
       this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
 
@@ -161,8 +164,35 @@ export default {
       console.log(error);
     });
 
-    this.DrvInfo.drvHstIFData.w2ndSafeIdx = this.SafetyInfo.safeIdx;
-    this.DrvInfo.drvHstIFData.w3rdSafeIdx = 0;
+    // 둘째주도 하드코딩하고....
+    stDt = '2019-12-08'
+    edDt = '2019-12-14';
+
+    var param = {};
+    param.authKey = Constant.SMARTLINK_AUTH_KEY;
+    param.userId = this.UserInfo.UserLoginId;
+    param.stDt = stDt;
+    param.edDt = edDt;
+
+    console.log("====== getSafetyInfo 2주차 ======");
+    console.log(param);
+
+    axios({
+     method: 'POST',
+     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+     headers: Constant.SMARTLINK_HEADER,
+     data: param
+    })
+    .then((result) => {
+      console.log("getSafetyInfo 2주차 회신 결과 : ", result);
+      this.DrvInfo.drvHstIFData.w2ndSafeIdx = result.data.safeRank.safeIdx;
+      this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";
+
+    }).catch((error) => {
+      console.log(error);
+    });    
+
+    this.DrvInfo.drvHstIFData.w3rdSafeIdx = this.SafetyInfo.safeIdx;
     this.DrvInfo.drvHstIFData.w4thSafeIdx = 0;
 
     this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
@@ -259,6 +289,7 @@ export default {
   } ,
   components: {
     SafeDriveTip: SafeDriveTip,
+    Comingsoon07: Comingsoon07,
   },
   computed:{
     UserInfo: {

@@ -67,5 +67,5 @@ export default {
 
 .subArea .notice {padding: 10px}
 
-.v-expansion-panel-content {padding: 20px}
+.v-expansion-panel-content {padding: 20px 0px 20px 40px}
 </style>

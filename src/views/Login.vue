@@ -19,7 +19,7 @@
         <div id="2274436683" class="formBox">
           <div id="5585182297" class="inputBox"><p class="iconBox icon01"></p><input type="text" placeholder="USERNAME" v-model="id"></div>
           <div id="4302035340" class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd" style="font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif ;"></div>
-          <a id="8672175743" @click="login" class="btn">LOGIN</a>
+          <router-link to="/Main"><a id="8672175743" @click="login" class="btn">LOGIN</a></router-link>
         </div>
         <div id="9283563635" class="bottom_text">궁금하신 내용이나 로그인 문제시,<br> 카톡(ID: canadajw) 혹은 이메일(canadajw@sk.com)으로 연락 주시기 바랍니다.</div>
     </div>
@@ -28,6 +28,7 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import Constant from '@/Constant'
+import {datePadding} from '@/utils/common.js'
 
 export default {
   name: 'login',
@@ -94,6 +95,42 @@ export default {
             this.$cookie.set('CarNo', car, '10s');
             //this.$cookie.set('CarNo', car, '1h');
             this.$cookie.set('UserName', name, '10s');
+
+
+            if (this.pwd !== 'bmskn1234') {
+              // 로그인 성공하면 기록을 해 놓자....
+              var now = new Date();
+              var curr =  now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2) 
+                        + " " + datePadding(now.getHours(),2) + ":" + datePadding(now.getMinutes(), 2) + ":" + datePadding(now.getSeconds(),2);
+              var key = id + now.getFullYear() + datePadding(now.getMonth()+1,2) + datePadding(now.getDate(),2)
+                        + datePadding(now.getHours(),2) + datePadding(now.getMinutes(), 2) + datePadding(now.getSeconds(),2);
+
+              param = {};
+              param.operation = "create";
+              param.tableName = "SMART_HIS_LOGIN";
+              param.payload = {};
+              param.payload.Item = {};
+              param.payload.Item.SEQ = key;
+              param.payload.Item.ID = id;
+              param.payload.Item.DATE = curr;
+
+              console.log("====== Login History ======");
+              console.log(param);
+
+              axios({
+                method: 'POST',
+                url: Constant.LAMBDA_URL,
+                headers: Constant.LAMBDA_HEADER,
+                data: param
+              })
+              .then((result) => {
+                console.log("Login History 회신 결과 : ", result);
+                this.qnaList = result.data.Items;
+
+              }).catch((error) => {
+                console.log(error);
+              });            
+            }
 
           }
         }

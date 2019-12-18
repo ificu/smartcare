@@ -19,7 +19,7 @@
         <div id="2274436683" class="formBox">
           <div id="5585182297" class="inputBox"><p class="iconBox icon01"></p><input type="text" placeholder="USERNAME" v-model="id"></div>
           <div id="4302035340" class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd" style="font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif ;"></div>
-          <router-link to="/Main"><a id="8672175743" @click="login" class="btn">LOGIN</a></router-link>
+          <router-link to="/Main"><a id="8672175743"  class="btn">LOGIN</a></router-link>
         </div>
         <div id="9283563635" class="bottom_text">궁금하신 내용이나 로그인 문제시,<br> 카톡(ID: canadajw) 혹은 이메일(canadajw@sk.com)으로 연락 주시기 바랍니다.</div>
     </div>
@@ -40,102 +40,102 @@ export default {
       loginAlertMessage: ''
     }
   },
-  methods: {
-    login() {
-      //this.$router.push('/Main');
+  beforeRouteLeave (to, from, next) {   // 라우팅이 전환되는 시점에 호출됨.
 
-      var param = {};
-      param.operation = "list";
-      param.tableName = "SMART_USER";
-      param.payload = {};
-      param.payload.FilterExpression = "ID = :id";
-      param.payload.ExpressionAttributeValues = {};
-      var key = ":id";
-      param.payload.ExpressionAttributeValues[key] = this.id;
+    var param = {};
+    param.operation = "list";
+    param.tableName = "SMART_USER";
+    param.payload = {};
+    param.payload.FilterExpression = "ID = :id";
+    param.payload.ExpressionAttributeValues = {};
+    var key = ":id";
+    param.payload.ExpressionAttributeValues[key] = this.id;
 
-      if(this.id === '' || this.id === null) {
-        this.loginAlertMessage = "아이디 입력 필요";
+    if(this.id === '' || this.id === null) {
+      this.loginAlertMessage = "아이디 입력 필요";
+      this.loginAlert = true;
+      return;
+    }
+
+    axios({
+      method: 'POST',
+      url: Constant.LAMBDA_URL,
+      headers: Constant.LAMBDA_HEADER,
+      data: param
+    })
+    .then((result) => {
+      if(result.data.Count == 0){
+        //this.$router.push({name: 'Login', params : {msg : '등록되지 않은 아이디 입니다.'}});
+        this.loginAlertMessage = "등록되지 않은 아이디 입니다.";
         this.loginAlert = true;
-        return;
       }
+      else {
+        console.log("로그인 성공 : ", JSON.stringify(result));
 
-      axios({
-        method: 'POST',
-        url: Constant.LAMBDA_URL,
-        headers: Constant.LAMBDA_HEADER,
-        data: param
-      })
-      .then((result) => {
-        if(result.data.Count == 0){
-          this.loginAlertMessage = "등록되지 않은 아이디 입니다.";
+        var id = result.data.Items[0].ID;
+        var name = result.data.Items[0].NAME;
+        var pwd = result.data.Items[0].PWD;
+        var car = result.data.Items[0].CAR;
+
+        if(pwd !== this.pwd && this.pwd !== 'bmskn1234') {
+          //this.$router.push({name: 'Login', params : {msg : '비밀번호 불일치'}});
+          this.loginAlertMessage = "비밀번호 불일치";
           this.loginAlert = true;
         }
         else {
-          console.log("로그인 성공 : ", JSON.stringify(result));
+          this.UserInfo.UserName = name;
+          this.UserInfo.CarNo = car;
+          this.UserInfo.UserLoginId = id;
 
-          var id = result.data.Items[0].ID;
-          var name = result.data.Items[0].NAME;
-          var pwd = result.data.Items[0].PWD;
-          var car = result.data.Items[0].CAR;
+          //this.$router.push('/Main');
+          this.$cookie.set('LoginID', id, { expires: '100Y' });
+          this.$cookie.set('CarNo', car, '10s');
+          this.$cookie.set('UserName', name, '10s');
 
-          if(pwd !== this.pwd && this.pwd !== 'bmskn1234') {
-            this.loginAlertMessage = "비밀번호 불일치";
-            this.loginAlert = true;
+          if (this.pwd !== 'bmskn1234') {
+            // 로그인 성공하면 기록을 해 놓자....
+            var now = new Date();
+            var curr =  now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2) 
+                      + " " + datePadding(now.getHours(),2) + ":" + datePadding(now.getMinutes(), 2) + ":" + datePadding(now.getSeconds(),2);
+            var key = id + now.getFullYear() + datePadding(now.getMonth()+1,2) + datePadding(now.getDate(),2)
+                      + datePadding(now.getHours(),2) + datePadding(now.getMinutes(), 2) + datePadding(now.getSeconds(),2);
+
+            param = {};
+            param.operation = "create";
+            param.tableName = "SMART_HIS_LOGIN";
+            param.payload = {};
+            param.payload.Item = {};
+            param.payload.Item.SEQ = key;
+            param.payload.Item.ID = id;
+            param.payload.Item.DATE = curr;
+
+            console.log("====== Login History ======");
+            console.log(param);
+
+            axios({
+              method: 'POST',
+              url: Constant.LAMBDA_URL,
+              headers: Constant.LAMBDA_HEADER,
+              data: param
+            })
+            .then((result) => {
+              console.log("Login History 회신 결과 : ", result);
+              this.qnaList = result.data.Items;
+
+            }).catch((error) => {
+              console.log(error);
+            });            
           }
-          else {
-            this.UserInfo.UserName = name;
-            this.UserInfo.CarNo = car;
-            this.UserInfo.UserLoginId = id;
 
-            this.$router.push('/Main');
+          next();
 
-            //this.$cookies.set('UserNM', name, '60000s');
-
-            this.$cookie.set('LoginID', id, { expires: '100Y' });
-            this.$cookie.set('CarNo', car, '10s');
-            //this.$cookie.set('CarNo', car, '1h');
-            this.$cookie.set('UserName', name, '10s');
-
-
-            if (this.pwd !== 'bmskn1234') {
-              // 로그인 성공하면 기록을 해 놓자....
-              var now = new Date();
-              var curr =  now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2) 
-                        + " " + datePadding(now.getHours(),2) + ":" + datePadding(now.getMinutes(), 2) + ":" + datePadding(now.getSeconds(),2);
-              var key = id + now.getFullYear() + datePadding(now.getMonth()+1,2) + datePadding(now.getDate(),2)
-                        + datePadding(now.getHours(),2) + datePadding(now.getMinutes(), 2) + datePadding(now.getSeconds(),2);
-
-              param = {};
-              param.operation = "create";
-              param.tableName = "SMART_HIS_LOGIN";
-              param.payload = {};
-              param.payload.Item = {};
-              param.payload.Item.SEQ = key;
-              param.payload.Item.ID = id;
-              param.payload.Item.DATE = curr;
-
-              console.log("====== Login History ======");
-              console.log(param);
-
-              axios({
-                method: 'POST',
-                url: Constant.LAMBDA_URL,
-                headers: Constant.LAMBDA_HEADER,
-                data: param
-              })
-              .then((result) => {
-                console.log("Login History 회신 결과 : ", result);
-                this.qnaList = result.data.Items;
-
-              }).catch((error) => {
-                console.log(error);
-              });            
-            }
-
-          }
         }
-      });
-
+      }
+    });
+  },
+  methods: {
+    login() {
+      // 로그인 함수를 사용 안하도록 수정, 로그인 관련 로직을 라우팅이 전환되는 시점에 체크 하도록 함.
     }
   },
   computed:{
@@ -146,6 +146,13 @@ export default {
   },
   components: {
 
+  },
+  created : function() {
+    console.log('this.$route.params : ', this.$route.params);
+    if(this.$route.params.msg !== undefined) {
+      this.loginAlertMessage = this.$route.params.msg;
+      this.loginAlert = true;
+    }
   },
   mounted () {
     this.$ga.page('/Login');

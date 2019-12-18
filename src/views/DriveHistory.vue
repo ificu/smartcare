@@ -55,7 +55,7 @@
                       <div id="5523879721" class="textBox">
                           <div id="4047802892" class="text01">{{drv.dist}} km | {{drv.movTm}}</div>
                           <div id="2752795652" class="text02">
-                              {{drv.startAddr}} → {{drv.endAddr}}<br>
+                              {{drv.endAddr}} → {{drv.startAddr}}<br>
                               {{drv.startDate}} ~ {{drv.endDate}}
                           </div>
                       </div>

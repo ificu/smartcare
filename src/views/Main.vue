@@ -809,6 +809,7 @@ export default {
     }
     else {
       this.$router.push('/');
+      return;
     }
 
     this.showLoading = true;

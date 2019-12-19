@@ -329,7 +329,10 @@ export default {
         if(this.safDrvIdx != null && this.safDrvIdx != ""){
           var gageBar = document.getElementById('1771345032'); // 게이지 Bar
           var degree = this.safDrvIdx * 1.8 - 90;
-
+          gageBar.style.transform = 'rotate(' + degree + 'deg)';
+        }else{
+          var gageBar = document.getElementById('1771345032'); // 게이지 Bar
+          var degree = - 90;
           gageBar.style.transform = 'rotate(' + degree + 'deg)';
         }
 

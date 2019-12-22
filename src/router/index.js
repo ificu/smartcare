@@ -79,6 +79,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
   scrollBehavior (to, from, savedPosition) {
+    // 정의된 변수가 사용 안되면 에러를 리턴해서... 로그라도 찍어 줌...
     console.log('position : ', to);
     console.log('position : ', from);
     console.log('position : ', savedPosition);

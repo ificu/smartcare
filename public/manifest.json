@@ -1,0 +1,25 @@
+{
+    "name":"SmartCare",
+    "short_name":"SmartCare",
+    "description":"LentCar Contents",
+    "icons": [
+        {
+            "src": "/src/img/icons/AppIcon_32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "/src/img/icons/AppIcon_256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/index.html",
+    "scope":".",
+    "display": "standalone",
+    "orientation":"portrait-primary",
+    "background_color": "#ffffff",
+    "theme_color":"#ffffff",
+    "dir":"ltr",
+    "lang":"en-US"
+}

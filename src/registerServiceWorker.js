@@ -2,6 +2,19 @@
 
 import { register } from 'register-service-worker'
 
+if('serviceWorker' in navigator){
+    // .register(`${process.env.BASE_URL}service-worker.js`)
+    navigator.serviceWorker
+    .register('/sw.js')
+    .then(function(){
+      console.log("Service worker registered!");
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+
+}
+
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
@@ -30,3 +43,4 @@ if (process.env.NODE_ENV === 'production') {
     }
   })
 }
+

@@ -1,7 +1,7 @@
 <template>
   <div id="9092369439" class="popup_layer">
     <div id="8186834801" class="popup_main">
-      <a id="4237192926" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <a id="SafeDriveTip_xBtn" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <img id="2760040642" src="@/img/img_drivetip1.svg">
       <img id="9780334514" src="@/img/img_drivetip2.svg">
     </div>

@@ -1,19 +1,19 @@
-<template>
+﻿<template>
   <div id="2290644288" class="mainArea">
     <div id="9603812673" class="titleBox">
-      <a id="img_btn_menu" href="javascript:;" class="menuBtn" @click="showMenu=true"><img src="@/img/icon_menu.svg"></a>
+      <a id="main_img_btn_menu" href="javascript:;" class="menuBtn" @click="showMenu=true"><img src="@/img/icon_menu.svg"></a>
       <div id="7596576479" class="title">안녕하세요, {{userName}} 님</div>
       <div id="1054309100" class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
     </div>
     <div id="4644211896" class="item_list">
     <router-link to="/ContractInfo">
-      <a id="link_sub_contractinfo" href="" class="item">
+      <a id="main_link_sub_contractinfo" href="" class="item">
         <img id="1840625569" src="@/img/logo_skRental.svg" class="logo">
         <div id="6544656424" class="item_text">내 차 계약 정보 확인</div>
       </a>
     </router-link>
     <router-link to="/SafeReport">
-      <a id="link_sub_safereport" href="" class="item">
+      <a id="main_link_sub_safereport" href="" class="item">
         <div id="7829133626" class="item_title"><img id="7426634982" src="@/img/icon_target.svg"> <span id="" class="title">안전점수</span></div>
         <div id="2930701675" class="guageBox">
           <img id="1771345032" src="@/img/guage_bar.svg" class="guage_bar">
@@ -26,12 +26,12 @@
         <div id="1246721320" class="text03"><span>안전운전 미션이 향후 안내될 예정입니다.</span></div>
       </a>
       </router-link>
-      <a id="link_popup_erscall" @click="showERSCall=true" class="item">
+      <a id="main_link_popup_erscall" @click="showERSCall=true" class="item">
         <div id="2613335142" class="item_title"><img id="2259556330" src="@/img/icon_accident.svg"> <span class="title">사고접수</span></div>
         <div id="9978640929" class="text04">사고 발생시 바로 연결</div>
       </a>
       <router-link to="/ShockAlarm">
-      <a id="link_sub_shockalarm" href="" class="item">
+      <a id="main_link_sub_shockalarm" href="" class="item">
         <div id="6012095227" class="item_title"><img id="4450206969" src="@/img/icon_alarm01.svg"> <span class="title">정차 중 충격알림</span><span class="new" v-if="newShockAlarm">NEW</span></div>
         <ul id="5649529464" class="alarm_list" v-for="(shock, index) in shockAlarmList" v-bind:key="index">
           <li v-bind:id="'9548127208'+index"><p class="date">{{shock.shockDate}}</p><p>{{shock.shockMsg}}</p></li>
@@ -40,7 +40,7 @@
       </a>
       </router-link>
       <router-link to="/CarRepair">
-      <a id="link_sub_carrepair" href="" class="item">
+      <a id="main_link_sub_carrepair" href="" class="item">
         <div id="7558405712" class="item_title"><img id="3486064755" src="@/img/icon_fix.svg"> <span class="title">정비관리</span><span class="new" v-if="isNewRepairMessage">NEW</span></div>
         <div id="5094331840" class="item_text">누적 주행거리 {{accDist}}Km</div>
         <ul id="6794243679" class="text_list">
@@ -50,7 +50,7 @@
       </a>
       </router-link>
       <router-link to="/DriveHistory">
-      <a id="link_sub_drivehistory" href="" class="item">
+      <a id="main_link_sub_drivehistory" href="" class="item">
         <div id="1150123414" class="item_title"><img id="5638758827" src="@/img/icon_history.svg"> <span class="title">주행이력관리</span><span class="new">NEW</span></div>
         <ul id="1229086322" class="history_list" v-for="(drive, index) in driveHistoryList" v-bind:key="index">
           <li v-bind:id="'9198852782'+index"><p class="date">{{drive.drvDate}}</p><p class="address"><span>{{drive.addr}}</span></p></li>
@@ -59,19 +59,19 @@
       </a>
       </router-link>
       <router-link to="/MyCarLocation">
-      <a id="link_sub_mycarlocation" href="javascript:;" class="item">
+      <a id="main_link_sub_mycarlocation" href="javascript:;" class="item">
         <div id="5425614371" class="item_title"><img id="8464994905" src="@/img/icon_locate.svg"> <span class="title">내차 위치 찾기</span></div>
         <div id="6545125044" class="item_text" style="padding-bottom:10px">공항, 식당에서 발렛 파킹 하셨나요?</div>
       </a>
       </router-link>
       <ul id="6067869823" class="comingsoon_list">
         <div id="1294494412" class="item_title">신규 예정 서비스</div>
-        <li id="link_popup_comingsoon1" @click="showComingsoon01 = !showComingsoon01"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
-        <li id="link_popup_comingsoon2" @click="showComingsoon02 = !showComingsoon02"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
-        <li id="link_popup_comingsoon3" @click="showComingsoon03 = !showComingsoon03"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
-        <li id="link_popup_comingsoon4" @click="showComingsoon04 = !showComingsoon04"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
-        <li id="link_popup_comingsoon5" @click="showComingsoon05 = !showComingsoon05"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
-        <li id="link_popup_comingsoon6" @click="showComingsoon06 = !showComingsoon06"><img src="@/img/icon_sos.png"> <span>스마트 사고대응 서비스</span></li>
+        <li id="link_popup_comingsoon_119" @click="showComingsoon01 = !showComingsoon01"><img id="6769156072" src="@/img/icon_119.svg"> <span>119 자동출동 서비스 (대형사고 발생시)</span></li>
+        <li id="link_popup_comingsoon_alam_svc" @click="showComingsoon02 = !showComingsoon02"><img src="@/img/icon_alarm02.svg"> <span>다양한 알림 서비스</span></li>
+        <li id="link_popup_comingsoon_AI_drive_svc" @click="showComingsoon03 = !showComingsoon03"><img src="@/img/icon_ai.svg"> <span>운전비서(AI) 서비스</span></li>
+        <li id="link_popup_comingsoon_customized_repair_svc" @click="showComingsoon04 = !showComingsoon04"><img src="@/img/icon_change.svg"> <span>최적의 교환주기 추천 서비스</span></li>
+        <li id="link_popup_comingsoon_LBS_repair_reservation_svc" @click="showComingsoon05 = !showComingsoon05"><img src="@/img/icon_fix.svg"> <span>가까운 정비 업소 알림/예약 서비스</span></li>
+        <li id="link_popup_comingsoon_smart_accident_svc" @click="showComingsoon06 = !showComingsoon06"><img src="@/img/icon_sos.png"> <span>스마트 사고대응 서비스</span></li>
       </ul>
     </div>
     <transition name="slide-fade">

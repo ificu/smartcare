@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div id="2538988706" class="popup_layer">
     <div id="6129500366" class="popup_main">
       <img id="7440669318" src="@/img/icon_comingsoon.svg" class="comingsoon">
-      <a id="7422023528" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <a id="New Service Allarm_X Button" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="4507885082" class="title">다양한 알림 서비스</div>
       <div id="2747284928" class="textBox">
           차량의 이상 및 이상 동작 발생시,<br>
@@ -19,7 +19,7 @@
           이외에 기타 차량의 이상 혹은 이상신호 발생시에도<br>
           안내해드릴 예정입니다.<br>
       </div>
-      <a id="8672175743" class="btn" @click="$emit('close')">확인</a>
+      <a id="New Service Allarm_Close" class="btn" @click="$emit('close')">확인</a>
     </div>
   </div>
 </template>

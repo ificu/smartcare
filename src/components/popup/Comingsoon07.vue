@@ -1,7 +1,7 @@
-<template>
+﻿<template>
   <div id="2538988706" class="popup_layer">
     <div id="6129500366" class="popup_main">
-      <a id="7422023528" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <a id="Safe Score_X Button" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="4507885082" class="title">안전점수란?</div>
       <div id="4586417187" class="subText1">
           본인의 운전방식을 분석하여<br>
@@ -18,7 +18,7 @@
             <br>
         </div>
       </div>
-      <a id="8672175743" class="btn" @click="$emit('close')">확인</a>
+      <a id="Safe Score_Close" class="btn" @click="$emit('close')">확인</a>
     </div>
   </div>
 </template>

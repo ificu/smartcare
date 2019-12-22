@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div id="2538988706" class="popup_layer">
     <div id="6129500366" class="popup_main">
       <img id="7440669318" src="@/img/icon_comingsoon.svg" class="comingsoon">
-      <a id="7422023528" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <a id="New Service Change_X Button " @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="4507885082" class="title">최적 교환주기 추천서비스</div>
       <div id="2747284928" class="textBox">
           고객의 운행 패턴 맞춤형<br>
@@ -18,7 +18,7 @@
       <div id="4586417187" class="subText3">제조사에서 권장하는 일반 수준의 교체 주기</div>
       <div id="4586417187" class="subText2">● 가혹조건</div>
       <div id="4586417187" class="subText3">험한길, 고속주행 고온의 환경 등의 주행 조건이 반복되는 경우의 교체 주기</div>
-      <a id="8672175743" class="btn" @click="$emit('close')">확인</a>
+      <a id="New Service Change_Close" class="btn" @click="$emit('close')">확인</a>
     </div>
   </div>
 </template>

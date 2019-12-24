@@ -25,10 +25,10 @@
     </div>
 </template>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 import Constant from '@/Constant'
 import {datePadding} from '@/utils/common.js'
+import axios from 'axios'
 
 export default {
   name: 'login',

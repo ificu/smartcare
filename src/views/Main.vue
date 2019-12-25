@@ -887,7 +887,7 @@ export default {
 #app .mainArea .item_list .item .item_title .title{ display:inline-block; vertical-align:middle; font-size:14px; font-weight:bold; color:#666;}
 #app .mainArea .item_list .item .item_title .new{ display:inline-block; vertical-align:super; font-size:10px; font-weight:bold; color:#f2000d;}
 #app .mainArea .item_list .item .guageBox{ position:relative; width:100%; height:120px; background-image:url(../img/main_guage2.png); background-position:center top; background-repeat:no-repeat; background-size:200px;}
-#app .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:35px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(45deg)}
+#app .mainArea .item_list .item .guageBox .guage_bar{ position:absolute; left:50%; top:35px; margin-left:-12px; width:20px; transform-origin:bottom center; transform:rotate(-90deg)}
 #app .mainArea .item_list .item .guageBox .guage_line{ position:absolute; left:50%; top:78px; margin-left:50px; width:65px; transform-origin:bottom center; transform:rotate(-12deg)}
 #app .mainArea .item_list .item .guageBox .goal_score{ position:absolute; left:50%; top:55px; margin-left:100px; font-size:14px; font-weight:bold; color:#666; text-align:center;}
 #app .mainArea .item_list .item .guageBox .my_score{ position:absolute; left:0; bottom:-35px; width:100%; font-size:30px; font-weight:800; color:#333; text-align:center;}

@@ -192,8 +192,35 @@ export default {
       console.log(error);
     });    
 
-    this.DrvInfo.drvHstIFData.w3rdSafeIdx = this.SafetyInfo.safeIdx;
-    this.DrvInfo.drvHstIFData.w4thSafeIdx = 0;
+    // 세째주도 하드코딩하고.... ㅠㅠ
+    stDt = '2019-12-15'
+    edDt = '2019-12-21';
+
+    var param = {};
+    param.authKey = Constant.SMARTLINK_AUTH_KEY;
+    param.userId = this.UserInfo.UserLoginId;
+    param.stDt = stDt;
+    param.edDt = edDt;
+
+    console.log("====== getSafetyInfo 3주차 ======");
+    console.log(param);
+
+    axios({
+     method: 'POST',
+     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+     headers: Constant.SMARTLINK_HEADER,
+     data: param
+    })
+    .then((result) => {
+      console.log("getSafetyInfo 3주차 회신 결과 : ", result);
+      this.DrvInfo.drvHstIFData.w3rdSafeIdx = result.data.safeRank.safeIdx;
+      this.w3rdSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w3rdSafeIdx + "px";
+
+    }).catch((error) => {
+      console.log(error);
+    });    
+
+    this.DrvInfo.drvHstIFData.w4thSafeIdx = this.SafetyInfo.safeIdx;
 
     this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
     this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";

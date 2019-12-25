@@ -1,7 +1,7 @@
 <template>
 	<div id="popup_period_setting" class="popup_layer">
     <div id="" class="popup_main">
-      <a href="javascript:;" id="" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
+      <a href="javascript:;" id="RepairCycle01_xBtn" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
       <div id="" class="title2">이전 교환시기 입력</div>
 			<div id="" class="message1">마지막으로 교체한 주행거리를 넣어주세요</div>
 			<div id="" class="message2">직접 넣어주신 주행거리부터</div>
@@ -23,7 +23,7 @@
 				{{repairAlertMessage}}
 			</v-alert>			
 			<br>
-			<a id="8672175743" class="btn" @click="updateData">확인</a>
+			<a id="RepairCycle01_Confirm" class="btn" @click="updateData">확인</a>
     </div>
   </div>
 </template>

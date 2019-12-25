@@ -1,16 +1,16 @@
 <template>
   <div id="2250439541" class="popup_layer">
     <div id="5726124298" class="popup_header">
-      <a id="4561323194" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <a id="Menu_xBtn" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="9788353122" class="title">{{userName}} 님</div>
       <div id="8226028451" class="subtitle1">계약기간</div>
       <div id="9307216051" class="subtitle2">{{ContractInfo.ContStart.replace(/-/gi,".")}} ~ {{ContractInfo.ContEnd.replace(/-/gi,".")}}</div>
     </div>
     <div id="2316227097" class="popup_menu">
       <div id="9898896361" class="menu_list" @click="$emit('close')" >Home</div>
-      <router-link to="/Notice"><div id="1723367321" class="menu_list">공지/안내사항</div></router-link>
-      <router-link to="/QnA"><div id="1012500541" class="menu_list">1:1문의</div></router-link>
-      <router-link to="/"><div id="9866648110" class="menu_list">로그아웃</div></router-link>
+      <router-link to="/Notice"><div id="Menu_Notice" class="menu_list">공지/안내사항</div></router-link>
+      <router-link to="/QnA"><div id="Menu_QnA" class="menu_list">1:1문의</div></router-link>
+      <router-link to="/"><div id="Menu_LogOut" class="menu_list">로그아웃</div></router-link>
     </div>
   </div>
 </template>

@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div id="2538988706" class="popup_layer">
     <div id="6129500366" class="popup_main">
       <img id="7440669318" src="@/img/icon_comingsoon.svg" class="comingsoon">
-      <a id="7422023528" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
+      <a id="New Service 119_X Button" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg"></a>
       <div id="4507885082" class="title">119 자동출동 서비스</div>
       <div id="2747284928" class="textBox">
           <span>Smart Care</span> 를 통한 119 긴급<br>
@@ -17,7 +17,7 @@
           차량을 같이 이용하는 배 우자, 부모님, 자녀 등<br>
           운전 고객의 안전을 위한 서비스 입니다.
       </div>
-      <a id="8672175743" class="btn" @click="$emit('close')">확인</a>
+      <a id="New Service 119_Close" class="btn" @click="$emit('close')">확인</a>
     </div>
   </div>
 </template>

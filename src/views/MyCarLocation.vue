@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div id="4158449995" class="subArea">
 		<div id="5433017376" class="titleBox">
       <router-link to="/Main">
-      <a href="" id="4916679281" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
+      <a href="" id="MyCarLocation_backBtn" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
         <div id="3273278861" class="title">내차 위치 찾기</div>
     </div>
     <div id="map_div" class="graphBox"></div>

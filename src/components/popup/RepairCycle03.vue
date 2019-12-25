@@ -1,7 +1,7 @@
 <template>
 	<div id="popup_period_setting" class="popup_layer">
     <div id="" class="popup_main">
-      <a href="javascript:;" id="" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
+      <a href="javascript:;" id="RepairCycle03_xBtn" @click="$emit('close')" class="xBtn"><img src="@/img/icon_xBtn.svg" id=""></a>
       <div id="" class="title2">교환주기 설정방법</div>
 			<div id="" class="message1">고객님의 운행 패턴에 따라 소무품 교환 주기를</div>
 			<div id="" class="message2"><span>일반조건/가혹조건/개인</span>별로 설정할 수 있습니다.</div>
@@ -12,7 +12,7 @@
 			<div id="" class="submessage1">⊙ 개인 설정주기</div>
 			<div id="" class="submessage2">개인이 운전습관을 참조하여 직접 설정하는 주기</div>
 			<br>
-			<a id="8672175743" class="btn" @click="$emit('close')">확인</a>
+			<a id="RepairCycle03_Confirm" class="btn" @click="$emit('close')">확인</a>
     </div>
   </div>
 </template>

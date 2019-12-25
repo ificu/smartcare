@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div id="1763476558" class="subArea">
 		<div id="3883037607" class="titleBox">
       <router-link to="/Main">
-      <a href="" id="8212500350" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
+      <a href="" id="SafeReport_backBtn" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
       <div id="4755611960" class="title">안전 점수</div>
     </div>
     <ul id="3610927099" class="infoBox report">
@@ -10,7 +10,7 @@
         <div id="4290904421" class="info_title">나의 안전점수 ({{thisMonth}}월 {{thisWeek}}주차)</div>
             <div id="7416675010" class="report_text01">{{DrvInfo.drvHstIFData.safDrvMessage}}</div>
             <div id="4479799753" class="report_text02">{{DrvInfo.drvHstIFData.safDrvRecommend}}</div>
-            <a href="javascript:;" id="8556562402" class="change_info" @click="showComingsoon06 = !showComingsoon06">나의 운전 점수 <img src="../img/icon_i.svg" id=""></a>
+            <a href="javascript:;" id="SafeReport_info" class="change_info" @click="showComingsoon07 = !showComingsoon07">나의 운전 점수 <img src="../img/icon_i.svg" id=""></a>
             <div id="6880835588" class="myReport">
               <div id="7199598694" class="box">
                     <div id="8222585707" class="textBox">
@@ -102,7 +102,7 @@
               </div>
         </li>
         <li id="7577102497">
-          <div id="3077471024" class="tip" @click="showSafeDriveTip = !showSafeDriveTip">안전운전 Tip <span>도로위의 블랙홀 '포트홀' 대처법</span></div>
+          <div id="SafeReport_tip" class="tip" @click="showSafeDriveTip = !showSafeDriveTip">안전운전 Tip <span>도로위의 블랙홀 '포트홀' 대처법</span></div>
         </li>
     </ul>
     <transition name="slide-fade">
@@ -190,7 +190,7 @@ export default {
 
     }).catch((error) => {
       console.log(error);
-    });    
+    });
 
     // 세째주도 하드코딩하고.... ㅠㅠ
     stDt = '2019-12-15'
@@ -230,7 +230,7 @@ export default {
 
     var now = new Date();
     console.log("This Week : ", this.weekNumberByMonth(now));
-    
+
     this.thisMonth = this.weekNumberByMonth(now).month;
     this.thisWeek = this.weekNumberByMonth(now).weekNo;
     // 정확히는 이렇게 계산하자...

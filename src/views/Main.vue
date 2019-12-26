@@ -91,9 +91,9 @@
   </div>
 </template>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
-import Comingsoon01 from '@/components/popup/Comingsoon01.vue'
+import Comingsoon01 from '@/components/popup/Comingsoon01.vue'  
 import Comingsoon02 from '@/components/popup/Comingsoon02.vue'
 import Comingsoon03 from '@/components/popup/Comingsoon03.vue'
 import Comingsoon04 from '@/components/popup/Comingsoon04.vue'
@@ -105,6 +105,7 @@ import Loading from '@/components/popup/Loading.vue'
 import Constant from '@/Constant'
 import {datePadding} from '@/utils/common.js'
 import {numberWithCommas} from '@/utils/common.js'
+import axios from 'axios'
 
 export default {
   name: 'main',

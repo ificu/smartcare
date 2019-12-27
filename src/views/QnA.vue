@@ -75,12 +75,14 @@ export default {
 
       this.qnaList.unshift(cont);
       
-
       param = {};
       param.system = "BAY4U";
-      param.telNo = "01036981010";      // 김승택 매니저
-      param.callbackNo = "01036981010";
-      param.msg = param.payload.Item.ID = this.UserInfo.UserLoginId + "님께서 문의사항을 등록하셨습니다.";
+      param.telNo = "01049464302";      // 김승택 매니저
+      param.callbackNo = "01049464302";
+      param.msg = this.UserInfo.UserLoginId + "(" +this.UserInfo.UserName+ ")님께서 문의사항을 등록하셨습니다.";
+
+      console.log("====== SMS Send ======");
+      console.log(param);
 
       axios({
         method: 'POST',
@@ -89,7 +91,7 @@ export default {
         data: param
       })
       .then((result) => {
-        console.log(result);
+        console.log("SMS 회신 결과 : ", result);
       })
       .catch((error) => {
         console.log(error);

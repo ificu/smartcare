@@ -91,6 +91,7 @@
   </div>
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
 import Comingsoon01 from '@/components/popup/Comingsoon01.vue'  
@@ -105,7 +106,6 @@ import Loading from '@/components/popup/Loading.vue'
 import Constant from '@/Constant'
 import {datePadding} from '@/utils/common.js'
 import {numberWithCommas} from '@/utils/common.js'
-import axios from 'axios'
 
 export default {
   name: 'main',
@@ -641,6 +641,9 @@ export default {
     // 충격알림 이력 조회
     ///////////////////////////////////////////////////////////////////
     getImpactNotice() {
+      setInterval(function(){
+
+      
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
       now.setDate(now.getDate() -7);    // 일주일 전
@@ -651,6 +654,8 @@ export default {
       param.carNum = this.UserInfo.CarNo;
       param.stDt = stDt;
       param.edDt = edDt;
+      console.log("충격알림 시작 일 : ",stDt);
+      console.log("충격알림 마지막 일 : ",edDt);
 
       console.log("====== getImpactNotice ======");
       console.log(param);
@@ -697,6 +702,7 @@ export default {
       }).catch((error) => {
         console.log(error);
       });
+      },3000);
     },
     ///////////////////////////////////////////////////////////////////
     // 차량 정비 이력 정보

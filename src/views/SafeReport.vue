@@ -113,12 +113,12 @@
 
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
 import SafeDriveTip from '@/components/popup/SafeDriveTip.vue'
 import Constant from '@/Constant'
 import Comingsoon07 from '@/components/popup/Comingsoon07.vue'
-import axios from 'axios'
 
 export default {
   name: 'SafeReport',

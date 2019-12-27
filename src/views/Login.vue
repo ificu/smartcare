@@ -25,10 +25,11 @@
     </div>
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
 import Constant from '@/Constant'
 import {datePadding} from '@/utils/common.js'
-import axios from 'axios'
 
 export default {
   name: 'login',
@@ -41,6 +42,7 @@ export default {
     }
   },
   beforeRouteLeave (to, from, next) {   // 라우팅이 전환되는 시점에 호출됨.
+    this.addBanner(); // 바로가기 아이콘 추가 여부
 
     var param = {};
     param.operation = "list";
@@ -86,7 +88,7 @@ export default {
           this.UserInfo.UserName = name;
           this.UserInfo.CarNo = car;
           this.UserInfo.UserLoginId = id;
-
+          console.log("Login : UserInfo.CarNo : ", car);
           //this.$router.push('/Main');
           this.$cookie.set('LoginID', id, { expires: '100Y' });
           this.$cookie.set('CarNo', car, '10s');
@@ -136,6 +138,24 @@ export default {
   methods: {
     login() {
       // 로그인 함수를 사용 안하도록 수정, 로그인 관련 로직을 라우팅이 전환되는 시점에 체크 하도록 함.
+    },
+    addBanner(){
+      // alert("바로가기 아이콘을 추가하시겠습니까?");
+      console.log("DO NOT DETECT deferredPrompt");
+      if(deferredPrompt){
+        deferredPrompt.prompt(); // 바로가기 추가 실행
+        console.log("DETECT deferredPrompt");
+        
+        deferredPrompt.userChoice.then(function(choiceResult) {
+          console.log(choiceResult.outcome);
+          if(choiceResult.outcome === 'dismissed'){
+            console.log("User cancelled installation");
+          }else{
+            console.log("User added to home screen");
+          }
+        });
+        deferredPrompt = null;
+      }
     }
   },
   computed:{

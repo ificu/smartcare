@@ -91,6 +91,7 @@
   </div>
 </template>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
 import Comingsoon01 from '@/components/popup/Comingsoon01.vue'  
@@ -105,7 +106,6 @@ import Loading from '@/components/popup/Loading.vue'
 import Constant from '@/Constant'
 import {datePadding} from '@/utils/common.js'
 import {numberWithCommas} from '@/utils/common.js'
-import axios from 'axios'
 
 export default {
   name: 'main',
@@ -651,6 +651,8 @@ export default {
       param.carNum = this.UserInfo.CarNo;
       param.stDt = stDt;
       param.edDt = edDt;
+      console.log("충격알림 시작 일 : ",stDt);
+      console.log("충격알림 마지막 일 : ",edDt);
 
       console.log("====== getImpactNotice ======");
       console.log(param);

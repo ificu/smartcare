@@ -641,9 +641,6 @@ export default {
     // 충격알림 이력 조회
     ///////////////////////////////////////////////////////////////////
     getImpactNotice() {
-      setInterval(function(){
-
-      
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
       now.setDate(now.getDate() -7);    // 일주일 전
@@ -702,7 +699,6 @@ export default {
       }).catch((error) => {
         console.log(error);
       });
-      },3000);
     },
     ///////////////////////////////////////////////////////////////////
     // 차량 정비 이력 정보

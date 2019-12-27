@@ -92,8 +92,9 @@
 </template>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
-import Comingsoon01 from '@/components/popup/Comingsoon01.vue'
+import Comingsoon01 from '@/components/popup/Comingsoon01.vue'  
 import Comingsoon02 from '@/components/popup/Comingsoon02.vue'
 import Comingsoon03 from '@/components/popup/Comingsoon03.vue'
 import Comingsoon04 from '@/components/popup/Comingsoon04.vue'
@@ -650,6 +651,8 @@ export default {
       param.carNum = this.UserInfo.CarNo;
       param.stDt = stDt;
       param.edDt = edDt;
+      console.log("충격알림 시작 일 : ",stDt);
+      console.log("충격알림 마지막 일 : ",edDt);
 
       console.log("====== getImpactNotice ======");
       console.log(param);

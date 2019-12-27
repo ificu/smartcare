@@ -4,17 +4,22 @@
     "description":"LentCar Contents",
     "icons": [
         {
-            "src": "/src/img/icons/AppIcon_32x32.png",
+            "src": "/src/img/icons/skcar_icon_32x32.png",
             "sizes": "32x32",
             "type": "image/png"
         },
         {
-            "src": "/src/img/icons/AppIcon_256x256.png",
+            "src": "/src/img/icons/skcar_icon_256x256.png",
             "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/src/img/icons/skcar_icon_512x512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ],
-    "start_url": "/index.html",
+    "start_url": "/index_jump.html",
     "scope":".",
     "display": "standalone",
     "orientation":"portrait-primary",

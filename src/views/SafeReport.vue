@@ -114,6 +114,7 @@
 </template>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script>
 import SafeDriveTip from '@/components/popup/SafeDriveTip.vue'
 import Constant from '@/Constant'

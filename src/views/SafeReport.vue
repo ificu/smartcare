@@ -61,13 +61,15 @@
             </div>
         </li>
 
-        <li id="1001295270" class="comingsoon">
-          <div id="1885665149" class="info_title" style="color:#aaa">나의 미션 (서비스 예정)</div>
-            <div id="9868666097" class="missionBox">
-                <div id="2767257233" class="text01" style="color:#aaa">안전점수 <font color="#ffb8b8">95점</font>을 달성하시면<br><font color="#ffb8b8">스타벅스 커피 쿠폰</font>을 드립니다.</div>
-                <div id="9073072639" class="text02" style="color:#aaa">(Beta Test 기간 내, 50km 이상 주행시)</div>
-                <img src="../img/coffee.png" class="coffee" id="6096018118">
-		</div>
+        <li id="1001295270" >
+          <div id="1885665149" class="info_title">나의 미션 (2020.1.6 ~ 2020.1.11)</div>
+          <div id="9868666097" class="missionBox">
+              <!--<div id="2767257233" class="text01">안전점수 <font color="#d7000f">95점</font>을 달성하시면<br><font color="#d7000f">스타벅스 커피 쿠폰</font>을 드립니다.</div>
+              <div id="9073072639" class="text02">(Beta Test 기간 내, 50km 이상 주행시)</div>-->
+              <div id="2767257233" class="text01">안전점수를 달성하시면<br>소정의 상품을 제공해 드립니다.</div>
+              <div id="9073072639" class="text02">(Test 기간 내, 20km 이상 주행시)</div>
+              <img src="../img/coffee2.png" class="coffee" id="6096018118">
+          </div>
         </li>
 
         <li id="2169101509">
@@ -138,8 +140,8 @@ export default {
     console.log('DrvInfo : ', this.DrvInfo);
 
     // 일단 시간이 없어서 첫주차는 하드코딩하고....
-    var stDt = '2019-12-01'
-    var edDt = '2019-12-07';
+    var stDt = '2019-12-29'
+    var edDt = '2020-01-04';
 
     var param = {};
     param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -165,6 +167,7 @@ export default {
       console.log(error);
     });
 
+/*
     // 둘째주도 하드코딩하고....
     stDt = '2019-12-08'
     edDt = '2019-12-14';
@@ -221,7 +224,37 @@ export default {
       console.log(error);
     });    
 
-    this.DrvInfo.drvHstIFData.w4thSafeIdx = this.SafetyInfo.safeIdx;
+    // 내째주 .... ㅠㅠ
+    stDt = '2019-12-22'
+    edDt = '2019-12-28';
+
+    var param = {};
+    param.authKey = Constant.SMARTLINK_AUTH_KEY;
+    param.userId = this.UserInfo.UserLoginId;
+    param.stDt = stDt;
+    param.edDt = edDt;
+
+    console.log("====== getSafetyInfo 4주차 ======");
+    console.log(param);
+
+    axios({
+     method: 'POST',
+     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+     headers: Constant.SMARTLINK_HEADER,
+     data: param
+    })
+    .then((result) => {
+      console.log("getSafetyInfo 4주차 회신 결과 : ", result);
+      this.DrvInfo.drvHstIFData.w4stSafeIdx = result.data.safeRank.safeIdx;
+      this.w4stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w4stSafeIdx + "px";
+
+    }).catch((error) => {
+      console.log(error);
+    });        
+*/
+    this.DrvInfo.drvHstIFData.w2ndSafeIdx = this.SafetyInfo.safeIdx;
+    this.DrvInfo.drvHstIFData.w3rdSafeIdx = 0;
+    this.DrvInfo.drvHstIFData.w4thSafeIdx = 0;
 
     this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
     this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";

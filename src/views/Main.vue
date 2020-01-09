@@ -6,6 +6,13 @@
       <div id="1054309100" class="subTitle">SK렌터카 <span>스마트케어</span>(Beta Ver.) 서비스<br>테스트에 참여해주셔서 감사합니다.</div>
     </div>
     <div id="4644211896" class="item_list">
+    <a id="main_link_sub_notice" class="item">
+      <div id="1150123414" class="item_title"><span class="title">공지사항</span><span class="new">NEW</span></div>
+      <ul id="1229086322" class="notice_list" v-for="(notice, index) in noticeList" v-bind:key="index">
+        <li v-bind:id="'main_link_sub_notice_'+notice.SEQ" @click="noticeClick(index)"><p>{{notice.TITLE}}</p></li>
+      </ul>
+      <div id="3714380580" class="more">... more</div>
+    </a>
     <router-link to="/ContractInfo">
       <a id="main_link_sub_contractinfo" href="" class="item">
         <img id="1840625569" src="@/img/logo_skRental.svg" class="logo">
@@ -23,7 +30,7 @@
         </div>
         <div id="6594630138" class="text01">{{safDrvMessage}}</div>
         <div id="1597772086" class="text02">{{safDrvRecommend}}</div>
-        <div id="1246721320" class="text03"><span>안전운전 미션이 향후 안내될 예정입니다.</span></div>
+        <div id="1246721320" class="text03"><span>(Mission) 개인별 안전운전 미션 안내</span></div>
       </a>
       </router-link>
       <a id="main_link_popup_erscall" @click="showERSCall=true" class="item">
@@ -127,6 +134,7 @@ export default {
       shockAlarmList: [],
       newShockAlarm: false,
       driveHistoryList: [],
+      noticeList: [],
       isNewRepairMessage: false,
       repairMessage1: "",
       repairMessage2: "",
@@ -186,7 +194,8 @@ export default {
       var now = new Date();
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
       //now.setDate(now.getDate() -7);    // 일주일 전
-      now.setMonth(now.getMonth() -1);    // 한달 전
+      //now.setMonth(now.getMonth() -1);    // 한달 전
+      now.setDate(now.getDate() -30);    // 한달 전
       var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
 
       var param = {};
@@ -800,6 +809,47 @@ export default {
         console.log(error);
       });
     },
+    ///////////////////////////////////////////////////////////////////
+    // 공지사항 조회
+    ///////////////////////////////////////////////////////////////////
+    getNoticeInfo() {
+
+      var param = {};
+      param.operation = "list";
+      param.tableName = "SMART_NOTICE";
+      param.payload = {};
+
+      console.log("====== mounted ======");
+      console.log(param);
+
+      axios({
+        method: 'POST',
+        url: Constant.LAMBDA_URL,
+        headers: Constant.LAMBDA_HEADER,
+        data: param
+      })
+      .then((result) => {
+        console.log("mounted 회신 결과 : ", result);
+
+        result.data.Items.sort(function(a,b) {
+          return a.SEQ > b.SEQ ? -1 : a.SEQ < b.SEQ ? 1 : 0;
+        });
+
+        this.noticeList = result.data.Items.slice(0, 2);
+
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    noticeClick(seq) {
+      console.log("Click........", seq);
+      var param = {"index": seq};
+
+      this.$router.push({name:'Notice', 
+                        params:{
+                              index: seq
+                          }});      
+    }
   },
   beforeMount(){
     var checkCookie = this.$cookie.get('CarNo');
@@ -826,6 +876,7 @@ export default {
     this.getCarRepairInfo();
     this.getCarContractInfo();
     this.getTodayDate();
+    this.getNoticeInfo();
   },
   mounted () {
     this.$ga.page('/Main');
@@ -902,7 +953,7 @@ export default {
 #app .mainArea .item_list .item .text02{ font-size:13px; color:#666; text-align:center; margin-top:5px;}
 #app .mainArea .item_list .item .text03{ width:100%; padding:7px 0 5px; font-size:18px; font-weight:800; color:#333; text-align:center; background-color:#ceece3; margin-top:25px; margin-bottom:10px; border-radius:3px;}
 #app .mainArea .item_list .item .text04{ font-size:20px; font-weight: 800; color:red; text-align:center; margin-top:5px; padding-bottom:10px;}
-#app .mainArea .item_list .item .text03 span{ font-size:16px; font-weight: 400; color:#999;}
+#app .mainArea .item_list .item .text03 span{ font-size:16px; font-weight: 800; color:#333;}
 #app .mainArea .item_list .item .alarm_list{ margin-top:10px}
 #app .mainArea .item_list .item .alarm_list li{ display:table; width:100%; margin-bottom:5px;}
 #app .mainArea .item_list .item .alarm_list li p{ display:table-cell; font-size:15px; font-weight:bold; color:#333; vertical-align:middle;}
@@ -916,6 +967,9 @@ export default {
 #app .mainArea .item_list .item .history_list li p{ display:table-cell; vertical-align:middle;}
 #app .mainArea .item_list .item .history_list li p.date{ width:110px; font-size:12px; color:#333; font-weight:normal; padding-left:10px; box-sizing:border-box}
 #app .mainArea .item_list .item .history_list li p.address span{ font-size:12px; font-weight:bold; color:#333; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+#app .mainArea .item_list .item .notice_list{ margin-top:10px}
+#app .mainArea .item_list .item .notice_list li{ display:table; width:100%; margin-bottom:5px; margin-left: 20px;}
+#app .mainArea .item_list .item .notice_list li p{ font-size:12px; font-weight:bold; color:#333; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; max-width: 270px;}
 #app .mainArea .item_list .comingsoon_list{ position:relative; display:block; width:100%; padding:10px; box-sizing:border-box; border:4px solid #28ce99; box-shadow:0 0 8px rgba(0,0,0,0.2); background-color:#fff; border-radius:5px;}
 #app .mainArea .item_list .comingsoon_list:before{ content:""; position:absolute; top:-10px; right:-10px; width:45px; height:45px; background-image:url(../img/icon_comingsoon.svg); background-position:center; background-repeat:no-repeat; background-size:contain; }
 #app .mainArea .item_list .comingsoon_list .item_title{ font-size:14px; color:#666;}

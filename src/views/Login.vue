@@ -21,7 +21,7 @@
           <div id="4302035340" class="inputBox"><p class="iconBox icon02"></p><input type="password" placeholder="PASSWORD" v-model="pwd" style="font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif ;"></div>
           <router-link to="/Main"><a id="LOGIN_btn"  class="btn">LOGIN</a></router-link>
         </div>
-        <div id="9283563635" class="bottom_text">궁금하신 내용이나 로그인 문제시,<br> 카톡(ID: canadajw) 혹은 이메일(canadajw@sk.com)으로 연락 주시기 바랍니다.</div>
+        <div id="9283563635" class="bottom_text">궁금하신 내용이나 로그인 문제시,<br> 카톡(ID: canadajw) 혹은 이메일(canadajw@sk.com)으로<br> 연락 주시기 바랍니다.</div>
     </div>
 </template>
 

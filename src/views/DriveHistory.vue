@@ -60,32 +60,50 @@
                           </div>
                       </div>
                       <div id="7346146481" class="gradeBox">
+                          <div id="3151257694" class="item" v-if="drv.overSpdIdx === '위험'">
+                              <img src="../img/icon_grade05.png">과속
+                          </div>                        
+                          <div id="3151257694" class="item" v-if="drv.overSpdIdx === '주의'">
+                              <img src="../img/icon_grade04.png">과속
+                          </div>                        
                           <div id="3151257694" class="item" v-if="drv.overSpdIdx === '양호'">
-                              <img src="../img/icon_grade03.svg">과속
+                              <img src="../img/icon_grade03.png">과속
                           </div>
                           <div id="3151257694" class="item" v-if="drv.overSpdIdx === '안전'">
-                              <img src="../img/icon_grade02.svg">과속
+                              <img src="../img/icon_grade02.png">과속
                           </div>
                           <div id="3151257694" class="item" v-if="drv.overSpdIdx === '모범'">
-                              <img src="../img/icon_grade01.svg">과속
+                              <img src="../img/icon_grade01.png">과속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '위험'">
+                              <img src="../img/icon_grade05.png">급가속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '주의'">
+                              <img src="../img/icon_grade04.png">급가속
                           </div>
                           <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '양호'">
-                              <img src="../img/icon_grade03.svg">급가속
+                              <img src="../img/icon_grade03.png">급가속
                           </div>
                           <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '안전'">
-                              <img src="../img/icon_grade02.svg">급가속
+                              <img src="../img/icon_grade02.png">급가속
                           </div>
                           <div id="3151257694" class="item" v-if="drv.fstAccelIdx === '모범'">
-                              <img src="../img/icon_grade01.svg">급가속
+                              <img src="../img/icon_grade01.png">급가속
                           </div>
+                          <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '위험'">
+                              <img src="../img/icon_grade05.png">급감속
+                          </div>
+                          <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '주의'">
+                              <img src="../img/icon_grade04.png">급감속
+                          </div>                          
                           <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '양호'">
-                              <img src="../img/icon_grade03.svg">급감속
+                              <img src="../img/icon_grade03.png">급감속
                           </div>
                           <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '안전'">
-                              <img src="../img/icon_grade02.svg">급감속
+                              <img src="../img/icon_grade02.png">급감속
                           </div>
                           <div id="3151257694" class="item" v-if="drv.fstDecelIdx === '모범'">
-                              <img src="../img/icon_grade01.svg">급감속
+                              <img src="../img/icon_grade01.png">급감속
                           </div>
                       </div>
                   </div>
@@ -203,18 +221,31 @@ export default {
         "endDate" : info.endDate,
       };
 
-      if (info.drvRawData.overSpdIdx === undefined) drvHist.overSpdIdx = "모범";
-      else if(info.drvRawData.overSpdIdx <= 100 && info.drvRawData.overSpdIdx > 80 ) drvHist.overSpdIdx = "모범";
-      else if(info.drvRawData.overSpdIdx <= 80 && info.drvRawData.overSpdIdx > 60 ) drvHist.overSpdIdx = "안전";
-      else drvHist.overSpdIdx = "양호";
+      console.log("drvHist : ", drvHist);
 
-      if(info.drvRawData.fstAccelIdx <= 100 && info.drvRawData.fstAccelIdx > 80 ) drvHist.fstAccelIdx = "모범";
-      else if(info.drvRawData.fstAccelIdx <= 80 && info.drvRawData.fstAccelIdx > 60 ) drvHist.fstAccelIdx = "안전";
-      else drvHist.fstAccelIdx = "양호";
+      // 모범, 안전, 양호, 주의, 위험
+      
+      if (info.drvRawData.overSpdIdx === undefined) drvHist.overSpdIdx = "양호";
+      else if(info.drvRawData.overSpdIdx/0.4 < 45) drvHist.overSpdIdx = "위험";
+      else if(info.drvRawData.overSpdIdx/0.4 >= 45 && info.drvRawData.overSpdIdx/0.4 < 75 ) drvHist.overSpdIdx = "주의";
+      else if(info.drvRawData.overSpdIdx/0.4 >= 75 && info.drvRawData.overSpdIdx/0.4 < 85 ) drvHist.overSpdIdx = "양호";
+      else if(info.drvRawData.overSpdIdx/0.4 >= 85 && info.drvRawData.overSpdIdx/0.4 < 95 ) drvHist.overSpdIdx = "안전";
+      else drvHist.overSpdIdx = "모범";
 
-      if(info.drvRawData.fstDecelIdx <= 100 && info.drvRawData.fstDecelIdx > 80 ) drvHist.fstDecelIdx = "모범";
-      else if(info.drvRawData.fstDecelIdx <= 80 && info.drvRawData.fstDecelIdx > 60 ) drvHist.fstDecelIdx = "안전";
-      else drvHist.fstDecelIdx = "양호";
+      if (info.drvRawData.fstAccelIdx === undefined) drvHist.fstAccelIdx = "양호";
+      else if(info.drvRawData.fstAccelIdx/0.4 < 45) drvHist.fstAccelIdx = "위험";
+      else if(info.drvRawData.fstAccelIdx/0.4 >= 45 && info.drvRawData.fstAccelIdx/0.4 < 75 ) drvHist.fstAccelIdx = "주의";
+      else if(info.drvRawData.fstAccelIdx/0.4 >= 75 && info.drvRawData.fstAccelIdx/0.4 < 85 ) drvHist.fstAccelIdx = "양호";
+      else if(info.drvRawData.fstAccelIdx/0.4 >= 85 && info.drvRawData.fstAccelIdx/0.4 < 95 ) drvHist.fstAccelIdx = "안전";
+      else drvHist.fstAccelIdx = "모범";
+      
+      if (info.drvRawData.fstDecelIdx === undefined) drvHist.fstDecelIdx = "양호";
+      else if(info.drvRawData.fstDecelIdx/0.2 < 45) drvHist.fstDecelIdx = "위험";
+      else if(info.drvRawData.fstDecelIdx/0.2 >= 45 && info.drvRawData.fstDecelIdx/0.2 < 75 ) drvHist.fstDecelIdx = "주의";
+      else if(info.drvRawData.fstDecelIdx/0.2 >= 75 && info.drvRawData.fstDecelIdx/0.2 < 85 ) drvHist.fstDecelIdx = "양호";
+      else if(info.drvRawData.fstDecelIdx/0.2 >= 85 && info.drvRawData.fstDecelIdx/0.2 < 95 ) drvHist.fstDecelIdx = "안전";
+      else drvHist.fstDecelIdx = "모범";      
+
 
       if(info.endAddr !== undefined)
         this.drvHistList.push(drvHist);

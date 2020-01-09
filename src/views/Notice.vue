@@ -6,11 +6,17 @@
         <a href="" id="Notice_backBtn" class="backBtn"><img src="../img/icon_back.svg"></a></router-link>
         <div id="3144077403" class="title">공지사항</div>
       </div>
-      <v-expansion-panels focusable class="notice">
+      <v-expansion-panels focusable class="notice" v-model="openPanel">
         <v-expansion-panel v-for="(notice,index) in noticeList" v-bind:key="index">
           <v-expansion-panel-header>{{notice.TITLE}}</v-expansion-panel-header>
           <v-expansion-panel-content v-html = "notice.DESC">
+            
           </v-expansion-panel-content>
+          <router-link to="/SafeReport">
+            <v-btn class="ta-2" color="#ceece3" block v-if="openPanel===0 && index===0">
+              <v-icon>mdi-link-variant</v-icon>상세내용 바로가기
+            </v-btn>
+          </router-link>
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
@@ -27,10 +33,17 @@ export default {
   data () {
     return {
       noticeList: [],
+      openPanel: ''
     }
   },
   components: {
 
+  },
+  created : function() {
+    console.log("create...... ", this.$route.params);
+    if(this.$route.params !== undefined){
+      this.openPanel = this.$route.params.index;
+    }
   },
   mounted () {
     this.$ga.page('/Notice');
@@ -51,6 +64,11 @@ export default {
     })
     .then((result) => {
       console.log("mounted 회신 결과 : ", result);
+
+      result.data.Items.sort(function(a,b) {
+        return a.SEQ > b.SEQ ? -1 : a.SEQ < b.SEQ ? 1 : 0;
+      });
+
       this.noticeList = result.data.Items;
 
     }).catch((error) => {

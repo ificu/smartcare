@@ -221,10 +221,36 @@ export default {
         "endDate" : info.endDate,
       };
 
-      console.log("drvHist : ", drvHist);
+      console.log("info.drvRawData : ", info.drvRawData);
 
       // 모범, 안전, 양호, 주의, 위험
       
+      var overSpdIdxVal = (100 - 50*((info.drvRawData.overSpdIdx === undefined ? 0 : info.drvRawData.overSpdIdx)/18));
+      var fstAccelIdxVal = (100 - 50*((info.drvRawData.fstAccelIdx === undefined ? 0 : info.drvRawData.fstAccelIdx)/18));
+      var fstDecelIdxVal = (100 - 50*((info.drvRawData.fstDecelIdx === undefined ? 0 : info.drvRawData.fstDecelIdx)/14));
+      console.log("overSpdIdxVal : ", overSpdIdxVal);
+      console.log("fstAccelIdxVal : ", fstAccelIdxVal);
+      console.log("fstDecelIdxVal : ", fstDecelIdxVal);
+
+      if(overSpdIdxVal < 45) drvHist.overSpdIdx = "위험";
+      else if(overSpdIdxVal >= 45 && overSpdIdxVal< 75 ) drvHist.overSpdIdx = "주의";
+      else if(overSpdIdxVal >= 75 && overSpdIdxVal < 85 ) drvHist.overSpdIdx = "양호";
+      else if(overSpdIdxVal >= 85 && overSpdIdxVal < 95 ) drvHist.overSpdIdx = "안전";
+      else drvHist.overSpdIdx = "모범";
+
+      if(fstAccelIdxVal < 45) drvHist.fstAccelIdx = "위험";
+      else if(fstAccelIdxVal >= 45 && fstAccelIdxVal< 75 ) drvHist.fstAccelIdx = "주의";
+      else if(fstAccelIdxVal >= 75 && fstAccelIdxVal < 85 ) drvHist.fstAccelIdx = "양호";
+      else if(fstAccelIdxVal >= 85 && fstAccelIdxVal < 95 ) drvHist.fstAccelIdx = "안전";
+      else drvHist.fstAccelIdx = "모범";
+
+      if(fstDecelIdxVal < 45) drvHist.fstDecelIdx = "위험";
+      else if(fstDecelIdxVal >= 45 && fstDecelIdxVal< 75 ) drvHist.fstDecelIdx = "주의";
+      else if(fstDecelIdxVal >= 75 && fstDecelIdxVal < 85 ) drvHist.fstDecelIdx = "양호";
+      else if(fstDecelIdxVal >= 85 && fstDecelIdxVal < 95 ) drvHist.fstDecelIdx = "안전";
+      else drvHist.fstDecelIdx = "모범";
+      
+      /*
       if (info.drvRawData.overSpdIdx === undefined) drvHist.overSpdIdx = "양호";
       else if(info.drvRawData.overSpdIdx/0.4 < 45) drvHist.overSpdIdx = "위험";
       else if(info.drvRawData.overSpdIdx/0.4 >= 45 && info.drvRawData.overSpdIdx/0.4 < 75 ) drvHist.overSpdIdx = "주의";
@@ -245,7 +271,7 @@ export default {
       else if(info.drvRawData.fstDecelIdx/0.2 >= 75 && info.drvRawData.fstDecelIdx/0.2 < 85 ) drvHist.fstDecelIdx = "양호";
       else if(info.drvRawData.fstDecelIdx/0.2 >= 85 && info.drvRawData.fstDecelIdx/0.2 < 95 ) drvHist.fstDecelIdx = "안전";
       else drvHist.fstDecelIdx = "모범";      
-
+      */
 
       if(info.endAddr !== undefined)
         this.drvHistList.push(drvHist);

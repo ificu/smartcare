@@ -167,10 +167,10 @@ export default {
       console.log(error);
     });
 
-/*
+
     // 둘째주도 하드코딩하고....
-    stDt = '2019-12-08'
-    edDt = '2019-12-14';
+    stDt = '2020-01-05'
+    edDt = '2020-01-11';
 
     var param = {};
     param.authKey = Constant.SMARTLINK_AUTH_KEY;
@@ -195,7 +195,7 @@ export default {
     }).catch((error) => {
       console.log(error);
     });
-
+/*
     // 세째주도 하드코딩하고.... ㅠㅠ
     stDt = '2019-12-15'
     edDt = '2019-12-21';
@@ -252,8 +252,8 @@ export default {
       console.log(error);
     });        
 */
-    this.DrvInfo.drvHstIFData.w2ndSafeIdx = this.SafetyInfo.safeIdx;
-    this.DrvInfo.drvHstIFData.w3rdSafeIdx = 0;
+    //this.DrvInfo.drvHstIFData.w2ndSafeIdx = this.SafetyInfo.safeIdx;
+    this.DrvInfo.drvHstIFData.w3rdSafeIdx = this.SafetyInfo.safeIdx;
     this.DrvInfo.drvHstIFData.w4thSafeIdx = 0;
 
     this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";

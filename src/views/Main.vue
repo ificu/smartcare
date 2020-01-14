@@ -192,6 +192,7 @@ export default {
       console.log("UserLoginId : " + this.UserInfo.UserLoginId);
 
       var now = new Date();
+      now.setDate(now.getDate() +1);    // 일단 내일까지로....
       var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
       //now.setDate(now.getDate() -7);    // 일주일 전
       //now.setMonth(now.getMonth() -1);    // 한달 전

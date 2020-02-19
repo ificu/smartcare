@@ -223,7 +223,7 @@ export default {
         this.DrvInfo.safDrvIdx = result.data.drvHsts[0].safDrvIdx; // 안전지수
 
         //-------------------------------------------------------//
-        // 1. 안전지수 평균을 가져옴
+        // 1. 한달간의 주행 이력을 조회 (전체 주행 기록 계산)
         //-------------------------------------------------------//
         var drvCount = result.data.drvHsts.length;  // 주행 횟수
         var drvNightCount = 0;    // 야간 주행 시간
@@ -258,6 +258,10 @@ export default {
 
         // 전체 운행 기록을 체크해 보자...
         for(var hist of result.data.drvHsts) {
+          // 로직 변경 History.....
+          // 처음엔 전체 1달 운행 기록에서 전체 합계와 평균을 계산했으나
+          // SmartLink서 안전 운행 관련 추가 IF를 만들어 사용하게 됨.
+          // 아래 로직은 Main에서 계산 하지만, SafeReport 화면서 신규 IF 기준으로 추가 계산 함
           safTotal +=       (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
           fstAccelTotal +=  (hist.fstAccelIdx === undefined ? 0 : hist.fstAccelIdx);
           fstDecelTotal +=  (hist.fstDecelIdx === undefined ? 0 : hist.fstDecelIdx);
@@ -279,41 +283,6 @@ export default {
             drvThisMonCount++;
           }
 
-          /*
-          if(((now - drvDate)/1000/60/60/24) < 7) { // 현재 기준 7일 이내면 월 기준으로 4주차
-            w4thSafeCnt++;
-            w4thSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }
-          else if(((now - drvDate)/1000/60/60/24) < 14) { // 현재 기준 14일 이내면 월 기준으로 3주차
-            w3rdSafeCnt++;
-            w3rdSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }
-          else if(((now - drvDate)/1000/60/60/24) < 21) { // 현재 기준 21일 이내면 월 기준으로 3주차
-            w2ndSafeCnt++;
-            w2ndSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }
-          else if(((now - drvDate)/1000/60/60/24) < 28) { // 현재 기준 28일 이내면 월 기준으로 3주차
-            w1stSafeCnt++;
-            w1stSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }*/
-          // 일단 하드코딩으로....
-          if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 1 && drvDate.getDate() <= 7)) {
-            w1stSafeCnt++;
-            w1stSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }
-          else if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 8 && drvDate.getDate() <= 14)) {
-            w2ndSafeCnt++;
-            w2ndSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }
-          else if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 15 && drvDate.getDate() <= 21)) {
-            w3rdSafeCnt++;
-            w3rdSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }
-          else if(drvDate.getMonth() == 11 && (drvDate.getDate() >= 22 && drvDate.getDate() <= 28)) {
-            w4thSafeCnt++;
-            w4thSafeTot += (hist.safDrvIdx === undefined ? 0 : hist.safDrvIdx);
-          }
-
           // 최신 3개 이력은 별도로 주행 이력으로 상세 표시함.
           if(i++ < 3) {
             var drvDate = "";
@@ -327,7 +296,6 @@ export default {
             tmpDrvHst.push(drv);
           }
         }
-        console.log("!!!!!!!!!!!!!! ", tmpDrvHst);
 
         //-------------------------------------------------------//
         // 2. 안전지수 게이지

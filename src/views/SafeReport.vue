@@ -121,6 +121,7 @@
 import SafeDriveTip from '@/components/popup/SafeDriveTip.vue'
 import Constant from '@/Constant'
 import Comingsoon07 from '@/components/popup/Comingsoon07.vue'
+import {datePadding} from '@/utils/common.js'
 
 export default {
   name: 'SafeReport',
@@ -139,143 +140,183 @@ export default {
   created: function() {
     console.log('DrvInfo : ', this.DrvInfo);
 
-    // 일단 시간이 없어서 첫주차는 하드코딩하고....
-    var stDt = '2019-12-29'
-    var edDt = '2020-01-04';
+    var now = new Date();
 
-    var param = {};
-    param.authKey = Constant.SMARTLINK_AUTH_KEY;
-    param.userId = this.UserInfo.UserLoginId;
-    param.stDt = stDt;
-    param.edDt = edDt;
+    this.thisMonth = this.weekNumberByMonth(now).month;
+    this.thisWeek = this.weekNumberByMonth(now).weekNo;
 
-    console.log("====== getSafetyInfo 1주차 ======");
-    console.log(param);
-
-    axios({
-     method: 'POST',
-     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
-     headers: Constant.SMARTLINK_HEADER,
-     data: param
-    })
-    .then((result) => {
-      console.log("getSafetyInfo 1주차 회신 결과 : ", result);
-      this.DrvInfo.drvHstIFData.w1stSafeIdx = result.data.safeRank.safeIdx;
-      this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
-
-    }).catch((error) => {
-      console.log(error);
-    });
-
-
-    // 둘째주도 하드코딩하고....
-    stDt = '2020-01-05'
-    edDt = '2020-01-11';
-
-    var param = {};
-    param.authKey = Constant.SMARTLINK_AUTH_KEY;
-    param.userId = this.UserInfo.UserLoginId;
-    param.stDt = stDt;
-    param.edDt = edDt;
-
-    console.log("====== getSafetyInfo 2주차 ======");
-    console.log(param);
-
-    axios({
-     method: 'POST',
-     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
-     headers: Constant.SMARTLINK_HEADER,
-     data: param
-    })
-    .then((result) => {
-      console.log("getSafetyInfo 2주차 회신 결과 : ", result);
-      this.DrvInfo.drvHstIFData.w2ndSafeIdx = result.data.safeRank.safeIdx;
-      this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";
-
-    }).catch((error) => {
-      console.log(error);
-    });
-/*
-    // 세째주도 하드코딩하고.... ㅠㅠ
-    stDt = '2019-12-15'
-    edDt = '2019-12-21';
-
-    var param = {};
-    param.authKey = Constant.SMARTLINK_AUTH_KEY;
-    param.userId = this.UserInfo.UserLoginId;
-    param.stDt = stDt;
-    param.edDt = edDt;
-
-    console.log("====== getSafetyInfo 3주차 ======");
-    console.log(param);
-
-    axios({
-     method: 'POST',
-     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
-     headers: Constant.SMARTLINK_HEADER,
-     data: param
-    })
-    .then((result) => {
-      console.log("getSafetyInfo 3주차 회신 결과 : ", result);
-      this.DrvInfo.drvHstIFData.w3rdSafeIdx = result.data.safeRank.safeIdx;
-      this.w3rdSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w3rdSafeIdx + "px";
-
-    }).catch((error) => {
-      console.log(error);
-    });    
-
-    // 내째주 .... ㅠㅠ
-    stDt = '2019-12-22'
-    edDt = '2019-12-28';
-
-    var param = {};
-    param.authKey = Constant.SMARTLINK_AUTH_KEY;
-    param.userId = this.UserInfo.UserLoginId;
-    param.stDt = stDt;
-    param.edDt = edDt;
-
-    console.log("====== getSafetyInfo 4주차 ======");
-    console.log(param);
-
-    axios({
-     method: 'POST',
-     url: Constant.SMARTLINK_URL+"/reqSafeRanking",
-     headers: Constant.SMARTLINK_HEADER,
-     data: param
-    })
-    .then((result) => {
-      console.log("getSafetyInfo 4주차 회신 결과 : ", result);
-      this.DrvInfo.drvHstIFData.w4stSafeIdx = result.data.safeRank.safeIdx;
-      this.w4stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w4stSafeIdx + "px";
-
-    }).catch((error) => {
-      console.log(error);
-    });        
-*/
-    //this.DrvInfo.drvHstIFData.w2ndSafeIdx = this.SafetyInfo.safeIdx;
-    this.DrvInfo.drvHstIFData.w3rdSafeIdx = this.SafetyInfo.safeIdx;
+    this.DrvInfo.drvHstIFData.w1stSafeIdx = 0;
+    this.DrvInfo.drvHstIFData.w2ndSafeIdx = 0;
+    this.DrvInfo.drvHstIFData.w3rdSafeIdx = 0;
     this.DrvInfo.drvHstIFData.w4thSafeIdx = 0;
+
+    switch(this.thisWeek) {
+      case 1 :
+        this.DrvInfo.drvHstIFData.w1stSafeIdx = this.SafetyInfo.safeIdx;
+        break;
+      case 2 :
+        this.DrvInfo.drvHstIFData.w2ndSafeIdx = this.SafetyInfo.safeIdx;
+        break; 
+      case 3 :
+        this.DrvInfo.drvHstIFData.w3rdSafeIdx = this.SafetyInfo.safeIdx;
+        break;        
+      case 4 :
+      case 5 :
+        this.DrvInfo.drvHstIFData.w4thSafeIdx = this.SafetyInfo.safeIdx;
+        break;    
+    }
+
+    // 2주차 이상일 경우 1주차 값을 계산
+    if(this.thisWeek >= 2) {
+      var now = new Date();
+
+      now.setDate(now.getDate() - now.getDay() - ((this.thisWeek - 2) * 7) - 1);
+      var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      now.setDate(now.getDate() - 6)
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.userId = this.UserInfo.UserLoginId;
+      param.stDt = stDt;
+      param.edDt = edDt;
+
+      console.log("====== getSafetyInfo 1주차 ======");
+      console.log(param);
+
+      axios({
+      method: 'POST',
+      url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+      headers: Constant.SMARTLINK_HEADER,
+      data: param
+      })
+      .then((result) => {
+        console.log("getSafetyInfo 1주차 회신 결과 : ", result);
+        this.DrvInfo.drvHstIFData.w1stSafeIdx = result.data.safeRank.safeIdx;
+        this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
+
+      }).catch((error) => {
+        console.log(error);
+      });      
+
+    }
+
+    // 3주차 이상일 경우 2주차 값을 계산
+    if(this.thisWeek >= 3) {
+      var now = new Date();
+
+      now.setDate(now.getDate() - now.getDay() - ((this.thisWeek - 3) * 7) - 1);
+      var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      now.setDate(now.getDate() - 6)
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.userId = this.UserInfo.UserLoginId;
+      param.stDt = stDt;
+      param.edDt = edDt;
+
+      console.log("====== getSafetyInfo 2주차 ======");
+      console.log(param);
+
+      axios({
+      method: 'POST',
+      url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+      headers: Constant.SMARTLINK_HEADER,
+      data: param
+      })
+      .then((result) => {
+        console.log("getSafetyInfo 2주차 회신 결과 : ", result);
+        this.DrvInfo.drvHstIFData.w2ndSafeIdx = result.data.safeRank.safeIdx;
+        this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";
+
+      }).catch((error) => {
+        console.log(error);
+      });      
+
+    }
+
+
+    // 4주차 이상일 경우 3주차 값을 계산
+    if(this.thisWeek >= 4) {
+      var now = new Date();
+
+      now.setDate(now.getDate() - now.getDay() - ((this.thisWeek - 4) * 7) - 1);
+      var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      now.setDate(now.getDate() - 6)
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.userId = this.UserInfo.UserLoginId;
+      param.stDt = stDt;
+      param.edDt = edDt;
+
+      console.log("====== getSafetyInfo 3주차 ======");
+      console.log(param);
+
+      axios({
+      method: 'POST',
+      url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+      headers: Constant.SMARTLINK_HEADER,
+      data: param
+      })
+      .then((result) => {
+        console.log("getSafetyInfo 3주차 회신 결과 : ", result);
+        this.DrvInfo.drvHstIFData.w3rdSafeIdx = result.data.safeRank.safeIdx;
+        this.w3rdSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w3rdSafeIdx + "px";
+
+      }).catch((error) => {
+        console.log(error);
+      });      
+
+    }    
+
+    // 5주차 이상일 경우 4주차 값을 계산
+    if(this.thisWeek >= 5) {
+      var now = new Date();
+
+      now.setDate(now.getDate() - now.getDay() - ((this.thisWeek - 5) * 7) - 1);
+      var edDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      now.setDate(now.getDate() - 6)
+      var stDt = now.getFullYear() + "-" + datePadding(now.getMonth()+1,2) + "-" + datePadding(now.getDate(),2);
+
+      var param = {};
+      param.authKey = Constant.SMARTLINK_AUTH_KEY;
+      param.userId = this.UserInfo.UserLoginId;
+      param.stDt = stDt;
+      param.edDt = edDt;
+
+      console.log("====== getSafetyInfo 4주차 ======");
+      console.log(param);
+
+      axios({
+      method: 'POST',
+      url: Constant.SMARTLINK_URL+"/reqSafeRanking",
+      headers: Constant.SMARTLINK_HEADER,
+      data: param
+      })
+      .then((result) => {
+        console.log("getSafetyInfo 4주차 회신 결과 : ", result);
+        this.DrvInfo.drvHstIFData.w4stSafeIdx = result.data.safeRank.safeIdx;
+        this.w4stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w4stSafeIdx + "px";
+
+      }).catch((error) => {
+        console.log(error);
+      });      
+
+    }    
 
     this.w1stSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w1stSafeIdx + "px";
     this.w2ndSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w2ndSafeIdx + "px";
     this.w3rdSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w3rdSafeIdx + "px";
     this.w4thSafeStyle = "height : " + this.DrvInfo.drvHstIFData.w4thSafeIdx + "px";
-
-
-    var now = new Date();
-    console.log("This Week : ", this.weekNumberByMonth(now));
-
-    this.thisMonth = this.weekNumberByMonth(now).month;
-    this.thisWeek = this.weekNumberByMonth(now).weekNo;
-    // 정확히는 이렇게 계산하자...
-    /*
-    for(var i = 0; i< this.thisWeek; i++) {
-      this.getThisMonthWeekData(i);
-    }*/
   },
   methods: {
-    //getThisMonthWeekData(weekNo){  // 이번달의 1주차, 2주차, 3주차, 4주차, 5주차 값을 계산하여 조회 함.
-    //},
     weekNumberByMonth(dateFormat) {
       const inputDate = new Date(dateFormat);
 
